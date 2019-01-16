@@ -1,0 +1,44 @@
+
+<div class="container">
+  <div class="jumbotron">
+    <h1>Welcome <%= @profile.user.username %> </h1> 
+    <h4>(email: <%= @profile.user.email %> ) </h4>
+    <p> 2Unstoppable would like to help you find an exercise partner(s)</p> 
+  </div>
+  <p>Please update your Profile</p> 
+  </div>
+
+  <div class="row">
+  <div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="https://ik.imagekit.io/demo/img/tr:cp-true/demo_photo.jpeg" alt="Edit your Profile">
+    <div class="card-body">
+      <h5 class="card-title">Your Profile</h5>
+      <p class="card-text">Tell us about yourself</p>
+      <div class="btn btn-primary">
+        <%= link_to "Edit Profile", edit_user_profile_path, :class => "btn btn-primary"%>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="width: 18rem;">
+  <!-- %= image_tag "tsqqo4rnfm05zlnupcwf.jpeg" % -->
+  <img class="card-img-top" src="http://localhost:3000/tsqqo4rnfm05zlnupcwf.jpeg" alt="Find a exercise buddy">
+  <div class="card-body">
+    <h5 class="card-title">Match</h5>
+    <p class="card-text">Find an exercise Partner</p>
+    <div class="btn btn-primary">
+      <%= link_to "Search", edit_user_profile_path, :class => "btn btn-primary"%>
+    </div>
+  </div>
+  </div>
+
+  <div class="card" style="width: 18rem;">
+  <!-- %= image_tag "tsqqo4rnfm05zlnupcwf.jpeg" % -->
+  <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAbTInh-DbG5P9ObLFalFycMOKIKoza2lWKFxa8jPrpvgq9-ME" alt="Find a exercise buddy">
+  <div class="card-body">
+  <h5 class="card-title">Messages</h5>
+  <p class="card-text">Check your messages</p>
+  <div class="btn btn-primary">
+    <%= link_to "Messages", edit_user_profile_path, :class => "btn btn-primary"%>
+  </div>
+</div>

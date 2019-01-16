@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Example Website</title>
+    <%= stylesheet_link_tag "application" %>
+  </head>
+  <body>
+   
+    <!-- %= render "header" % -->
+
+    <header>
+      <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="/">Our Logo1</a>
+       
+            <div style="padding-left: 10px;">
+                <button class="btn btn-outline-success" type="button"><%= link_to('Logout',         destroy_user_session_path, :class => "btn", method: :delete) %>
+                </button>
+            </div>
+          
+        </form>
+       
+    </header>
+
+    
+
+    <% if current_user %> 
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar" id="sidebar">
+              <div class="list-group">
+              <%= link_to "View Profile", user_profile_path(current_user, current_user.profile), :class => "list-group-item active" %>
+                <%= link_to "Edit Profile", edit_user_profile_path(current_user, current_user.profile), :class => "list-group-item active" %>
+                <%= link_to "View User", user_path(current_user), :class => "list-group-item active" %>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+                <a href="#" class="list-group-item">Link</a>
+              </div>
+          </div><!--/.sidebar-offcanvas-->
+          
+
+          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">      
+            <%= yield %>
+          </div>
+        <% end %>
+                  
+        
+
+        
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2Unstoppable 2018, Inc.</p>
+      </footer>
+
+    </div><!--/.container-->
+    
+   
+  </body>
+</html>

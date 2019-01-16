@@ -1,0 +1,74 @@
+
+<div class="container">
+  <div class="jumbotron">
+    <h1>Welcome <%= @profile.user.username %> </h1> 
+    <h4>(email: <%= @profile.user.email %> ) </h4>
+    <p> 2Unstoppable would like to help you find an exercise partner(s)</p> 
+  </div>
+</div>
+
+<div class="col-xs-6">
+      Date of Birth: <%= @user.profile.dob %>
+</div>
+
+<div class="col-xs-6">
+  Zipcode: <%= @user.profile.zipcode %>
+</div>
+
+
+<div class="col-xs-6">
+  <% @user.profile.activities.each do |activity| %>
+    Activities: <%= activity.name %>
+  <% end %>
+</div>
+
+<div class="col-xs-6">
+  Other favorite activites: <% @user.profile.other_favorite_activities %>
+</div>
+    
+<div class="col-xs-6">
+      Your current fitness level: <%= @user.profile.fitness_level %>
+</div>
+
+<div class="col-xs-6">
+  <% @user.profile.exercise_reasons.each do |exercise_reason| %>
+    Exercise Reasons: <%= exercise_reason.name %>
+  <% end %>
+</div>
+
+<div class="col-xs-6">
+  <%= @user.profile.prefered_exercise_location %>
+  Preferred Exercise Location: <%= @user.profile.prefered_exercise_location %>
+</div>
+
+<div class="col-xs-6">
+  Preferred Exercise Time: <%= @user.profile.prefered_exercise_time %>
+</div>
+
+<div class="col-xs-6">
+  What is the main reason you want to be matched with an exercise partner? <%= @user.profile.reason_for_match %>
+</div>
+
+<div class="col-xs-6">
+  About You. Tell us about yourself!  <%= @user.profile.details_about_self %>
+</div>
+
+<div class="col-xs-6">
+  Other cancer location:: <%= @user.profile.other_cancer_location  %>
+</div>
+
+<div class="field">
+  Which of the following best describes you? <%= @user.profile.treatment_status %>
+</div>
+
+<div class="col-xs-6">
+  Please briefly describe your cancer treatments: <%= @user.profile.treatment_description %>
+</div>
+
+<div class="col-xs-6">
+ If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax): <%= @user.profile.part_of_wellness_program %>
+</div>
+
+<div class="col-xs-6">
+  Please briefly describe your cancer treatments  <%= @user.profile.which_wellness_program %>
+</div>
