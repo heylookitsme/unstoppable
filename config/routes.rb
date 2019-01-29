@@ -1,15 +1,23 @@
 Rails.application.routes.draw do
+  get 'attachment/photo'
+
+  post 'attachment/photosave'
+
+  get 'greetings/hello'
+
   get 'profiles/show'
 
   get 'profiles/edit'
 
   get 'profiles/update'
 
-  get 'profile/show'
+  #get 'profile/show'
 
-  get 'profile/edit'
+  #get 'profile/edit'
 
-  get 'profile/update'
+  #get 'profile/update'
+
+  #get 'profile/upload_photo'
 
   get 'users/index'
 

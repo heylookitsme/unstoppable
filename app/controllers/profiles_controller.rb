@@ -4,22 +4,24 @@ class ProfilesController < ApplicationController
   layout "sidebar"
 
   before_filter :authenticate_user!
+  before_filter :set_user
   protect_from_forgery with: :null_session
 
   def show
-    @profile = Profile.find_by(user_id: params[:user_id])
-    @user = User.find_by(id: params[:user_id])
-    Rails.logger.info("In Profile Constroller show #{@user.inspect}")
   end
 
   def edit
-    @profile = Profile.find_by(user_id: params[:user_id])
+    @user = current_user
+    @profile = current_user.profile
   end
 
   def update
-    Rails.logger.info("In UPDATE #{params[:user_id]}")
-    @profile = Profile.find_by(user_id: params[:user_id])
-    @user = User.find_by(id: params[:user_id])
+    user = current_user
+    @profile = current_user.profile
+     unless @profile.avatar.present?
+      @profile.remove_avatar!
+    end
+
     if @profile.update(profile_params)
       flash[:notices] = ["Your profile was successfully updated"]
       render 'show'
@@ -43,7 +45,15 @@ class ProfilesController < ApplicationController
       :details_about_self, :other_cancer_location,
       :part_of_wellness_program,
       :which_wellness_program,
-      {:exercise_reason_ids => []}
+      {:exercise_reason_ids => []},
+      :avatar,
+      :remove_avatar
     )
+  end
+
+  def set_user
+    Rails.logger.debug("IN SET_USER")
+    @user = current_user
+    @profile = current_user.profile
   end
 end

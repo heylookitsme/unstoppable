@@ -1,0 +1,26 @@
+<h1>Attachment#photo</h1>
+<p>Find me in app/views/attachment/photo.html.erb</p>
+
+<%= simple_form_for  @profile, :url => attachment_photosave_path, :method => :post, html: {multipart: true} do |f| %> 
+  <div>
+    <%= f.label :avatar %>
+    <!-- %= image_tag(@user.profile.avatar_url) if @user.profile.avatar? % -->
+    <%= image_tag(@user.profile.avatar_url) %>
+    <% unless @user.profile.avatar? %>
+      <%= f.file_field :avatar %>
+    <% end %>
+
+    <% if @user.profile.avatar? %>
+      <p>
+        <label>
+          <%= f.check_box :remove_avatar %>
+          Remove avatar
+        </label>
+      </p>  
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

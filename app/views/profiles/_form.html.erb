@@ -8,8 +8,8 @@
       <h4>Edit your profile and update</h4>
     <% end %>
   </div>
-
-  <%= simple_form_for  @profile, :url => user_profile_path do |f| %>
+ 
+  <%= simple_form_for  current_user.profile, :url => user_profile_path, html: {multipart: true} do |f| %>
 
     <% if @profile.errors.any? %>
       <div id="error_explanation">
@@ -34,8 +34,28 @@
       <%= f.input :zipcode, label: "Zipcode:" %>
     </div>
 
+    
+      <div>
+        <%= f.label :avatar %>
+        <!-- %= image_tag(@user.profile.avatar_url) if @user.profile.avatar? % -->
+        <%= image_tag(@user.profile.avatar_url) %>
+        <% unless @user.profile.avatar? %>
+          <%= f.file_field :avatar %>
+        <% end %>
+      </div>
+
+    <% if @user.profile.avatar? %>
+      <p>
+        <label>
+          <%= f.check_box :remove_avatar %>
+          Remove avatar
+        </label>
+      </p>
+    <% end %>
+
     <div class="form-group">
-    <%= f.association :activities, as: :check_boxes,    label: "What are your favourite Activities?" %>
+      <%= f.association :activities, as: :check_boxes,    label: "What are your favourite Activities?" %>
+    </div>
 
     <div class="col-xs-6">
       <%= f.input :other_favorite_activities, label: "What are your other favorite activities?" %>

@@ -8,6 +8,10 @@
 </div>
 
 <div class="col-xs-6">
+  <%= image_tag(@user.profile.avatar_url) if @user.profile.avatar? %>
+</div>
+
+<div class="col-xs-6">
       Date of Birth: <%= @user.profile.dob %>
 </div>
 

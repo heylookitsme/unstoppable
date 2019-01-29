@@ -43,6 +43,8 @@ gem 'paperclip'
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gem "recaptcha", require: "recaptcha/rails"
 gem 'simple_form'
+gem 'carrierwave', '~> 1.0'
+gem "mini_magick"
 
 
 group :development, :test do
