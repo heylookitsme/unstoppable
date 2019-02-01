@@ -3,7 +3,8 @@
 class Users::SessionsController < Devise::SessionsController
   before_action :configure_sign_in_params, only: [:create]
   skip_before_action :verify_signed_out_user
-  layout false
+  #layout false
+  layout "sidebar"
 
   # GET /resource/sign_in
   # def new

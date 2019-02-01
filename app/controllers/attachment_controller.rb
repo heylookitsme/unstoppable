@@ -1,45 +1,51 @@
 class AttachmentController < ApplicationController
-  !before_filter :authenticate_user!, :except => [:index]
-  #before_filter :correct_user, :only [:edit, :update]
+  before_action :authenticate_user!, :except => [:index]
+  
   layout "sidebar"
-
-  before_filter :authenticate_user!
+  before_action :set_user
 
   def photo
     @user = current_user
     @profile = current_user.profile
-
-    unless @profile.avatar.present?
-      @profile.remove_avatar!
-    end
 
   end
 
   def photosave
     @user = current_user
     @profile = current_user.profile
-
-    unless @profile.avatar.present?
-      @profile.remove_avatar!
-    end
+    
+    Rails.logger.debug("GOOGLE #{params.inspect}")
+    Rails.logger.debug("YAHOO #{@profile.avatar.inspect}")
+    @profile.avatar.attach(params[:profile][:avatar])
+    #@profile.save!
 
     if @profile.update(profile_params)
-      flash[:notices] = ["Your profile was successfully updated"]
+      flash[:notices] = ["Your profile avatar was successfully updated"]
       render 'photo'
     else
-      flash[:notices] = ["Your profile could not be updated"]
+      flash[:notices] = ["Your profile avatar could not be updated"]
       render 'photo'
     end
+    #redirect_back(fallback_location: request.referer)
+  end
+
+  def delete_avatar
+    @avatar = ActiveStorage::Attachment.find(params[:id])
+    if @avatar.purge
+      flash[:notices] = ["Your profile avatar was successfully removed"]
+      render 'photo'
+    else
+      flash[:notices] = ["Your profile avatar could not be removed"]
+      render 'photo'
+    end
+    #redirect_back(fallback_location: request.referer)
   end
 
   private
 
   def profile_params
-    Rails.logger.debug("in profile params")
-    Rails.logger.debug("#{params.inspect}")
     params.require(:profile).permit(
-      :avatar,
-      :remove_avatar
+      :avatar
     )
   end
 

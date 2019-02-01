@@ -1,10 +1,10 @@
 class ProfilesController < ApplicationController
-  !before_filter :authenticate_user!, :except => [:index]
+  !before_action :authenticate_user!, :except => [:index]
   #before_filter :correct_user, :only [:edit, :update]
   layout "sidebar"
 
-  before_filter :authenticate_user!
-  before_filter :set_user
+  #before_filter :authenticate_user!
+  before_action :set_user
   protect_from_forgery with: :null_session
 
   def show
@@ -46,8 +46,7 @@ class ProfilesController < ApplicationController
       :part_of_wellness_program,
       :which_wellness_program,
       {:exercise_reason_ids => []},
-      :avatar,
-      :remove_avatar
+      :avatar
     )
   end
 

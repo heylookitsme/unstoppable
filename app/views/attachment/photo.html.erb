@@ -1,26 +1,45 @@
-<h1>Attachment#photo</h1>
-<p>Find me in app/views/attachment/photo.html.erb</p>
+<script>
+$('#image_upload_id').on('change', function() {
+    showImage(this);
+})
+</script>
+<h1>Photo Upload</h1>
 
-<%= simple_form_for  @profile, :url => attachment_photosave_path, :method => :post, html: {multipart: true} do |f| %> 
+<% if @profile.avatar.attached? %>
+  
   <div>
-    <%= f.label :avatar %>
-    <!-- %= image_tag(@user.profile.avatar_url) if @user.profile.avatar? % -->
-    <%= image_tag(@user.profile.avatar_url) %>
-    <% unless @user.profile.avatar? %>
-      <%= f.file_field :avatar %>
-    <% end %>
+    <p>
+      <strong>Avatar:</strong>
+      <br>
+      <%= image_tag @profile.avatar.variant(resize: "300x300") %>
+    </p>
 
-    <% if @user.profile.avatar? %>
-      <p>
-        <label>
-          <%= f.check_box :remove_avatar %>
-          Remove avatar
-        </label>
-      </p>  
-    <% end %>
-  </div>
+    <!-- p><%= image_tag @profile.avatar.variant(resize: "50x50") %></p -->
 
-  <div class="actions">
-    <%= f.submit %>
+    <%= link_to 'Remove', delete_avatar_url(@profile.avatar.id) %>
   </div>
+<% else %>
+
+  <%= simple_form_for @profile, :url => attachment_photosave_path, :method => :post, html: {multipart: true} do |f| %> 
+    <div>
+      <%= f.label :avatar %>
+    
+     
+        <%= f.file_field :avatar, id: "image_upload_id" %>
+     
+        <div id="your_preview_id"></div>
+
+     <div>
+      <%= f.drag_and_drop_file_field :avatar, 'Drag and drop images here!' %>
+     </div>
+    
+      <div class="actions">
+        <%= f.submit %>
+      </div>
+    </div>
+  <% end %>
 <% end %>
+
+  
+
+

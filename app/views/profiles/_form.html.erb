@@ -34,25 +34,6 @@
       <%= f.input :zipcode, label: "Zipcode:" %>
     </div>
 
-    
-      <div>
-        <%= f.label :avatar %>
-        <!-- %= image_tag(@user.profile.avatar_url) if @user.profile.avatar? % -->
-        <%= image_tag(@user.profile.avatar_url) %>
-        <% unless @user.profile.avatar? %>
-          <%= f.file_field :avatar %>
-        <% end %>
-      </div>
-
-    <% if @user.profile.avatar? %>
-      <p>
-        <label>
-          <%= f.check_box :remove_avatar %>
-          Remove avatar
-        </label>
-      </p>
-    <% end %>
-
     <div class="form-group">
       <%= f.association :activities, as: :check_boxes,    label: "What are your favourite Activities?" %>
     </div>

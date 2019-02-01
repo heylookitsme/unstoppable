@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
   get 'users/index'
 
- 
+  get 'delete_avatar/:id', to: 'attachment#delete_avatar', as: :delete_avatar 
   
 
    devise_scope :user  do

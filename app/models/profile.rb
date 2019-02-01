@@ -4,7 +4,11 @@ class Profile < ApplicationRecord
   validates :user_id, presence: true
   has_and_belongs_to_many :activities
   has_and_belongs_to_many :exercise_reasons
-  mount_uploader :avatar, AvatarUploader
+  has_one_attached :avatar
+
+  def age
+    ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
+  end
 
   def self.personality_descriptions
     ['Calm', 'Extroverted', 'Open to new Experiences', 'Reserved, quiet']
