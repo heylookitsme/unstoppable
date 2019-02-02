@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+
 class Users::RegistrationsController < Devise::RegistrationsController
+ #module Users
+  #class RegistrationsController < Devise::RegistrationsController
+
   #before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
   layout "sidebar"
@@ -14,7 +18,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
  protected
 
  def after_sign_up_path_for(resource)
-  user_path(resource)
+  destroy_user_session_path
  end
 
   # GET /resource/sign_up
@@ -29,17 +33,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
   
   private
     def check_captcha
-      puts "check_captcha"
-      Rails.logger.info "check_captcha"
-      unless verify_recaptcha secret_key: '6Lfan4EUAAAAALHBMh_Rl6SOoDosdhrIRi2vRD3M'
-        self.resource = resource_class.new sign_up_params
-        resource.validate # Look for any other validation errors besides Recaptcha
-        set_minimum_password_length
-        respond_with resource
+      if !verify_recaptcha secret_key: '6Lfan4EUAAAAALHBMh_Rl6SOoDosdhrIRi2vRD3M'
+        flash.delete :recaptcha_error
+        build_resource(sign_up_params)
+        resource.valid?
+        resource.errors.add(:base, "There was an error with the recaptcha code below. Please re-enter the code.")
+        clean_up_passwords(resource)
+        respond_with_navigational(resource) { render :new }
       else
-        puts "VERIFY RECAPTCHA FAILED"
+        flash.delete :recaptcha_error
+        #super
       end
+     
     end
+    
 
   # GET /resource/edit
   # def edit
@@ -86,4 +93,5 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+##end
 end

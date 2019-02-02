@@ -3,128 +3,130 @@
   <div class="jumbotron">
     <div class="row">
       <div class="col-md-6">
-        <h4> User: <%= @profile.user.username %> </h4> 
+        <h4> User: <%= @profile.user.username %> </h4>
       </div>
       <div class="col-md-6">
-        <h4>Email: <%= @profile.user.email %>  </h4>
+        <h4>Email: <%= @profile.user.email %> </h4>
       </div>
     </div>
-  
-      <div class="row">
+
+    <div class="row">
+      <% if @profile.dob %>
         <div class="col-md-12"><h5> <%= @profile.user.username %> is <%= @profile.age %> years old.</h5></div>
-      </div>
+      <% else %>
+        <div class="col-md-12"><h6> Age is unknown. (Please edit your Profile and your add Date of Birth.)</h6></div>
+      <% end %>
+    </div>
 
-      <div class="row">
-        <div class="col-md-6">
-          <% if @profile.avatar.attached? %>
-            <div class="bordered-container profile-image-container">
-              <strong>Avatar:</strong>
-              <br>
-              <%= image_tag @profile.avatar.variant(resize: "300x300") %>
-            </p>
+    <div class="row">
+      <div class="col-md-6">
+        <% if @profile.avatar.attached? %>
+          <div class="bordered-container profile-image-container">
+            <strong>Avatar:</strong>
+            <br>
+            <%= image_tag @profile.avatar.variant(resize: "300x300") %>
 
-            <!-- p><%= image_tag @profile.avatar.variant(resize: "50x50") %></p -->
 
-            <%= link_to 'Remove Photo/Avatar', delete_avatar_url(@profile.avatar.id) %>
-            </div>
-          <% end %> &nbsp;
-        </div> 
+          <!-- p><%= image_tag @profile.avatar.variant(resize: "50x50") %></p -->
 
-        <div class="col-md-6">
-          <h3>  <%= @profile.user.username %>'s' Self Description: </h3><%= @profile.details_about_self %>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <h5>Reason For Wanting Partner: </h5> <dl><%= @user.profile.reason_for_match %></dl>
-        </div>
-        <div class="col-md-6">
-            <h5> Cancer location: </h5> <dl> <%= @user.profile.other_cancer_location  %> </dl>
-        </div>
-      </div>
-
-      <div class="row">  
-          <div class="col-md-6">
-                <h5> Your current fitness level: </h5> <dl> <%= @profile.fitness_level %> </dl>
+          <%= link_to 'Remove Photo/Avatar', delete_avatar_url(@profile.avatar.id) %>
           </div>
-          <div class="col-md-6">
-            <h5> Treatment Status </h5> <dl><%= @profile.treatment_status %> </dl>
-          </div>
+        <% end %> &nbsp;
+    </div>
+
+    <div class="col-md-6">
+        <h3>  <%= @profile.user.username %>'s' Self Description: </h3><%= @profile.details_about_self %>
       </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Reason For Wanting Partner: </h5> <dl><%= @user.profile.reason_for_match %></dl>
+      </div>
+      <div class="col-md-6">
+          <h5> Cancer location: </h5> <dl> <%= @user.profile.other_cancer_location  %> </dl>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+              <h5> Your current fitness level: </h5> <dl> <%= @profile.fitness_level %> </dl>
+        </div>
+        <div class="col-md-6">
+          <h5> Treatment Status </h5> <dl><%= @profile.treatment_status %> </dl>
+        </div>
+    </div>
 
 
-      <div class="row">
-        <div class="col-md-6">
-          <h5> Personality: </h5> 
-          <dl> 
-            <%= @profile.personality %>
-          </dl>
-        </div>
-        <div class="col-md-6">
-          <h5> Zipcode: </h5>
-          <dl> <%= @profile.zipcode %>  </dl>
-        </div>
-        
-        
+    <div class="row">
+      <div class="col-md-6">
+        <h5> Personality: </h5>
+        <dl>
+          <%= @profile.personality %>
+        </dl>
       </div>
+      <div class="col-md-6">
+        <h5> Zipcode: </h5>
+        <dl> <%= @profile.zipcode %></dl>
+      </div>
+    </div>
 
-      <div class="row">
-        <div class="col-md-6">
-          <h5> Activities: </h5> 
-          <dl> 
-            <% @user.profile.activities.each do |activity| %>
-              <%= activity.name %>
-            <% end %>
-          </dl>
-        </div>
-        <div class="col-md-6">
-          <h5> Other favorite activites: <dl> <% @user.profile.other_favorite_activities %> </dl> </h5>
-        </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h5> Activities: </h5>
+        <dl>
+          <% @user.profile.activities.each do |activity| %>
+            <%= activity.name %>
+          <% end %>
+        </dl>
       </div>
+      <div class="col-md-6">
+        <h5> Other favorite activites: <dl> <% @user.profile.other_favorite_activities %> </dl> </h5>
+      </div>
+    </div>
       
 
-      <div class="row">
-        <div class="col-md-6">
-          <h5> Exercise Reasons: </h5>         
-            <% @user.profile.exercise_reasons.each do |exercise_reason| %>
-              <dl>
-                <%= exercise_reason.name %>
-              </dl>
-            <% end %>      
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <h5> Preferred Exercise Location:</h5> <dl> <%= @user.profile.prefered_exercise_location %> </dl>
-        </div>
-        <div class="col-md-6">
-          <h5> Preferred Exercise Time: </h5><%= @user.profile.prefered_exercise_time %>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <h5> Cancer treatments: </h5> <dl> <%= @user.profile.treatment_description %> </dl>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-            <h5> Participated in Programs for treatment:</h5> 
+    <div class="row">
+      <div class="col-md-6">
+        <h5> Exercise Reasons: </h5>
+          <% @user.profile.exercise_reasons.each do |exercise_reason| %>
             <dl>
-              <% if @user.profile.part_of_wellness_program? %> 
-                Yes
-              <% else %>
-                No
-              <% end %>
-             </dl>
-        </div>
-        <div class="col-md-6">
-          <h5> Programs for cancer treatment:</h5>  <dl> <%= @user.profile.which_wellness_program %> </dl>
-        </div>
+              <%= exercise_reason.name %>
+            </dl>
+          <% end %>
       </div>
-
     </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h5> Preferred Exercise Location:</h5> <dl> <%= @user.profile.prefered_exercise_location %> </dl>
+      </div>
+      <div class="col-md-6">
+        <h5> Preferred Exercise Time: </h5><%= @user.profile.prefered_exercise_time %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h5> Cancer treatments: </h5> <dl> <%= @user.profile.treatment_description %> </dl>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+          <h5> Participated in Programs for treatment:</h5>
+          <dl>
+            <% if @user.profile.part_of_wellness_program? %>
+              Yes
+            <% else %>
+              No
+            <% end %>
+            </dl>
+      </div>
+      <div class="col-md-6">
+        <h5> Programs for cancer treatment:</h5>  <dl> <%= @user.profile.which_wellness_program %> </dl>
+      </div>
+    </div>
+
   </div>
+</div>
