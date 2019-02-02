@@ -14,14 +14,11 @@ class AttachmentController < ApplicationController
     @user = current_user
     @profile = current_user.profile
     
-    Rails.logger.debug("GOOGLE #{params.inspect}")
-    Rails.logger.debug("YAHOO #{@profile.avatar.inspect}")
     @profile.avatar.attach(params[:profile][:avatar])
-    #@profile.save!
 
     if @profile.update(profile_params)
       flash[:notices] = ["Your profile avatar was successfully updated"]
-      render 'photo'
+      render :template => 'profiles/show.html.erb'
     else
       flash[:notices] = ["Your profile avatar could not be updated"]
       render 'photo'
