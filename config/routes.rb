@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get 'attachment/photo'
 
   post 'attachment/photosave'
@@ -52,6 +53,19 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :index] do
     resource :profile, only: [:show, :edit, :update]
   end
-  root to: "users#index"
+
+  resources :profiles do
+
+    collection do
+  
+      get :search
+  
+    end
+  
+    # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  
+  end
+  
+  root to: "profiles#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -47,7 +47,10 @@ gem 'carrierwave', '~> 1.0'
 gem "mini_magick"
 gem 'active_storage_drag_and_drop'
 gem 'bootsnap'
-
+gem 'sunspot_rails'
+gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development. Please find a section below explaining other options for running Solr in production
+gem 'remotipart', github: 'mshibuya/remotipart'
+gem 'rails_admin', '>= 1.0.0.rc'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

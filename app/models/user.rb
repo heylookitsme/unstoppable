@@ -14,8 +14,8 @@ class User < ApplicationRecord
     
   def create_profile
 
-    profile = build_profile(:fitness_level => "Medium",
-     :cancer_location => "Breast",
+    profile = build_profile(:fitness_level => "",
+     :cancer_location => "",
      :treatment_status => "",
      :treatment_description => "",
      :personality => "",

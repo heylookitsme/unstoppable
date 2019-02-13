@@ -41,10 +41,10 @@
 
     <div class="row">
       <div class="col-md-6">
-        <h5>Reason For Wanting Partner: </h5> <dl><%= @user.profile.reason_for_match %></dl>
+        <h5>Reason For Wanting Partner: </h5> <dl><%= @profile.reason_for_match %></dl>
       </div>
       <div class="col-md-6">
-          <h5> Cancer location: </h5> <dl> <%= @user.profile.other_cancer_location  %> </dl>
+          <h5> Cancer location: </h5> <dl> <%= @profile.other_cancer_location  %> </dl>
       </div>
     </div>
 
@@ -75,13 +75,13 @@
       <div class="col-md-6">
         <h5> Activities: </h5>
         <dl>
-          <% @user.profile.activities.each do |activity| %>
+          <% @profile.activities.each do |activity| %>
             <%= activity.name %>
           <% end %>
         </dl>
       </div>
       <div class="col-md-6">
-        <h5> Other favorite activites: <dl> <% @user.profile.other_favorite_activities %> </dl> </h5>
+        <h5> Other favorite activites: <dl> <% @profile.other_favorite_activities %> </dl> </h5>
       </div>
     </div>
       
@@ -89,7 +89,7 @@
     <div class="row">
       <div class="col-md-6">
         <h5> Exercise Reasons: </h5>
-          <% @user.profile.exercise_reasons.each do |exercise_reason| %>
+          <% @profile.exercise_reasons.each do |exercise_reason| %>
             <dl>
               <%= exercise_reason.name %>
             </dl>
@@ -99,16 +99,16 @@
 
     <div class="row">
       <div class="col-md-6">
-        <h5> Preferred Exercise Location:</h5> <dl> <%= @user.profile.prefered_exercise_location %> </dl>
+        <h5> Preferred Exercise Location:</h5> <dl> <%= @profile.prefered_exercise_location %> </dl>
       </div>
       <div class="col-md-6">
-        <h5> Preferred Exercise Time: </h5><%= @user.profile.prefered_exercise_time %>
+        <h5> Preferred Exercise Time: </h5><%= @profile.prefered_exercise_time %>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-6">
-        <h5> Cancer treatments: </h5> <dl> <%= @user.profile.treatment_description %> </dl>
+        <h5> Cancer treatments: </h5> <dl> <%= @profile.treatment_description %> </dl>
       </div>
     </div>
 
@@ -116,7 +116,7 @@
       <div class="col-md-6">
           <h5> Participated in Programs for treatment:</h5>
           <dl>
-            <% if @user.profile.part_of_wellness_program? %>
+            <% if @profile.part_of_wellness_program? %>
               Yes
             <% else %>
               No
@@ -124,7 +124,7 @@
             </dl>
       </div>
       <div class="col-md-6">
-        <h5> Programs for cancer treatment:</h5>  <dl> <%= @user.profile.which_wellness_program %> </dl>
+        <h5> Programs for cancer treatment:</h5>  <dl> <%= @profile.which_wellness_program %> </dl>
       </div>
     </div>
 

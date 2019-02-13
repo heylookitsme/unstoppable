@@ -4,12 +4,10 @@
   <div class="row">
     <% if URI(request.referer || '').path == '/users/sign_up' %>
       <h4>You are now signed up - please complete some profile information about yourself.</h4>
-    <% else %>
-      <h4>Edit your profile and update</h4>
     <% end %>
   </div>
  
-  <%= simple_form_for  current_user.profile, :url => user_profile_path, html: {multipart: true} do |f| %>
+  <%= simple_form_for  @profile, :url => profile_path, html: {multipart: true} do |f| %>
 
     <% if @profile.errors.any? %>
       <div id="error_explanation">
@@ -81,6 +79,12 @@
 
     <div class="col-xs-6">
       <%= f.input :details_about_self , as: :text,label: "About You. Tell us about yourself!" %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= f.input :cancer_location, include_blank: "- Select one -", 
+        collection: Profile.cancer_locations_list, 
+        label: "Cancer Location"  %>
     </div>
 
     <div class="col-xs-6">

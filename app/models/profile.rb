@@ -6,8 +6,43 @@ class Profile < ApplicationRecord
   has_and_belongs_to_many :exercise_reasons
   has_one_attached :avatar
 
+  searchable do
+    text :details_about_self
+    text :other_cancer_location
+    #text :activities do
+    #  activities.map { |activity| activity.name }
+    #end
+  end
+
   def age
     ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
+  end
+
+  def self.cancer_locations_list
+    [
+      'Any Location',
+      'Bladder',
+      'Brain',
+      'Breast',
+      'Bone',
+      'Cervical',
+      'Colorectal',
+      'Esophageal',
+      'Gall Bladder',
+      'Gastric',
+      'Head and Neck',
+      'Kidney',
+      'Lymphoma',
+      'Leukemia',
+      'Liver',
+      'Lung',
+      'Melanoma',
+      'Multiple Myeloma',
+      'Ovarian',
+      'Pancreatic',
+      'Sarcoma',
+      'Thyroid'
+    ]
   end
 
   def self.personality_descriptions

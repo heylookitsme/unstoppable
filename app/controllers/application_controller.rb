@@ -26,12 +26,21 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource_or_scope)
     session[:user_id] = resource_or_scope.id
-    user_path(resource_or_scope)
+    #user_path(resource_or_scope)
+    if resource_or_scope.admin?
+      rails_admin_path
+    else
+      profiles_path
+    end
     #if resource_or_scope.is_a?(User)
     #  super
    #else
       #Rails.logger.debug("User12345")
       #users_path
     #end
+  end
+  def after_sign_out_path_for(resource_or_scope)
+    #request.referrer
+    new_user_session_path
   end
 end

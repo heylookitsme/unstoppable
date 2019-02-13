@@ -1,7 +1,7 @@
 class AttachmentController < ApplicationController
   before_action :authenticate_user!, :except => [:index]
   
-  layout "sidebar"
+  layout "sidebar_non_admin"
   before_action :set_user
 
   def photo

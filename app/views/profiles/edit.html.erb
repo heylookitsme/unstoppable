@@ -1,13 +1,16 @@
 
 <p id="notice"><%= notice %></p>
 
-<h1>Editing User Profile</h1>
-
+<h1>Edit Profile</h1>
+<h4>All changes will become part of your profile.<h4>
+<br/>
 <div class="container-fluid">
 <p>
-  <strong>Name: <%= @profile.user.username %></strong>
+  <strong>User Name: <%= @profile.user.username %></strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <strong>Email: <%= @profile.user.email %></strong>
 </p>
+<hr/>
+
 
 <%= render 'form', profile: @profile %>
 

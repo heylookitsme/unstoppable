@@ -1,23 +1,27 @@
 class ProfilesController < ApplicationController
   !before_action :authenticate_user!, :except => [:index]
   #before_filter :correct_user, :only [:edit, :update]
-  layout "sidebar"
+  layout "sidebar_non_admin"
 
   #before_filter :authenticate_user!
-  before_action :set_user
+  before_action :set_profile, except: [:index, :search]
   protect_from_forgery with: :null_session
 
+  def index
+    @profiles = Profile.all
+  end
+
+  
   def show
+  
   end
 
   def edit
-    @user = current_user
-    @profile = current_user.profile
+   
   end
 
   def update
-    user = current_user
-    @profile = current_user.profile
+   
      unless @profile.avatar.present?
       @profile.remove_avatar!
     end
@@ -30,6 +34,19 @@ class ProfilesController < ApplicationController
       render 'edit'
     end
   end
+
+  # GET profiles/search
+
+  def search
+    @profiles = Profile.search do
+      keywords params[:query]
+    end.results
+
+    respond_to do |format|
+      format.html { render :action => "index" }
+    end
+  end
+
 
   private
 
@@ -50,9 +67,18 @@ class ProfilesController < ApplicationController
     )
   end
 
-  def set_user
+  def set_profile
     Rails.logger.debug("IN SET_USER")
-    @user = current_user
-    @profile = current_user.profile
+    Rails.logger.debug("params = #{params.inspect}")
+   # unless params[:user_id].nil?
+      # Editing the profile from the user screens
+    #  @user = User.find_by_id(params[:user_id])
+   #   @profile = @user.profile
+  #  else
+      @profile = Profile.find(params[:id])
+      #@user = @profile.user
+
+      Rails.logger.debug("SARADA = #{@profile.inspect}")
+   # end
   end
 end
