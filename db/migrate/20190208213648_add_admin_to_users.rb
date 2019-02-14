@@ -4,9 +4,9 @@ class AddAdminToUsers < ActiveRecord::Migration[5.2]
   end
 
   # Initialize first account:
-  User.create! do |u|
-    u.username = "admin"
-    u.email     = 'test@test.com'
-    u.password    = 'password'
-  end 
+  #User.create! do |u|
+   # u.username = "admin"
+    #u.email     = 'test@test.com'
+    #u.password    = 'password'
+  #end 
 end
