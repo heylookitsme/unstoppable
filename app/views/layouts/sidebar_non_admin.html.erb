@@ -16,7 +16,7 @@
               <% if current_user %>
                 <h4>
                   User: <%= current_user.username %> &nbsp;&nbsp;&nbsp;&nbsp;
-                  <% if current_user && current_user.profile.avatar.attached? %>
+                  <% if current_user && current_user.profile && current_user.profile.avatar.attached? %>
                     <%= image_tag current_user.profile.avatar.variant(resize: "50x50") %>
                   <% end %>
                 </h4>
@@ -38,7 +38,7 @@
       <div class="container-fluid">
       
         <div class="row">
-          <% if current_user %> 
+          <% if current_user && current_user.profile %> 
             <div class="col-sm-3 col-md-2 sidebar" id="sidebar">
               <div class="list-group">
               <%= link_to "View Profile", profile_path(current_user.profile), :class => "list-group-item active" %>

@@ -8,7 +8,8 @@ class ProfilesController < ApplicationController
   protect_from_forgery with: :null_session
 
   def index
-    @profiles = Profile.all
+    #@profiles = Profile.all
+    @profiles = Profile.get_list
   end
 
   
@@ -21,8 +22,11 @@ class ProfilesController < ApplicationController
   end
 
   def update
+
+    Rails.logger.debug "Profile Controller: Update #{@profile.inspect}"
+    Rails.logger.debug "Profile Controller: Update #{params.inspect}"
    
-     unless @profile.avatar.present?
+    unless @profile.avatar.present?
       @profile.remove_avatar!
     end
 
@@ -38,9 +42,21 @@ class ProfilesController < ApplicationController
   # GET profiles/search
 
   def search
+    Rails.logger.debug "PARAMS = #{params.inspect}"
+    min_age = params["min_age"].blank? ? 0:params["min_age"].to_i
+    max_age = params["max_age"].blank? ? 200:params["max_age"].to_i
+    Rails.logger.debug "#{min_age.inspect}"
+    Rails.logger.debug "#{max_age.inspect}"
     @profiles = Profile.search do
+      with(:age, min_age..max_age)
       keywords params[:query]
     end.results
+
+    for profile in @profiles do
+      #profile.set_age
+    end
+
+    #Rails.logger.debug "Profiles = #{@profiles.inspect}"
 
     respond_to do |format|
       format.html { render :action => "index" }

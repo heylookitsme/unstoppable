@@ -26,14 +26,50 @@ ExerciseReason.find_or_create_by!(name: 'Physical Health')
 ExerciseReason.find_or_create_by!(name: 'Sense of Accomplishment')
 ExerciseReason.find_or_create_by!(name: 'Other  - Describe in About You question below')
 
-User.first_or_create!(username:"admin", email:"test@test.com", password: 'dash123')
-User.first_or_create!(username:"dash", email:"x@x.com", password: 'dash123')
-User.first_or_create!(username:"dash1", email:"x1@x.com", password: 'dash123')
-User.first_or_create!(username:"dash2", email:"x2@x.com", password: 'dash123')
-User.first_or_create!(username:"dash3", email:"x3@x.com", password: 'dash123')
-User.first_or_create!(username:"dash4", email:"x4@x.com", password: 'dash123')
-User.first_or_create!(username:"dash5", email:"x5@x.com", password: 'dash123')
-User.first_or_create!(username:"dash6", email:"x6@x.com", password: 'dash123')
-User.first_or_create!(username:"dash7", email:"x7@x.com", password: 'dash123')
-User.first_or_create!(username:"dash8", email:"x8@x.com", password: 'dash123')
-User.first_or_create!(username:"dash9", email:"x9@x.com", password: 'dash123')
+User.create!(username:"admin", email:"test@test.com", password: 'dash123', admin: true)
+u=User.create(username:"dash", email:"x@x.com", password: 'dash123')
+u.profile.zipcode="20854"
+u.profile.dob="1944-01-17"
+u.profile.cancer_location="Lung"
+u.profile.save!
+u=User.create(username:"dash1", email:"x1@x.com", password: 'dash123')
+u.profile.zipcode="20850"
+u.profile.dob="1984-01-17"
+u.profile.cancer_location="Lung"
+u.profile.save!
+u=User.create(username:"dash2", email:"x2@x.com", password: 'dash123')
+u.profile.zipcode="20877"
+u.profile.dob="1994-01-17"
+u.profile.cancer_location="Lung"
+u.profile.save!
+u=User.create(username:"dash3", email:"x3@x.com", password: 'dash123')
+u.profile.zipcode="20854"
+u.profile.dob="1999-01-17"
+u.profile.cancer_location="Lung"
+u.profile.save!
+u=User.create(username:"dash4", email:"x4@x.com", password: 'dash123')
+u.profile.zipcode="20854"
+u.profile.dob="1992-01-17"
+u.profile.cancer_location="Lung"
+u.profile.save!
+u=User.create(username:"dash5", email:"x5@x.com", password: 'dash123')
+u.profile.zipcode="20854"
+u.profile.dob="1990-01-17"
+u.profile.cancer_location="Breast"
+u.profile.save!
+u=User.create(username:"dash6", email:"x6@x.com", password: 'dash123')
+u.profile.zipcode="20854"
+u.profile.dob="1989-01-17"
+u.profile.cancer_location="Breast"
+u.profile.save!
+u=User.create(username:"dash7", email:"x7@x.com", password: 'dash123')
+u.profile.zipcode="20854"
+u.profile.dob="1987-01-17"
+u.profile.cancer_location="Breast"
+u.profile.save!
+u=User.create(username:"dash8", email:"x8@x.com", password: 'dash123')
+u.profile.zipcode="20854"
+u.profile.dob="1995-01-17"
+u.profile.cancer_location="Breast"
+u.profile.save!
+

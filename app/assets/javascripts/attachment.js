@@ -1,6 +1,5 @@
 function showImage(input) {
   if (input.files && input.files[0]) {
-    alert("1")
     var reader = new FileReader();
 
     reader.onload = function (e) {

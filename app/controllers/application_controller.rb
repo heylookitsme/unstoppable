@@ -13,9 +13,7 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user ||= User.find session[:user_id] if session[:user_id]
-    Rails.logger.debug("YAHOO")
-    Rails.logger.debug("#{@current_user.inspect}")
-    Rails.logger.debug("#{session[:user_id].inspect}")
+    
     if @current_user
       @current_user
     else
