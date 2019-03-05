@@ -19,7 +19,7 @@
     <%= submit_tag "Search" %>&nbsp;&nbsp;
     <%= text_field_tag :min_age, params[:min_age] %> Min Age&nbsp;&nbsp;
     <%= text_field_tag :max_age, params[:max_age] %> Max Age&nbsp;&nbsp;
-    
+    <%= text_field_tag :distance, params[:distance] %> Distance&nbsp;&nbsp;
 
 
   <% end %>
@@ -31,7 +31,7 @@
           <td><%= profile.user.username %></td>
           <td><%= profile.user.email %></td>
           <td><%= profile.age %></td>
-          <td><%= profile.age %></td>
+          <td><%= profile.distance %></td>
           <!-- td><%= profile.other_cancer_location %></td -->
           <td><%= link_to "Show", profile_path(profile), class: 'btn btn-default'%></td>
         </tr>

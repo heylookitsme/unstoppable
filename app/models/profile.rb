@@ -7,7 +7,7 @@ class Profile < ApplicationRecord
   has_one_attached :avatar
   #attr_accessor :age
   attribute :age
-  attr_accessor :junk
+  attribute :distance, default: 0
 
 =begin
   acts_as_mappable :default_units => :miles,
@@ -17,22 +17,18 @@ class Profile < ApplicationRecord
 =end
 
   #validates :zipcode, presence: true
-  geocoded_by :get_address
+  geocoded_by :address
   #after_validation :geocode
   after_validation :geocode, :if => :zipcode_changed?
   before_save :compute_latlong
-  #before_save :set_age
 
-  def initialize
-    self.age = self.set_age
-  end
-  
-  
   searchable do
     text :details_about_self
     text :other_cancer_location
     text :cancer_location
     integer :age
+    integer :distance
+    text :zipcode
     text :activities do
       activities.map { |activity| activity.name }
     end
@@ -40,16 +36,29 @@ class Profile < ApplicationRecord
     #latlon(:zipcode) { Sunspot::Util::Coordinates.new(:latitude, :longitude) }
   end
 
-  def get_address
+  def address
     self.zipcode
   end
+ 
+  def distance
+    d=0
+    unless self.user.admin?
+      if !User.current.blank? && !User.current.profile.blank?
+        d = self.distance_to([User.current.profile.latitude, User.current.profile.longitude])
+        unless d.blank?
+          d = d.round
+        end
+      end
+    end
+    d
+  end
 
-  def self.get_list
+  def self.get_list(current_user)
+    #Rails.logger.debug "in Profile get_list CURRENT = #{User.current.inspect}"
     all_profiles = []
     for profile in Profile.all do
       unless profile.user.admin?
-        #profile.age = profile.set_age
-        puts "HI #{profile.age}"
+        profile.distance = profile.distance_to([current_user.profile.latitude, current_user.profile.longitude]).round
         all_profiles << profile
       end
     end

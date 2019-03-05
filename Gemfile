@@ -52,6 +52,7 @@ gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in developm
 gem 'remotipart', github: 'mshibuya/remotipart'
 gem 'rails_admin', '>= 1.0.0.rc'
 gem 'geocoder'
+gem 'request_store'
 gem 'geokit-rails'
 
 group :development, :test do

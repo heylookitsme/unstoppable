@@ -7,6 +7,14 @@ class User < ApplicationRecord
 
   after_create :init_profile
 
+  def self.current
+    RequestStore.store[:current_user]
+  end
+
+  def self.current=(user)
+    RequestStore.store[:current_user] = user
+  end
+
   def init_profile
     self.create_profile!
   end

@@ -44,7 +44,10 @@
         <h5>Reason For Wanting Partner: </h5> <dl><%= @profile.reason_for_match %></dl>
       </div>
       <div class="col-md-6">
-          <h5> Cancer location: </h5> <dl> <%= @profile.other_cancer_location  %> </dl>
+          <h5> Cancer location: </h5>
+          <dl> <%= @profile.cancer_location  %>
+          <% unless @profile.other_cancer_location.blank? %> , <%= @profile.other_cancer_location %> <% end %>
+           </dl>
       </div>
     </div>
 

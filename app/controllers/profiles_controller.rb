@@ -1,5 +1,5 @@
 class ProfilesController < ApplicationController
-  !before_action :authenticate_user!, :except => [:index]
+  !before_action :authenticate_user!
   #before_filter :correct_user, :only [:edit, :update]
   layout "sidebar_non_admin"
 
@@ -8,8 +8,12 @@ class ProfilesController < ApplicationController
   protect_from_forgery with: :null_session
 
   def index
-    #@profiles = Profile.all
-    @profiles = Profile.get_list
+    @profiles = []
+
+    Rails.logger.debug "Profile Controller: index #{User.current.inspect}"
+    unless current_user.blank?
+      @profiles = Profile.get_list(User.current)
+    end
   end
 
   
@@ -42,22 +46,22 @@ class ProfilesController < ApplicationController
   # GET profiles/search
 
   def search
-    Rails.logger.debug "PARAMS = #{params.inspect}"
+    user = current_user
     min_age = params["min_age"].blank? ? 0:params["min_age"].to_i
     max_age = params["max_age"].blank? ? 200:params["max_age"].to_i
-    Rails.logger.debug "#{min_age.inspect}"
-    Rails.logger.debug "#{max_age.inspect}"
+    distance = params["distance"].blank? ? 2000:params["distance"].to_i
+    
     @profiles = Profile.search do
       with(:age, min_age..max_age)
+      with(:distance, 0..distance)
+      #with(:zipcode).in_radius(current_user.profile.latitude, current_user.profile.longitude, 100)
       keywords params[:query]
     end.results
 
-    for profile in @profiles do
-      #profile.set_age
+    if distance > 0
+      @profiles = @profiles.select{|x| x.distance < distance}
     end
-
-    #Rails.logger.debug "Profiles = #{@profiles.inspect}"
-
+    
     respond_to do |format|
       format.html { render :action => "index" }
     end
@@ -97,4 +101,5 @@ class ProfilesController < ApplicationController
       Rails.logger.debug("SARADA = #{@profile.inspect}")
    # end
   end
+  
 end
