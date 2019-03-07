@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>User Name</th>
+      <th>Avatar</th>
       <th>Email</th>
       <th>Age</th>
       <th>Distance</th>
@@ -29,6 +30,11 @@
       <% unless profile.user.admin? %>
         <tr>
           <td><%= profile.user.username %></td>
+          <% if profile.avatar.attached? %>
+            <td><%= image_tag profile.avatar.variant(resize: "50x50") %></td>
+          <% else %>
+            <td> &nbsp; </td>
+          <% end %>
           <td><%= profile.user.email %></td>
           <td><%= profile.age %></td>
           <td><%= profile.distance %></td>
