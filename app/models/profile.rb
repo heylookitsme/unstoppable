@@ -44,9 +44,11 @@ class Profile < ApplicationRecord
     d=0
     unless self.user.admin?
       if !User.current.blank? && !User.current.profile.blank?
-        d = self.distance_to([User.current.profile.latitude, User.current.profile.longitude])
-        unless d.blank?
-          d = d.round
+        if !User.current.profile.latitude.blank? && !User.current.profile.latitude.blank? 
+          d = self.distance_to([User.current.profile.latitude, User.current.profile.longitude])
+          unless d.blank?
+            d = d.round
+          end
         end
       end
     end
@@ -58,7 +60,10 @@ class Profile < ApplicationRecord
     all_profiles = []
     for profile in Profile.all do
       unless profile.user.admin?
-        profile.distance = profile.distance_to([current_user.profile.latitude, current_user.profile.longitude]).round
+        Rails.logger.debug "#{current_user.profile.latitude}.inspect"
+        if !current_user.profile.latitude.nil? && !current_user.profile.longitude.nil? && !profile.latitude.nil? && !profile.longitude.nil?
+          profile.distance = profile.distance_to([current_user.profile.latitude, current_user.profile.longitude]).round
+        end
         all_profiles << profile
       end
     end

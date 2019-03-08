@@ -1,18 +1,17 @@
 class ProfilesController < ApplicationController
   !before_action :authenticate_user!
-  #before_filter :correct_user, :only [:edit, :update]
   layout "sidebar_non_admin"
 
   #before_filter :authenticate_user!
   before_action :set_profile, except: [:index, :search]
-  protect_from_forgery with: :null_session
+  #protect_from_forgery with: :null_session
 
   def index
-    @profiles = []
-
     Rails.logger.debug "Profile Controller: index #{User.current.inspect}"
     unless current_user.blank?
       @profiles = Profile.get_list(User.current)
+    else
+      @profiles = Profile.all.select{|x| !x.user.admin?}
     end
   end
 
@@ -59,7 +58,7 @@ class ProfilesController < ApplicationController
     end.results
 
     if distance > 0
-      @profiles = @profiles.select{|x| x.distance < distance}
+      @profiles = @profiles.select{|x| x.distance && x.distance <= distance}
     end
     
     respond_to do |format|

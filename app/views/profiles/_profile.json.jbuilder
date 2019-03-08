@@ -3,5 +3,9 @@ json.extract! profile, :id, :dob, :zipcode, :fitness_level, :cancer_location, :p
 	:created_at, :updated_at
 name = {name: profile.user.username}	
 json.merge! name
+email = {email: profile.user.email}	
+json.merge! email
+age = {age: profile.age}
+json.merge! age
 json.avatar_url url_for(profile.avatar) if profile.avatar.attached?
 json.url profile_url(profile, format: :json)
