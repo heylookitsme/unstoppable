@@ -13,12 +13,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
   prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect.
 
   def sign_up_params
-    params.require(:user).permit(:email, :username, :password, :password_confirmation, :remember_me)
+    params.require(:user).permit(:email, :username, :password, :password_confirmation, :zipcode, :remember_me)
  end
  protected
 
  def after_sign_up_path_for(resource)
-  destroy_user_session_path
+  Rails.logger.debug "#{resource.inspect}"
+  #UserMailer.with(user: resource).welcome_email.deliver_later
+  UserMailer.registration_confirmation(resource).deliver
+  flash[:success] = "Please confirm your email address to continue"
+  #redirect_to root_url
+  email_confirmation_user_path(resource)
+  #destroy_user_session_path
  end
 
   # GET /resource/sign_up

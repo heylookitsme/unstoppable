@@ -2,10 +2,17 @@ class User < ApplicationRecord
   has_one :profile, :dependent => :destroy
   validates :username, presence: :true, uniqueness: { case_sensitive: false }
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
-
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
   attr_writer :login
 
+  attr_accessor :zipcode
+
   after_create :init_profile
+
+  before_create :confirmation_token
 
   def self.current
     RequestStore.store[:current_user]
@@ -17,6 +24,8 @@ class User < ApplicationRecord
 
   def init_profile
     self.create_profile!
+    self.profile.zipcode = self.zipcode
+    self.profile.save!
   end
 
 
@@ -28,8 +37,17 @@ class User < ApplicationRecord
     false
   end
 
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  def email_activate
+    Rails.logger.debug "IN EMAIL_ACTOV=begin TE =end"
+    self.email_confirmed = true
+    self.confirm_token = nil
+    save!(:validate => false)
+  end
+
+  private
+  def confirmation_token
+        if self.confirm_token.blank?
+            self.confirm_token = SecureRandom.urlsafe_base64.to_s
+        end
+      end        
 end

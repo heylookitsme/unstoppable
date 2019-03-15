@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   protect_from_forgery with: :null_session
-  before_action :authenticate_user!, :except => [:show]
+  before_action :authenticate_user!, :except => [:show, :confirm_user]
   layout "sidebar"
 
   def index
@@ -32,4 +32,20 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:username, :email)
   end
+
+  def confirm_email
+    Rails.logger.info "In User controller, confirm_email"
+    Rails.logger.info "In  confirm_email = #{params.inspect}"
+    user = User.find_by_confirm_token(params[:id])
+    Rails.logger.info "In confirm_email user =#{user.inspect}"
+    if user
+      user.email_activate
+      flash[:success] = "Welcome to the Sample App! Your email has been confirmed.
+      Please sign in to continue."
+      redirect_to new_session_path(user)
+    else
+      flash[:error] = "Sorry. User does not exist"
+      redirect_to root_url
+    end
+end
 end

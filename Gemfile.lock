@@ -299,6 +299,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
+  mail (~> 2.7)
   mini_magick
   paperclip
   puma (~> 3.0)
@@ -320,4 +321,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   1.17.2
+   2.0.1
