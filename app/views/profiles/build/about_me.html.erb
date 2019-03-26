@@ -1,0 +1,72 @@
+<%= simple_form_for  @profile, :url => profile_path, html: {multipart: true} do |f| %>
+
+    <% if @profile.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+
+        <ul>
+        <% @profile.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="col-xs-6">
+      <%= f.input :dob, label: "Date of Birth:",
+      as: :date, start_year: Date.today.year - 90,
+      end_year: Date.today.year - 12, 
+      order: [:day, :month, :year] %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= f.input :zipcode, label: "Zipcode:" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.association :activities, as: :check_boxes,    label: "What are your favourite Activities?" %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= f.input :other_favorite_activities, label: "What are your other favorite activities?" %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= f.input :fitness_level, include_blank: "- Select one -", 
+          collection: Profile.fitness_level_descriptions, 
+          label: "How would you describe your current fitness level?"  %>
+    </div>
+
+    <div class="form-group">
+    <%= f.association :exercise_reasons, as: :check_boxes,    label: "Identify your top reasons for wanting to become more active:" %>
+
+    <div class="col-xs-6">
+      <%= f.input :prefered_exercise_location, include_blank: "- Select one -", 
+          collection: Profile.prefered_exercise_location_descriptions, 
+          label: "Where do you prefer to be active?"  %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= f.input :prefered_exercise_time, include_blank: "- Select one -", 
+          collection: Profile.prefered_exercise_time_descriptions, 
+          label: "When do you prefer to be active?"  %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= f.input :reason_for_match, label: "What is the main reason you want to be matched with an exercise partner?" %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= f.input :personality, include_blank: "- Select one -", 
+        collection: Profile.personality_descriptions, 
+        label: "Which of the following best describes you?"  %>
+    </div>
+
+    <div class="field">
+      <%= f.input :work_status, include_blank: "- Select one -", 
+      collection: Profile.work_status_descriptions, 
+      label: "Which of the following best describes your work situation?"  %>
+    </div>
+<% end %>
+
+<%= link_to 'skip', next_wizard_path %>

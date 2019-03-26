@@ -1,0 +1,43 @@
+
+ <%= simple_form_for  @profile, :url => profile_path, html: {multipart: true} do |f| %>
+
+    <div class="col-xs-6">
+      <%= f.input :details_about_self , as: :text,label: "About You. Tell us about yourself!" %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= f.input :cancer_location, include_blank: "- Select one -", 
+        collection: Profile.cancer_locations_list, 
+        label: "Cancer Location"  %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= f.input :other_cancer_location , label: "Other cancer location:" %>
+    </div>
+
+
+    <div class="field">
+      <%= f.input :treatment_status, include_blank: "- Select one -", 
+        collection: Profile.treatment_status_descriptions, 
+        label: "Which of the following best describes you?"  %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= f.input :treatment_description, label: "Please briefly describe your cancer treatments:" %>
+    </div>
+
+    <div class="col-xs-6">
+
+      <%= f.input :part_of_wellness_program, label: "If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax):", as: :radio_buttons %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= f.input :which_wellness_program, label: "Please briefly describe your cancer treatments:",  as: :text %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+
+<%= link_to 'skip', next_wizard_path %>

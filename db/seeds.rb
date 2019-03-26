@@ -26,50 +26,86 @@ ExerciseReason.find_or_create_by!(name: 'Physical Health')
 ExerciseReason.find_or_create_by!(name: 'Sense of Accomplishment')
 ExerciseReason.find_or_create_by!(name: 'Other  - Describe in About You question below')
 
-User.create!(username:"admin", email:"test@test.com", password: 'dash123', admin: true)
-u=User.create(username:"dash", email:"x@x.com", password: 'dash123')
+user = User.new(username:"admin", email:"test@test.com", password: 'dash123', admin: true)
+#user.skip_confirmation!
+user.save!
+u=User.new(username:"dash", email:"dashcute@x.com", password: 'dash123')
+#u.skip_confirmation!
+u.save!
 u.profile.zipcode="20854"
 u.profile.dob="1944-01-17"
 u.profile.cancer_location="Lung"
+u.profile.details_about_self="I may have some thyroid nodules"
+u.profile.other_cancer_location="Bladder"
 u.profile.save!
-u=User.create(username:"dash1", email:"x1@x.com", password: 'dash123')
+
+=begin
+u=User.create(username:"dash1", email:"dashsweet@x.com", password: 'dash123')
+u.skip_confirmation!
+u.save!
 u.profile.zipcode="20850"
 u.profile.dob="1984-01-17"
 u.profile.cancer_location="Lung"
+u.profile.details_about_self="I may have some nodules in the throat"
+u.profile.other_cancer_location="Spleen"
 u.profile.save!
-u=User.create(username:"dash2", email:"x2@x.com", password: 'dash123')
+u=User.create(username:"dash2", email:"sarada_chintala@hotmail.com", password: 'dash123')
+u.skip_confirmation!
+u.save!
 u.profile.zipcode="20877"
 u.profile.dob="1994-01-17"
 u.profile.cancer_location="Lung"
+u.profile.details_about_self="I may have some tumor near the thigh"
+u.profile.other_cancer_location="skin"
 u.profile.save!
-u=User.create(username:"dash3", email:"x3@x.com", password: 'dash123')
+u=User.create(username:"dash3", email:"shardax@gmail.com", password: 'dash123')
+u.skip_confirmation!
+u.save!
 u.profile.zipcode="20854"
 u.profile.dob="1999-01-17"
 u.profile.cancer_location="Lung"
+u.profile.details_about_self="Feeling fatigue"
+u.profile.other_cancer_location="bone"
 u.profile.save!
-u=User.create(username:"dash4", email:"x4@x.com", password: 'dash123')
+u=User.create(username:"dash4", email:"saradarails@gmail.com", password: 'dash123')
+u.skip_confirmation!
+u.save!
 u.profile.zipcode="20854"
 u.profile.dob="1992-01-17"
 u.profile.cancer_location="Lung"
+u.profile.details_about_self="I am a vegitarian"
+u.profile.other_cancer_location="kidney"
 u.profile.save!
-u=User.create(username:"dash5", email:"x5@x.com", password: 'dash123')
+u=User.create(username:"dash5", email:"dashsparky@gmail.com", password: 'dash123')
+u.skip_confirmation!
+u.save!
 u.profile.zipcode="20854"
 u.profile.dob="1990-01-17"
 u.profile.cancer_location="Breast"
+u.profile.details_about_self="I may have some nodules in the lymph nodes"
+u.profile.other_cancer_location="Colon"
 u.profile.save!
-u=User.create(username:"dash6", email:"x6@x.com", password: 'dash123')
+u=User.create(username:"dash6", email:"sparkydash@x.com", password: 'dash123')
+u.skip_confirmation!
+u.save!
 u.profile.zipcode="20854"
 u.profile.dob="1989-01-17"
 u.profile.cancer_location="Breast"
+u.profile.details_about_self="Tumor in breast and stomach"
+u.profile.other_cancer_location=""
 u.profile.save!
-u=User.create(username:"dash7", email:"x7@x.com", password: 'dash123')
+u=User.create(username:"dash7", email:"sparky123@x.com", password: 'dash123')
+u.skip_confirmation!
+u.save!
 u.profile.zipcode="20854"
 u.profile.dob="1987-01-17"
 u.profile.cancer_location="Breast"
 u.profile.save!
-u=User.create(username:"dash8", email:"x8@x.com", password: 'dash123')
+u=User.create(username:"dash8", email:"dashbaby@x.com", password: 'dash123')
+u.skip_confirmation!
+u.save!
 u.profile.zipcode="20854"
 u.profile.dob="1995-01-17"
 u.profile.cancer_location="Breast"
 u.profile.save!
-
+=end

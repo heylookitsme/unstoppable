@@ -65,9 +65,10 @@ Rails.application.routes.draw do
       get :search
   
     end
-  
+
+    resources :build, controller: 'profiles/build'
     # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  
+
   end
   
   root to: "profiles#index"

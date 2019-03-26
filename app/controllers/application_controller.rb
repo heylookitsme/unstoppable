@@ -14,16 +14,24 @@ class ApplicationController < ActionController::Base
   def current_user
     @current_user ||= User.find session[:user_id] if session[:user_id]
     
-    User.current = @current_user
-    if @current_user
-      @current_user
-    else
+    User.current = @current_user if User.current.nil?
+    #if @current_user
+    #  @current_user
+    #else
       #OpenStruct.new(name: 'Guest')
-      nil
-    end
+      #nil
+    #end
+    return User.current
+  end
+
+  def set_current_user(user)
+    User.current = user
   end
 
   def after_sign_in_path_for(resource_or_scope)
+    User.current = resource_or_scope
+    Rails.logger.debug("In application controller User.current = #{User.current.inspect}")
+    Rails.logger.debug("In application controller current user = #{current_user.inspect}")
     session[:user_id] = resource_or_scope.id
     #user_path(resource_or_scope)
     if resource_or_scope.admin?

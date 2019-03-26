@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   protect_from_forgery with: :null_session
-  before_action :authenticate_user!, :except => [:show, :confirm_user]
+  before_action :authenticate_user!, :except => [:show, :confirm_email]
   layout "sidebar"
 
   def index
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:username, :email)
+    params.require(:user).permit(:username, :email, :admin, email_confirmed, confirm_token)
   end
 
   def confirm_email
@@ -42,10 +42,13 @@ class UsersController < ApplicationController
       user.email_activate
       flash[:success] = "Welcome to the Sample App! Your email has been confirmed.
       Please sign in to continue."
-      redirect_to new_session_path(user)
+      #redirect_to new_session_path(user)
+      #redirect_to profile_after_signup_path(:about_me, :profile_id => user.profile.id)
+
+      redirect_to profile_build_path(:about_me, :profile_id => user.profile.id)
     else
       flash[:error] = "Sorry. User does not exist"
-      redirect_to root_url
+      redirect_to users_sign_out_path
     end
 end
 end

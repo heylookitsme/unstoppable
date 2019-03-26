@@ -23,7 +23,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   UserMailer.registration_confirmation(resource).deliver
   flash[:success] = "Please confirm your email address to continue"
   #redirect_to root_url
-  email_confirmation_user_path(resource)
+  email_confirmation_user_path(resource, :user_id => resource.id)
   #destroy_user_session_path
  end
 

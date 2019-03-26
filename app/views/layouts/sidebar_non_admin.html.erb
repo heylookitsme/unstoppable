@@ -6,6 +6,7 @@
   </head>
   <body>
    
+  <%= stylesheet_link_tag "progressbar" %>
     <!-- %= render "header" % -->
 
     <header>
@@ -26,13 +27,17 @@
                 <button class="btn btn-outline-success" type="button"><%= link_to('Logout',         destroy_user_session_path, :class => "btn", method: :delete) %>
                 </button>
             </div>
-          
-        </form>
-        
-
     </header>
 
-    
+    <div class="container"  width="100%">
+      <div class="row">
+        <ul class="progressbar">
+          <li> Step 1 </li>
+          <li class="active"> Step 2 </li>
+          <li> Step 3 </li>
+        </ul>
+        </div>
+      </div>
 
    
       <div class="container-fluid">
