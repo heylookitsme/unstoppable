@@ -1,4 +1,51 @@
-<%= simple_form_for  @profile, :url => profile_path, html: {multipart: true} do |f| %>
+  <div class="container">
+        
+    <div class="row registration-steps row-no-padding">
+    
+      <div class="col-md-2">
+        <div class="registration-step registration-step-complete">
+          <div class="number"><div class="circle">1</div></div>
+          Basic Info
+        </div>
+      </div>
+    
+      <div class="col-md-2">
+        <div class="registration-step registration-step-complete">
+          <div class="number"><div class="circle">2</div></div>
+          Confirm Email
+        </div>
+      </div>
+    
+      <div class="col-md-2">
+        <div class="registration-step registration-step-active">
+          <div class="number"><div class="circle">3</div></div>
+          About Me
+        </div>
+      </div>
+    
+      <div class="col-md-2">
+        <div class="registration-step ">
+          <div class="number"><div class="circle">4</div></div>
+          Cancer History
+        </div>
+      </div>
+    
+      <div class="col-md-2">
+        <div class="registration-step ">
+          <div class="number"><div class="circle">5</div></div>
+          Photo
+        </div>
+      </div>
+    
+      <div class="col-md-2">
+        <div class="registration-step ">
+          <div class="number"><div class="circle">6</div></div>
+          Browse Profiles
+        </div>
+      </div>
+    
+  </div>
+  <%= simple_form_for  @profile, :url => wizard_path, html: {multipart: true} do |f| %>
 
     <% if @profile.errors.any? %>
       <div id="error_explanation">
@@ -11,6 +58,10 @@
         </ul>
       </div>
     <% end %>
+
+    <%= f.hidden_field :step_status, :value => "About Me" %>
+
+    <%= f.hidden_field :profile_id, :value => @profile.id %>
 
     <div class="col-xs-6">
       <%= f.input :dob, label: "Date of Birth:",
@@ -67,6 +118,13 @@
       collection: Profile.work_status_descriptions, 
       label: "Which of the following best describes your work situation?"  %>
     </div>
+
+    <div class="actions">
+      <%= f.button :submit, "Save and Continue" %>
+    </div>
+
+    <%= link_to 'skip', next_wizard_path %>
 <% end %>
 
-<%= link_to 'skip', next_wizard_path %>
+
+

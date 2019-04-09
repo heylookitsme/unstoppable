@@ -2,17 +2,72 @@
   <head>
     <title> Step Progress Bar </title>
     <%= stylesheet_link_tag "progressbar" %>
+    <%= stylesheet_link_tag "registration" %>
   </head>
   <body>
-      <div class="container">
-        <ul class="progressbar">
-          <li class="active"> Step 1 </li>
-          <li> Step 2 </li>
-          <li> Step 3 </li>
-        </ul>
+
+  <div class="container">
+      
+  <div class="row registration-steps row-no-padding">
+  
+    <div class="col-md-2">
+      <div class="registration-step registration-step-complete">
+        <div class="number"><div class="circle">1</div></div>
+        Basic Info
       </div>
+    </div>
+  
+    <div class="col-md-2">
+      <div class="registration-step registration-step-active">
+        <div class="number"><div class="circle">2</div></div>
+        Confirm Email
+      </div>
+    </div>
+  
+    <div class="col-md-2">
+      <div class="registration-step ">
+        <div class="number"><div class="circle">3</div></div>
+        About Me
+      </div>
+    </div>
+  
+    <div class="col-md-2">
+      <div class="registration-step ">
+        <div class="number"><div class="circle">4</div></div>
+        Cancer History
+      </div>
+    </div>
+  
+    <div class="col-md-2">
+      <div class="registration-step ">
+        <div class="number"><div class="circle">5</div></div>
+        Photo
+      </div>
+    </div>
+  
+    <div class="col-md-2">
+      <div class="registration-step ">
+        <div class="number"><div class="circle">6</div></div>
+        Browse Profiles
+      </div>
+    </div>
+  
+</div>
+
+    <div class="container-fluid"  width="100%">
+    <!-- div class="row">
+      <ul class="progressbar">
+        <li class="active"> Basic info </li>
+        <li>Confirm Email </li>
+        <li>About Me </li>
+        <li>Cancer History</li>
+        <li>Photo</li>
+        <li>Browse Profileo</li>
+      </ul>
+    </div -->
     <h2>Email Confirmation</h2>
     <hr>
     <p>An email confirmation has been sent to the address you've specified. Please follow the instructions there to continue the sign up process.</p>
+    </div>
   </body>
 </html>

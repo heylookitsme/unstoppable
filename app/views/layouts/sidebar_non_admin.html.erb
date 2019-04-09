@@ -6,6 +6,7 @@
   </head>
   <body>
    
+  <%= stylesheet_link_tag "registration" %>
   <%= stylesheet_link_tag "progressbar" %>
     <!-- %= render "header" % -->
 
@@ -29,29 +30,20 @@
             </div>
     </header>
 
-    <div class="container"  width="100%">
-      <div class="row">
-        <ul class="progressbar">
-          <li> Step 1 </li>
-          <li class="active"> Step 2 </li>
-          <li> Step 3 </li>
-        </ul>
-        </div>
-      </div>
 
    
       <div class="container-fluid">
       
         <div class="row">
-          <% if current_user && current_user.profile %> 
+          <% if current_user && current_user.profile && current_user.profile.moderated? %> 
             <div class="col-sm-3 col-md-2 sidebar" id="sidebar">
               <div class="list-group">
               <%= link_to "View Profile", profile_path(current_user.profile), :class => "list-group-item active" %>
                 <%= link_to "Edit Profile", edit_profile_path(current_user.profile), :class => "list-group-item active" %>
                 <!--%= link_to "View User", user_path(current_user), :class => "list-group-item active" %-->
-                <%= link_to "Upload Photo", attachment_photo_path(current_user), :class => "list-group-item active" %>
+                <%= link_to "Upload Photo", attachment_photo_path(:profile_id => current_user.profile), :class => "list-group-item active" %>
 
-                <%= link_to "Browse Profiles", profiles_path, :class => "list-group-item active"  %>
+                <%= link_to "Browse Profiles", profiles_path(:user_id => current_user.id), :class => "list-group-item active"  %>
               </div>
             </div><!--/.sidebar-offcanvas-->
           <% end %>
@@ -64,7 +56,7 @@
       <hr>
 
       <footer>
-        <p>&copy; 2Unstoppable 2018, Inc.</p>
+        <p>&copy; 2Unstoppable 2019, Inc.</p>
       </footer>
 
     </div><!--/.container-->

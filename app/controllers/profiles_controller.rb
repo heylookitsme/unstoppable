@@ -2,7 +2,7 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!
   layout "sidebar_non_admin"
 
-  before_action :set_profile, except: [:index, :search]
+  before_action :set_profile #, except: [:index, :search]
   #protect_from_forgery with: :null_session
 
   def index
@@ -16,6 +16,13 @@ class ProfilesController < ApplicationController
 
   
   def show
+  
+  end
+
+  def thank_you
+    Rails.logger.debug "Profile Controller: Thank you #{@profile.inspect}"
+    @user = current_user
+    render 'thank_you'
   
   end
 
@@ -81,7 +88,8 @@ class ProfilesController < ApplicationController
       :part_of_wellness_program,
       :which_wellness_program,
       {:exercise_reason_ids => []},
-      :avatar
+      :avatar,
+      :id
     )
   end
 
@@ -93,10 +101,20 @@ class ProfilesController < ApplicationController
     #  @user = User.find_by_id(params[:user_id])
    #   @profile = @user.profile
   #  else
-      @profile = Profile.find(params[:id])
-      #@user = @profile.user
+      unless params[:id].blank?
+        @profile = Profile.find(params[:id])
+        @user = @profile.user
+        set_current_user(@user)
+        Rails.logger.debug("SARADA = #{@profile.inspect}")
+      else
+        unless params[:user_id].blank?
+          @user = User.find(params[:user_id])
+          @profile = @user.profile
+          set_current_user(@user)
+        else
+        end
 
-      Rails.logger.debug("SARADA = #{@profile.inspect}")
+      end
    # end
   end
   

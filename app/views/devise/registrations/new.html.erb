@@ -1,4 +1,78 @@
+<%= stylesheet_link_tag "progressbar" %>
+<%= stylesheet_link_tag "registration" %>
 <h1><%= t('.sign_up') %></h1>
+<div class="container">
+      
+  <div class="row registration-steps row-no-padding">
+  
+    <div class="col-md-2">
+      <div class="registration-step registration-step-active">
+        <div class="number"><div class="circle">1</div></div>
+        Basic Info
+      </div>
+    </div>
+  
+    <div class="col-md-2">
+      <div class="registration-step ">
+        <div class="number"><div class="circle">2</div></div>
+        Confirm Email
+      </div>
+    </div>
+  
+    <div class="col-md-2">
+      <div class="registration-step ">
+        <div class="number"><div class="circle">3</div></div>
+        About Me
+      </div>
+    </div>
+  
+    <div class="col-md-2">
+      <div class="registration-step ">
+        <div class="number"><div class="circle">4</div></div>
+        Cancer History
+      </div>
+    </div>
+  
+    <div class="col-md-2">
+      <div class="registration-step ">
+        <div class="number"><div class="circle">5</div></div>
+        Photo
+      </div>
+    </div>
+  
+    <div class="col-md-2">
+      <div class="registration-step ">
+        <div class="number"><div class="circle">6</div></div>
+        Browse Profiles
+      </div>
+    </div>
+  
+</div>
+
+
+
+<div class="container-fluid"  width="100%">
+  <!-- div class="row">
+    <ul class="progressbar">
+      <li class="active"> Basic info </li>
+      <li class="li:after">Confirm Email </li>
+      <li>About Me </li>
+      <li>Cancer History</li>
+      <li>Photo</li>
+      <li>Browse Profileo</li>
+    </ul>
+  </div -->
+
+
+<!-- div class="container-fluid">
+  <br /><br />
+  <ul class="list-unstyled multi-steps">
+    <li>Start</li>
+    <li>First Step</li>
+    <li class="is-active">Middle Stage</li>
+    <li>Finish</li>
+  </ul>
+</div ---> 
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= bootstrap_devise_error_messages! %>
@@ -45,4 +119,5 @@
   </div>
 <% end %>
 
+</div>
 <%= render 'devise/shared/links' %>

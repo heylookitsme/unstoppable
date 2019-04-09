@@ -25,6 +25,7 @@ class User < ApplicationRecord
   def init_profile
     self.create_profile!
     self.profile.zipcode = self.zipcode
+    self.profile.step_status = "Basic Info"
     self.profile.save!
   end
 
@@ -41,7 +42,7 @@ class User < ApplicationRecord
     Rails.logger.debug "IN EMAIL_ACTOV=begin TE =end"
     self.email_confirmed = true
     self.confirm_token = nil
-    save!(:validate => false)
+    self.save!(:validate => false)
   end
 
   private

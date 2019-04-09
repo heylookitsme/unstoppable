@@ -8,14 +8,14 @@
   .progressbar li {
     list-style-type: none;
     float: left;
-    width: 33.33%;
+    width: 20.33%;
     position: relative;
     text-align: center;
   }
   .progressbar li:before {
     content: counter(step);
     counter-increment: step;
-    content: '1';
+    content: '';
     width: 30px;
     height: 30px;
     line-height: 30px;
@@ -43,6 +43,7 @@
   }
   .progressbar li.active:before {
     border-color: green;
+    content: '✔';
   }
   .progressbar li.active + li:after {
     background-color: green;

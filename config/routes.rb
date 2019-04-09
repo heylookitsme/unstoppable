@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   get 'profiles/update'
 
+  get 'profiles/thank_you'
+
   #get 'profile/show'
 
   #get 'profile/edit'
