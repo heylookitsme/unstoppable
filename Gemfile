@@ -36,8 +36,9 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'devise'
-gem 'bootstrap', '~> 4.1.1'
-#gem 'bootstrap-sass', '3.3.7'
+gem 'bootstrap' #, '~> 4.1.1'
+gem 'bootstrap-sass' #, '3.3.7'
+gem 'sprockets-rails'
 gem 'devise-bootstrap-views', '~> 1.0'
 gem 'paperclip'
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
