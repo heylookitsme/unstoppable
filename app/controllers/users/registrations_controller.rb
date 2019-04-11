@@ -13,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect.
 
   def sign_up_params
-    params.require(:user).permit(:email, :username, :password, :password_confirmation, :zipcode, :remember_me)
+    params.require(:user).permit(:email, :username, :password, :password_confirmation, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :remember_me)
  end
  protected
 
@@ -81,9 +81,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_up_params
-  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
-  # end
+   #def configure_sign_up_params
+   #  devise_parameter_sanitizer.permit(:sign_up, keys: [:dob])
+   #end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params

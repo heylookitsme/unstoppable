@@ -9,6 +9,7 @@ class User < ApplicationRecord
   attr_writer :login
 
   attr_accessor :zipcode
+  attribute :dob, :date
 
   after_create :init_profile
 
@@ -25,6 +26,8 @@ class User < ApplicationRecord
   def init_profile
     self.create_profile!
     self.profile.zipcode = self.zipcode
+    Rails.logger.debug "User DOB = #{self.dob.inspect}"
+    self.profile.dob = self.dob
     self.profile.step_status = "Basic Info"
     self.profile.save!
   end
