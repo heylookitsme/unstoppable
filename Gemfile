@@ -57,6 +57,7 @@ gem 'request_store'
 gem 'geokit-rails'
 gem 'mail', '~> 2.7'
 gem 'wicked'
+gem 'bootstrap-glyphicons'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

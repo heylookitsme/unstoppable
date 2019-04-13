@@ -1,7 +1,7 @@
-<%= stylesheet_link_tag "progressbar" %>
+
 <%= stylesheet_link_tag "registration" %>
 <h1><%= t('.sign_up') %></h1>
-      
+<div class="container">
   <div class="row registration-steps row-no-padding">
   
     <div class="col-md-2">
@@ -47,60 +47,89 @@
     </div>
 </div>
 
+<!-- div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" -->    
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= bootstrap_devise_error_messages! %>
-  <%= devise_error_messages! %>
+<div class="row">
+    <div class="col-md-8">
+      
+      <h2><em>Sign Up begins here</em></h2>
+      <h1>Basic Information</h1>
+      <hr>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= bootstrap_devise_error_messages! %>
+        <%= devise_error_messages! %>
 
-  <div class="form-group">
-    <%= f.label :username %>
-    <%= f.text_field :username, autofocus: true, autocomplete: 'username', class: 'form-control' %>
-  </div>
+        <div class="col-xs-6">
+          <%= f.label :username %>
+          <%= f.text_field :username, autofocus: true, autocomplete: 'username', class: 'form-control' %>
+        </div>
 
-  <div class="form-group">
-    <%= f.label :email %>
-    <p class="font-sm font-light"><em>Email address will not be seen by other users.</em></p>
-    <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control' %>
-  </div>
+        <div class="form-group">
+          <%= f.label :email %>
+          <p class="font-sm font-light"><em>Email address will not be seen by other users.</em></p>
+          <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control' %>
+        </div>
 
-  <div class="form-group">
-    <%= f.label :date_of_birth %>
-    <p class="font-sm font-light"><em>We don't display your full date of birth. We only use this to calculate and display your age to help find your exercise partner.</em></p>
-    <%= f.input :dob, label: false,
-    as: :date, start_year: Date.today.year - 90,
-    end_year: Date.today.year - 12, 
-    order: [:day, :month, :year] %>
-  </div>
+        <div class="form-group">
+          <%= f.label :date_of_birth %>
+          <p class="font-sm font-light"><em>We don't display your full date of birth. We only use this to calculate and display your age to help find your exercise partner.</em></p>
+          <%= f.input :dob, label: false,
+          as: :date, start_year: Date.today.year - 90,
+          end_year: Date.today.year - 12, 
+          order: [:day, :month, :year] %>
+        </div>
 
-  <div class="form-group">
-    <%= f.label :what_is_your_home_zipcode %>
-    <p class="font-sm font-light"><em>Zip code will be kept private, but will be used by our system to find exercise partners near you.</em></p>
-    <%= f.text_field :zipcode, autofocus: true, autocomplete: 'zipcode', class: 'form-control' %>
-  </div>
+        <div class="form-group">
+          <%= f.label :what_is_your_home_zipcode %>
+          <p class="font-sm font-light"><em>Zip code will be kept private, but will be used by our system to find exercise partners near you.</em></p>
+          <%= f.text_field :zipcode, autofocus: true, autocomplete: 'zipcode', class: 'form-control' %>
+        </div>
 
-  <div class="form-group">
-    <%= f.label :password %>
-    <%= f.password_field :password, autocomplete: 'current-password', class: 'form-control' %>
+        <div class="form-group">
+          <%= f.label :password %>
+          <%= f.password_field :password, autocomplete: 'current-password', class: 'form-control' %>
 
-    <% if @minimum_password_length %>
-      <small class="form-text text-muted"><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></small>
-    <% end %>
-  </div>
+          <% if @minimum_password_length %>
+            <small class="form-text text-muted"><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></small>
+          <% end %>
+        </div>
 
-  <div class="form-group">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, autocomplete: 'current-password', class: 'form-control' %>
-  </div>
+        <div class="form-group">
+          <%= f.label :password_confirmation %>
+          <%= f.password_field :password_confirmation, autocomplete: 'current-password', class: 'form-control' %>
+        </div>
 
-  <div class="field">
-    <%= flash[:recaptcha_error] %>
-    <%= recaptcha_tags site_key: '6Lfan4EUAAAAAEIZvubei6cd_iu65N39lwPo6NGH'
-     %>
-  </div>
+        <div class="field">
+          <%= flash[:recaptcha_error] %>
+          <%= recaptcha_tags site_key: '6Lfan4EUAAAAAEIZvubei6cd_iu65N39lwPo6NGH'
+          %>
+        </div>
 
-  <div class="form-group">
-    <%= f.submit "Next", class: 'btn btn-primary' %>
-  </div>
-<% end %>
+        <div class="form-group">
+          <%= f.submit "Next", class: 'btn btn-primary' %>
+        </div>
+      <% end %>
 
+    </div>
+  </div>  
+</div>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-52287007-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    <!-- load font awesome asynchronously -->
+    <script>
+    (function() {
+    var css = document.createElement('link');
+    css.href = '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css';
+    css.rel = 'stylesheet';
+    document.getElementsByTagName('head')[0].appendChild(css);
+    })();
+    </script>
 <!-- %= render 'devise/shared/links' % -->

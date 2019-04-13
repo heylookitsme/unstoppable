@@ -62,6 +62,9 @@ GEM
       autoprefixer-rails (>= 6.0.3)
       popper_js (>= 1.12.9, < 2)
       sass (>= 3.5.2)
+    bootstrap-glyphicons (0.0.1)
+      railties (>= 3.0)
+      sass (>= 3.2)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
@@ -106,6 +109,9 @@ GEM
       rails (>= 3.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    glyphicons-rails (0.1.2)
+      sass (~> 3.3)
+      sass-rails
     haml (5.0.4)
       temple (>= 0.8.0)
       tilt
@@ -293,6 +299,7 @@ DEPENDENCIES
   active_storage_drag_and_drop
   bootsnap
   bootstrap
+  bootstrap-glyphicons
   bootstrap-sass
   byebug
   carrierwave (~> 1.0)
@@ -302,6 +309,7 @@ DEPENDENCIES
   dotenv-rails
   geocoder
   geokit-rails
+  glyphicons-rails
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)

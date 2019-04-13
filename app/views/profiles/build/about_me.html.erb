@@ -1,4 +1,4 @@
-  <div class="container">
+ 
         
     <div class="row registration-steps row-no-padding">
     
@@ -45,87 +45,116 @@
       </div>
     
   </div>
-  <%= simple_form_for  @profile, :url => wizard_path, html: {multipart: true} do |f| %>
-
-    <% if @profile.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
-
-        <ul>
-        <% @profile.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-        </ul>
+  <p class="lead">Welcome back! In order to increase your chances of finding an exercise partner, we encourage you to fill out as much information as possible in the following steps.</p>
+  <div class="row registration">
+      <div class="col-md-8">
+        <h2>My Public Info - About Me &amp; Physical Activity History</h2>
       </div>
+      <div class="col-md-4 buttons">
+      
+        <!-- button type="submit" name="skip" class="btn btn-default btn-lg pull-right">Skip <span class="glyphicon glyphicon-chevron-right"></span></button --->
+        <!-- %= link_to 'skip', next_wizard_path, :class => "btn btn-primary" %-->
+        <!-- %= link_to 'Skip', next_wizard_path, :class => "btn btn-default btn-lg pull-right" do %---->
+        <!-- span class="glyphicon glyphicon-chevron-right"></span> My span&nbsp;</span>My data
+        <!--% end % -->
+        <%= link_to 'Skip >', next_wizard_path, :class => "btn btn-default btn-lg pull-right" %>
+      </div>
+     
+  </div>
+  <p class="font-sm font-light"><em><span class='font-purple'>This information will become part of your profile so that other members can learn more about you.</span></em></p>
+  <hr>
+  <div class="row">
+    <div class="col-md-8">
+      <%= simple_form_for  @profile, :url => wizard_path, html: {multipart: true} do |f| %>
+
+        <% if @profile.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+
+            <ul>
+            <% @profile.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <%= f.hidden_field :step_status, :value => "About Me" %>
+
+        <%= f.hidden_field :profile_id, :value => @profile.id %>
+
+        <div class="fieldWrapper">
+          <%= f.input :dob, label: "Date of Birth:",
+          as: :date, start_year: Date.today.year - 90,
+          end_year: Date.today.year - 12, 
+          order: [:day, :month, :year] %>
+        </div>
+
+        <div class="fieldWrapper">
+          <%= f.input :zipcode, label: "Zipcode:" %>
+        </div>
+
+        <div class="fieldWrapper">
+          <%= f.association :activities, as: :check_boxes,    label: "What are your favourite Activities?" %>
+        </div>
+
+        <div class="fieldWrapper">
+          <%= f.input :other_favorite_activities, label: "What are your other favorite activities?" %>
+        </div>
+
+        <div class="fieldWrapper">
+          <%= f.input :fitness_level, include_blank: "- Select one -", 
+              collection: Profile.fitness_level_descriptions, 
+              label: "How would you describe your current fitness level?"  %>
+        </div>
+
+        <div class="fieldWrapper">
+        <%= f.association :exercise_reasons, as: :check_boxes,    label: "Identify your top reasons for wanting to become more active:" %>
+
+        <div class="fieldWrapper">
+          <%= f.input :prefered_exercise_location, include_blank: "- Select one -", 
+              collection: Profile.prefered_exercise_location_descriptions, 
+              label: "Where do you prefer to be active?"  %>
+        </div>
+
+        <div class="fieldWrapper">
+          <%= f.input :prefered_exercise_time, include_blank: "- Select one -", 
+              collection: Profile.prefered_exercise_time_descriptions, 
+              label: "When do you prefer to be active?"  %>
+        </div>
+
+        <div class="fieldWrapper">
+          <%= f.input :reason_for_match, label: "What is the main reason you want to be matched with an exercise partner?" %>
+        </div>
+
+        <div class="fieldWrapper">
+          <%= f.input :personality, include_blank: "- Select one -", 
+            collection: Profile.personality_descriptions, 
+            label: "Which of the following best describes you?"  %>
+        </div>
+
+        <div class="fieldWrapper">
+          <%= f.input :work_status, include_blank: "- Select one -", 
+          collection: Profile.work_status_descriptions, 
+          label: "Which of the following best describes your work situation?"  %>
+        </div>
+
+        <div class="fieldWrapper">
+                <label for="id_self_description">About You. Tell us about yourself!</label>
+                <textarea name="self_description" class="form-control input-lg" id="id_self_description" rows="10" cols="40">
+    </textarea>
+                <div class="text-danger"></div>
+              </div>
+        </div>
+        <!-- div class="fieldWrapper">
+          <%= f.button :submit, "Save and Continue", :class => "btn btn-primary btn-lg"%>
+        </div -->
+
+        <button type="submit" name="next" class="btn btn-primary btn-lg">Save & Continue <span class="glyphicon glyphicon-chevron-right"></span></button>
+
     <% end %>
-
-    <%= f.hidden_field :step_status, :value => "About Me" %>
-
-    <%= f.hidden_field :profile_id, :value => @profile.id %>
-
-    <div class="col-xs-6">
-      <%= f.input :dob, label: "Date of Birth:",
-      as: :date, start_year: Date.today.year - 90,
-      end_year: Date.today.year - 12, 
-      order: [:day, :month, :year] %>
-    </div>
-
-    <div class="col-xs-6">
-      <%= f.input :zipcode, label: "Zipcode:" %>
-    </div>
-
-    <div class="form-group">
-      <%= f.association :activities, as: :check_boxes,    label: "What are your favourite Activities?" %>
-    </div>
-
-    <div class="col-xs-6">
-      <%= f.input :other_favorite_activities, label: "What are your other favorite activities?" %>
-    </div>
-
-    <div class="col-xs-6">
-      <%= f.input :fitness_level, include_blank: "- Select one -", 
-          collection: Profile.fitness_level_descriptions, 
-          label: "How would you describe your current fitness level?"  %>
-    </div>
-
-    <div class="form-group">
-    <%= f.association :exercise_reasons, as: :check_boxes,    label: "Identify your top reasons for wanting to become more active:" %>
-
-    <div class="col-xs-6">
-      <%= f.input :prefered_exercise_location, include_blank: "- Select one -", 
-          collection: Profile.prefered_exercise_location_descriptions, 
-          label: "Where do you prefer to be active?"  %>
-    </div>
-
-    <div class="col-xs-6">
-      <%= f.input :prefered_exercise_time, include_blank: "- Select one -", 
-          collection: Profile.prefered_exercise_time_descriptions, 
-          label: "When do you prefer to be active?"  %>
-    </div>
-
-    <div class="col-xs-6">
-      <%= f.input :reason_for_match, label: "What is the main reason you want to be matched with an exercise partner?" %>
-    </div>
-
-    <div class="col-xs-6">
-      <%= f.input :personality, include_blank: "- Select one -", 
-        collection: Profile.personality_descriptions, 
-        label: "Which of the following best describes you?"  %>
-    </div>
-
-    <div class="field">
-      <%= f.input :work_status, include_blank: "- Select one -", 
-      collection: Profile.work_status_descriptions, 
-      label: "Which of the following best describes your work situation?"  %>
-    </div>
-
-    <div class="actions">
-      <%= f.button :submit, "Save and Continue" %>
-    </div>
-
-    <%= link_to 'skip', next_wizard_path %>
-    
-<% end %>
+  </div>
+</div>
 
 
 
