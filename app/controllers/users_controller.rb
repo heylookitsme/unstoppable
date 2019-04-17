@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :authenticate_user!, :except => [:show, :confirm_email]
-  layout "sidebar"
+  #layout "sidebar"
 
   def index
     @users = User.all

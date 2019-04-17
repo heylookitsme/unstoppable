@@ -1,7 +1,7 @@
 class Profiles::BuildController < ApplicationController
   protect_from_forgery with: :exception
     include Wicked::Wizard
-    layout "sidebar"
+    #layout "sidebar"
     
     steps :about_me, :cancer_history
   

@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
-  layout "sidebar_non_admin"
+  #layout "sidebar_non_admin"
 
   before_action :set_profile #, except: [:index, :search]
   #protect_from_forgery with: :null_session

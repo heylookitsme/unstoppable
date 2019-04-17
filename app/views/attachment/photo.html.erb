@@ -4,54 +4,55 @@ $('#image_upload_id').on('change', function() {
 })
 </script>
 
-
-<div class="container">
-      
-  <div class="row registration-steps row-no-padding">
-  
-    <div class="col-md-2">
-      <div class="registration-step registration-step-complete">
-        <div class="number"><div class="circle">1</div></div>
-        Basic Info
+<% unless @profile.moderated %>
+  <div class="container">
+        
+    <div class="row registration-steps row-no-padding">
+    
+      <div class="col-md-2">
+        <div class="registration-step registration-step-complete">
+          <div class="number"><div class="circle">1</div></div>
+          Basic Info
+        </div>
       </div>
-    </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step registration-step-complete">
-        <div class="number"><div class="circle">2</div></div>
-        Confirm Email
+    
+      <div class="col-md-2">
+        <div class="registration-step registration-step-complete">
+          <div class="number"><div class="circle">2</div></div>
+          Confirm Email
+        </div>
       </div>
-    </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step registration-step-complete">
-        <div class="number"><div class="circle">3</div></div>
-        About Me
+    
+      <div class="col-md-2">
+        <div class="registration-step registration-step-complete">
+          <div class="number"><div class="circle">3</div></div>
+          About Me
+        </div>
       </div>
-    </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step registration-step-complete">
-        <div class="number"><div class="circle">4</div></div>
-        Cancer History
+    
+      <div class="col-md-2">
+        <div class="registration-step registration-step-complete">
+          <div class="number"><div class="circle">4</div></div>
+          Cancer History
+        </div>
       </div>
-    </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step registration-step-active">
-        <div class="number"><div class="circle">5</div></div>
-        Photo
+    
+      <div class="col-md-2">
+        <div class="registration-step registration-step-active">
+          <div class="number"><div class="circle">5</div></div>
+          Photo
+        </div>
       </div>
-    </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step ">
-        <div class="number"><div class="circle">6</div></div>
-        Browse Profiles
+    
+      <div class="col-md-2">
+        <div class="registration-step ">
+          <div class="number"><div class="circle">6</div></div>
+          Browse Profiles
+        </div>
       </div>
-    </div>
-  
-</div>
+    
+  </div>
+<% end %>  
 
 <div class="container">
 <p class="font-sm font-light"><em><span class='font-purple'>Including a photo will help other members feel more comfortable.</span></em></p>

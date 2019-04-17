@@ -19,53 +19,7 @@
     <body>
     
     
-    <div class="navbar navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="https://2unstoppable.org/"><%= image_tag "2unstoppable.png" %></a>     
-        </div>
-        
-        <div class="collapse navbar-collapse navbar-right">
-          <ul class="nav navbar-nav">
-              <li><a href="/accounts/login/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-              <li><a href="/profiles/register/"><span class="glyphicon glyphicon-pencil"></span> Sign Up</a></li>
-              <li><a href="https://2unstoppable.org/faq/"><span class="glyphicon glyphicon-question-sign"></span> FAQ</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-   
-      <div class="container">
-      
-        <div class="row">
-      
-       
-          <!-- div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" -->      
-            <%= yield %>
-          <!-- /div -->
-      </div>
-
-      
-
-      <footer>
-          <hr>
-          <p>
-            <a href="https://2unstoppable.org/faq/">Frequently Asked Questions</a> &bull;
-            <a href="/2unstoppable_terms/">Terms of Use</a>&nbsp;
-          </p>
-      </footer>
-
-
-    </div><!--/.container-->
     
-   
   </body>
 </html>
 <script src="https://cdn.jsdelivr.net/jquery/1.12.3/jquery.min.js"></script>

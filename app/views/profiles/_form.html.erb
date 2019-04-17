@@ -1,6 +1,6 @@
 
 <div class="container">
-  <section class="wrapper">
+  
   <div class="row">
     <% if URI(request.referer || '').path == '/users/sign_up' %>
       <h4>You are now signed up - please complete some profile information about yourself.</h4>
@@ -8,7 +8,8 @@
   </div>
  
   <%= simple_form_for  @profile, :url => profile_path, html: {multipart: true} do |f| %>
-
+    <%= stylesheet_link_tag "application" %>
+    <%= stylesheet_link_tag "registration" %>
     <% if @profile.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
@@ -20,96 +21,100 @@
         </ul>
       </div>
     <% end %>
-
-    <div class="col-xs-6">
+    <div class="fieldWrapper">
       <%= f.input :dob, label: "Date of Birth:",
       as: :date, start_year: Date.today.year - 90,
       end_year: Date.today.year - 12, 
       order: [:day, :month, :year] %>
     </div>
 
-    <div class="col-xs-6">
+    <div class="fieldWrapper">
       <%= f.input :zipcode, label: "Zipcode:" %>
     </div>
 
-    <div class="form-group">
+    <div class="fieldWrapper">
       <%= f.association :activities, as: :check_boxes,    label: "What are your favourite Activities?" %>
     </div>
 
-    <div class="col-xs-6">
+    <div class="fieldWrapper">
       <%= f.input :other_favorite_activities, label: "What are your other favorite activities?" %>
     </div>
 
-    <div class="col-xs-6">
+    <div class="fieldWrapper">
       <%= f.input :fitness_level, include_blank: "- Select one -", 
           collection: Profile.fitness_level_descriptions, 
           label: "How would you describe your current fitness level?"  %>
     </div>
 
-    <div class="form-group">
+    <div class="fieldWrapper">
     <%= f.association :exercise_reasons, as: :check_boxes,    label: "Identify your top reasons for wanting to become more active:" %>
 
-    <div class="col-xs-6">
+    <div class="fieldWrapper">
       <%= f.input :prefered_exercise_location, include_blank: "- Select one -", 
           collection: Profile.prefered_exercise_location_descriptions, 
           label: "Where do you prefer to be active?"  %>
     </div>
 
-    <div class="col-xs-6">
+    <div class="fieldWrapper">
       <%= f.input :prefered_exercise_time, include_blank: "- Select one -", 
           collection: Profile.prefered_exercise_time_descriptions, 
           label: "When do you prefer to be active?"  %>
     </div>
 
-    <div class="col-xs-6">
+    <div class="fieldWrapper">
       <%= f.input :reason_for_match, label: "What is the main reason you want to be matched with an exercise partner?" %>
     </div>
 
-    <div class="col-xs-6">
+    <div class="fieldWrapper">
       <%= f.input :personality, include_blank: "- Select one -", 
         collection: Profile.personality_descriptions, 
         label: "Which of the following best describes you?"  %>
     </div>
 
-    <div class="field">
+    <div class="fieldWrapper">
       <%= f.input :work_status, include_blank: "- Select one -", 
       collection: Profile.work_status_descriptions, 
       label: "Which of the following best describes your work situation?"  %>
     </div>
 
-    <div class="col-xs-6">
-      <%= f.input :details_about_self , as: :text,label: "About You. Tell us about yourself!" %>
-    </div>
-
-    <div class="col-xs-6">
-      <%= f.input :cancer_location, include_blank: "- Select one -", 
-        collection: Profile.cancer_locations_list, 
-        label: "Cancer Location"  %>
-    </div>
-
-    <div class="col-xs-6">
-      <%= f.input :other_cancer_location , label: "Other cancer location:" %>
+    <div class="fieldWrapper">
+            <label for="id_self_description">About You. Tell us about yourself!</label>
+            <textarea name="self_description" class="form-control input-lg" id="id_self_description" rows="10" cols="40">
+            </textarea>
+            <div class="text-danger"></div>
+          </div>
     </div>
 
 
-    <div class="field">
-      <%= f.input :treatment_status, include_blank: "- Select one -", 
-        collection: Profile.treatment_status_descriptions, 
-        label: "Which of the following best describes you?"  %>
-    </div>
+    <div class="fieldWrapper">
+        <%= f.input :cancer_location, include_blank: "- Select one -", 
+          collection: Profile.cancer_locations_list, 
+          label: "Cancer Location"  %>
+      </div>
 
-    <div class="col-xs-6">
-      <%= f.input :treatment_description, label: "Please briefly describe your cancer treatments:" %>
-    </div>
+      <div class="fieldWrapper">
+        <%= f.input :other_cancer_location , label: "Other cancer location:" %>
+      </div>
 
-    <div class="col-xs-6">
 
-      <%= f.input :part_of_wellness_program, label: "If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax):", as: :radio_buttons %>
-    </div>
+      <div class="fieldWrapper">
+        <%= f.input :treatment_status, include_blank: "- Select one -", 
+          collection: Profile.treatment_status_descriptions, 
+          label: "Which of the following best describes you?"  %>
+      </div>
 
-    <div class="col-xs-6">
-      <%= f.input :which_wellness_program, label: "Please briefly describe your cancer treatments:",  as: :text %>
-    </div>
+      <div class="fieldWrapper">
+        <%= f.input :treatment_description, label: "Please briefly describe your cancer treatments:" %>
+      </div>
+
+      <div class="fieldWrapper">
+
+        <%= f.input :part_of_wellness_program, label: "If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax):", as: :radio_buttons %>
+      </div>
+
+      <div class="fieldWrapper">
+        <%= f.input :which_wellness_program, label: "Please briefly describe your cancer treatments:",  as: :text %>
+      </div>
 
     <div class="actions">
       <%= f.submit %>

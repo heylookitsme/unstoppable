@@ -59,16 +59,26 @@
         <%= bootstrap_devise_error_messages! %>
         <%= devise_error_messages! %>
 
-        <div class="col-xs-6">
+        <div class="form-group>
           <%= f.label :username %>
-          <%= f.text_field :username, autofocus: true, autocomplete: 'username', class: 'form-control' %>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"> <span class="glyphicon glyphicon-user"  id="basic-addon1"></span></span>
+            </div>
+            <input placeholder="Username" class="form-control input-lg" maxlength="254" size="254" type="text" value="" name="user[username]" id="user_username" aria-label="Username" aria-describedby="basic-addon1" />
+          </div>
         </div>
 
         <div class="form-group">
-          <%= f.label :email %>
-          <p class="font-sm font-light"><em>Email address will not be seen by other users.</em></p>
-          <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control' %>
+        <%= f.label :email %>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon13"> <span class="glyphicon glyphicon-envelope"  id="basic-addon13"></span></span>
+          </div>
+          <input autofocus="autofocus" autocomplete="email" class="form-control" type="email" value="" name="user[email]" id="user_email" aria-label="Email" aria-describedby="basic-addon13" />
         </div>
+      </div>
+
 
         <div class="form-group">
           <%= f.label :date_of_birth %>
@@ -86,17 +96,27 @@
         </div>
 
         <div class="form-group">
-          <%= f.label :password %>
-          <%= f.password_field :password, autocomplete: 'current-password', class: 'form-control' %>
-
+        <%= f.label :password %>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon12"> <span class="glyphicon glyphicon-lock"  id="basic-addon12"></span></span>
+            </div>
+            <input autocomplete="current-password" placeholder="Password" class="form-control input-lg" type="password" name="user[password]" id="user_password" aria-label="Password " aria-describedby="basic-addon12"/>
+          </div>
           <% if @minimum_password_length %>
             <small class="form-text text-muted"><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></small>
           <% end %>
-        </div>
+      </div>
+
 
         <div class="form-group">
           <%= f.label :password_confirmation %>
-          <%= f.password_field :password_confirmation, autocomplete: 'current-password', class: 'form-control' %>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon14"> <span class="glyphicon glyphicon-lock"  id="basic-addon14"></span></span>
+            </div>
+            <input autocomplete="current-password" placeholder="Password" class="form-control input-lg" type="password" name="user[password_confirmation]" id="user_password_confirmation" aria-label="Password " aria-describedby="basic-addon14"/>
+          </div>
         </div>
 
         <div class="field">
