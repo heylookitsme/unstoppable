@@ -1,3 +1,26 @@
+.has-signup-error{
+  .signup-error{
+    background: transparent;
+    color: #d9534f;
+    border: none;
+  }
+
+  input, select{
+    background-color: transparent;
+    border-color: #d9534f;
+    color: #000;
+    font-weight: 500;
+  }
+
+  &.checkbox{
+    label{
+      &:before{
+        background-color: #fd7e14 ;
+        border-color: #d9534f;
+      }
+    }
+  }
+}
 .registration h1 {
   margin-top: 0;
 }

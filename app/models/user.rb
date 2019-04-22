@@ -1,7 +1,10 @@
 class User < ApplicationRecord
   has_one :profile, :dependent => :destroy
-  validates :username, presence: :true, uniqueness: { case_sensitive: false }
+  validates :username, presence: :true, uniqueness: { case_sensitive: false } #, message: "Please enter the Username"
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
+  validate :dob_minimum
+  validates :zipcode, presence: :true
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -15,6 +18,8 @@ class User < ApplicationRecord
 
   before_create :confirmation_token
 
+  
+
   def self.current
     RequestStore.store[:current_user]
   end
@@ -24,7 +29,7 @@ class User < ApplicationRecord
   end
 
   def init_profile
-    self.create_profile!
+    self.create_profile
     self.profile.zipcode = self.zipcode
     Rails.logger.debug "User DOB = #{self.dob.inspect}"
     self.profile.dob = self.dob
@@ -53,5 +58,16 @@ class User < ApplicationRecord
         if self.confirm_token.blank?
             self.confirm_token = SecureRandom.urlsafe_base64.to_s
         end
-      end        
+  end
+  
+  def dob_minimum
+    if dob.blank?
+      errors.add(:dob, 'Please Add your Date of Birth')
+    else
+      x = ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
+    end
+    if x < 18
+        errors.add(:dob, 'You should be over 18 years old.')
+    end
+  end
 end

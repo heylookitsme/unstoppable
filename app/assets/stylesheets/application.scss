@@ -13,12 +13,8 @@
  *
  *= require direct_uploads
  *= require active_storage_drag_and_drop
+ *= require custom
  */
  @import "bootstrap";
  @import 'bootstrap/glyphicons';
- //ody {
- // padding-top: 90px;
-//}
-
-
-
+ @import 'custom'
