@@ -58,6 +58,9 @@ gem 'geokit-rails'
 gem 'mail', '~> 2.7'
 gem 'wicked'
 gem 'bootstrap-glyphicons'
+gem 'validates_zipcode'
+gem 'countries', :require => 'countries/global'
+gem 'zip-codes'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

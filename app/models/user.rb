@@ -3,7 +3,11 @@ class User < ApplicationRecord
   validates :username, presence: :true, uniqueness: { case_sensitive: false } #, message: "Please enter the Username"
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
   validate :dob_minimum
-  validates :zipcode, presence: :true
+  #validates :zipcode, presence: :true
+  validate :check_zipcode
+  #validates_zipcode :zipcode
+  #validates :zipcode, zipcode: { country_code: :us }
+  validates :zipcode, zipcode: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -12,13 +16,19 @@ class User < ApplicationRecord
   attr_writer :login
 
   attr_accessor :zipcode
+  attr_accessor :country_alpha2
   attribute :dob, :date
 
   after_create :init_profile
 
   before_create :confirmation_token
 
-  
+  before_validation :set_country_alpha2
+
+  def set_country_alpha2
+    country_iso = ISO3166::Country.find_country_by_name("united states")
+    self.country_alpha2 = country_iso.alpha2.downcase
+  end
 
   def self.current
     RequestStore.store[:current_user]
@@ -68,6 +78,13 @@ class User < ApplicationRecord
     end
     if x < 18
         errors.add(:dob, 'You should be over 18 years old.')
+    end
+  end
+
+  def check_zipcode
+    zipcode_details = ZipCodes.identify(self.zipcode)
+    if zipcode_details.nil?
+      errors.add(:zipcode, 'This is not a valid US zipcode')
     end
   end
 end
