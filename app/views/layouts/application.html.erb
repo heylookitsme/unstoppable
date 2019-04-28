@@ -39,10 +39,12 @@
               <a class="nav-link" href="#">Link</a>
           </li -->
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li> <%= link_to('Logout',         destroy_user_session_path, :class => "btn", method: :delete) %></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      </ul>
+      <% if current_user && current_user.profile && current_user.profile.moderated? %> 
+        <ul class="nav navbar-nav navbar-right">
+          <li> <%= link_to('Logout',         destroy_user_session_path, :class => "btn", method: :delete) %></li>
+          <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          </ul>
+      <% end %>
   </nav>
       </div>
     </header>
