@@ -50,16 +50,17 @@
       <div class="col-md-8">
         <h2>My Public Info - About Me &amp; Physical Activity History</h2>
       </div>
-      <div class="col-md-4 buttons">
+      <div class="col-md-2 buttons">
+      </div>
+      <div class="col-md-2 buttons">
       
         <!-- button type="submit" name="skip" class="btn btn-default btn-lg pull-right">Skip <span class="glyphicon glyphicon-chevron-right"></span></button --->
-        <!-- %= link_to 'skip', next_wizard_path, :class => "btn btn-primary" %-->
+        <%= link_to 'Skip >', next_wizard_path, :class => "btn btn-primary btn-lg pull-right" %>
         <!-- %= link_to 'Skip', next_wizard_path, :class => "btn btn-default btn-lg pull-right" do %---->
         <!-- span class="glyphicon glyphicon-chevron-right"></span> My span&nbsp;</span>My data
         <!--% end % -->
-        <%= link_to 'Skip >', next_wizard_path, :class => "btn btn-default btn-lg pull-right" %>
+        <!-- %= link_to 'Skip >', next_wizard_path, :class => "btn btn-default btn-lg pull-right" %-->
       </div>
-     
   </div>
   <p class="font-sm font-light"><em><span class='font-purple'>This information will become part of your profile so that other members can learn more about you.</span></em></p>
   <hr>
@@ -99,7 +100,7 @@
         </div>
 
         <div class="fieldWrapper">
-          <%= f.input :other_favorite_activities, label: "What are your other favorite activities?" %>
+          <%= f.input :other_favorite_activities, label: "Do you have any other favorite activities?" %>
         </div>
 
         <div class="fieldWrapper">
@@ -156,6 +157,3 @@
   </div>
 </div>
 </div>
-
-
-
