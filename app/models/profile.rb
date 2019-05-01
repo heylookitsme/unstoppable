@@ -2,6 +2,9 @@ class Profile < ApplicationRecord
   belongs_to :user
   validates_uniqueness_of :user_id, :message => "User can only have one Profile"
   validates :user_id, presence: true
+  validates :dob, :presence => true
+  validate :check_referred_by
+  validate :validate_age
   has_and_belongs_to_many :activities
   has_and_belongs_to_many :exercise_reasons
   has_one_attached :avatar
@@ -181,6 +184,34 @@ class Profile < ApplicationRecord
     'Currently working part time',
     'Currently not working'
     ]
+  end
+
+  def self.referred_by
+    [ 'Facebook/social media',
+      'News media',
+      'Word of mouth',
+      'Web search',
+      'Event/conference/symposium',
+      'Cancer support organization',
+      'From my provider (physician, nurse, nutritionist)',
+      'Other'
+    ]
+  end
+
+  def validate_age
+    if age.to_i < 18
+        errors.add(:dob, 'You should be over 18 years old.')
+    end
+  end
+
+  def check_referred_by
+    unless self.step_status.blank?
+      if self.step_status != "Basic Info" &&  self.step_status != "Confirmed Email" && self.step_status != "About Me"
+        if self.referred_by.blank?
+          errors.add(:referred_by, ', Please select one of the options in How did you learn from us')
+        end
+      end
+    end
   end
 
   #has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => #"/images/:style/missing.png"

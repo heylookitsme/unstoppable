@@ -89,6 +89,7 @@ class ProfilesController < ApplicationController
       :which_wellness_program,
       {:exercise_reason_ids => []},
       :avatar,
+      :referred_by,
       :id
     )
   end

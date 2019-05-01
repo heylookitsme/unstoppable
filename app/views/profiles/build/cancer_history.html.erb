@@ -63,25 +63,21 @@
   <div class="row">
     <div class="col-md-8">    
       <%= simple_form_for  @profile, :url => wizard_path, html: {multipart: true} do |f| %>
+        <!-- %= f.error_message_for(:referred_by) % -->
 
         <%= f.hidden_field :step_status, :value => "Cancer Me" %>
 
         <%= f.hidden_field :profile_id, :value => @profile.id %>
-
-        <div class="fieldWrapper">
-          <%= f.input :details_about_self , as: :text,label: "About You. Tell us about yourself!" %>
-        </div>
-
+        
         <div class="fieldWrapper">
           <%= f.input :cancer_location, include_blank: "- Select one -", 
             collection: Profile.cancer_locations_list, 
-            label: "Cancer Location"  %>
+            label: "What was your primary cancer diagnosis? (if other, fill in below):"  %>
         </div>
 
         <div class="fieldWrapper">
           <%= f.input :other_cancer_location , label: "Other cancer location:" %>
         </div>
-
 
         <div class="fieldWrapper">
           <%= f.input :treatment_status, include_blank: "- Select one -", 
@@ -90,18 +86,21 @@
         </div>
 
         <div class="fieldWrapper">
-          <%= f.input :treatment_description, label: "Please briefly describe your cancer treatments:" %>
+          <%= f.input :treatment_description, label: "Please briefly describe your cancer treatments:",  as: :text %>
         </div>
 
         <div class="fieldWrapper">
-
-          <%= f.input :part_of_wellness_program, label: "If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax):", as: :radio_buttons %>
+          <%= f.input :part_of_wellness_program, label: "Have you ever been part of a support group or wellness program following your cancer diagnosis?", as: :radio_buttons %>
         </div>
 
         <div class="fieldWrapper">
-          <%= f.input :which_wellness_program, label: "Please briefly describe your cancer treatments:",  as: :text %>
+          <%= f.input :which_wellness_program, label: "If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax):" %>
         </div>
 
+        <div class="fieldWrapper">
+          <%= f.input :referred_by, as: :radio_buttons, collection: Profile.referred_by, required: true, label: 'How did you learn about us?' %>
+          <!-- %= f.error_message_for(:referred_by) % -->
+        </div>
         <!-- div class="actions">
           <%= f.submit %>
         </div -->

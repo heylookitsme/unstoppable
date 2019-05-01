@@ -53,7 +53,8 @@ class Profiles::BuildController < ApplicationController
         :step_status,
         :which_wellness_program,
         {:exercise_reason_ids => []},
-        :avatar
+        :avatar,
+        :referred_by
       )
     end
   end
