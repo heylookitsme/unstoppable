@@ -26,11 +26,16 @@ ExerciseReason.find_or_create_by!(name: 'Physical Health')
 ExerciseReason.find_or_create_by!(name: 'Sense of Accomplishment')
 ExerciseReason.find_or_create_by!(name: 'Other  - Describe in About You question below')
 
-user = User.new(username:"admin", email:"test@test.com", password: 'dash123', admin: true)
-#user.skip_confirmation!
+user = User.create(username:"admin", email:"test@test.com", password: 'dash123', admin: true, dob: "01-01-1985", zipcode: "20854")
+user.profile.cancer_location="Lung"
+user.profile.details_about_self="I may have some thyroid nodules"
+user.profile.other_cancer_location="Bladder"
 user.save!
-u=User.new(username:"dash", email:"dashcute@x.com", password: 'dash123')
+
+
+#u=User.new(username:"dash", email:"dashcute@x.com", password: 'dash123')
 #u.skip_confirmation!
+=begin
 u.save!
 u.profile.zipcode="20854"
 u.profile.dob="1944-01-17"
@@ -38,6 +43,7 @@ u.profile.cancer_location="Lung"
 u.profile.details_about_self="I may have some thyroid nodules"
 u.profile.other_cancer_location="Bladder"
 u.profile.save!
+#end
 
 =begin
 u=User.create(username:"dash1", email:"dashsweet@x.com", password: 'dash123')
@@ -45,7 +51,7 @@ u.skip_confirmation!
 u.save!
 u.profile.zipcode="20850"
 u.profile.dob="1984-01-17"
-u.profile.cancer_location="Lung"
+u.profile.cancer_location="Lung"#
 u.profile.details_about_self="I may have some nodules in the throat"
 u.profile.other_cancer_location="Spleen"
 u.profile.save!

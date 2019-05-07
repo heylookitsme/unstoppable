@@ -71,13 +71,16 @@ class User < ApplicationRecord
   end
   
   def dob_minimum
+    age = 0
     if dob.blank?
       errors.add(:dob, 'Please Add your Date of Birth')
     else
-      x = ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
+      Rails.logger.debug "Before dob = #{dob.inspect}"
+      age = ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
+      Rails.logger.debug "after x = #{age.inspect}"
     end
-    if x < 18
-        errors.add(:dob, 'You should be over 18 years old.')
+    if age < 18
+      errors.add(:age, 'You should be over 18 years old.')
     end
   end
 
