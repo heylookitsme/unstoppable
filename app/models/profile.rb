@@ -11,6 +11,8 @@ class Profile < ApplicationRecord
   #attr_accessor :age
   attribute :age
   attribute :distance, default: 0
+  # Attribute for determining if approved email needs to be sent
+  attribute :send_approved_email, :default => false
 
 =begin
   acts_as_mappable :default_units => :miles,
@@ -24,6 +26,8 @@ class Profile < ApplicationRecord
   #after_validation :geocode
   after_validation :geocode, :if => :zipcode_changed?
   before_save :compute_latlong
+  before_save :check_send_approved_email
+  after_save :send_email
 
   searchable do
     text :details_about_self
@@ -42,7 +46,20 @@ class Profile < ApplicationRecord
   def address
     self.zipcode
   end
+
+  def check_send_approved_email
+    if self.moderated_changed?
+      self.send_approved_email = true
+    end
+  end
  
+  def send_email
+    # Send email here
+    if send_approved_email && self.moderated
+      UserMailer.approval(self.user).deliver
+    end
+  end
+
   def distance
     d=0
     unless self.user.admin?

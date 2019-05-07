@@ -9,4 +9,8 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(:to => "#{user.username} <#{user.email}>", :subject => "Registration Confirmation")
   end
+
+  def approval(user)
+    mail(:to => "#{user.username} <#{user.email}>", :subject => "Your 2Unstoppable Profile Has Been Approved")
+  end
 end

@@ -26,6 +26,10 @@ class ProfilesController < ApplicationController
   
   end
 
+  def approval
+    UserMailer.registration_confirmation(resource).deliver
+  end
+  
   def edit
    
   end
