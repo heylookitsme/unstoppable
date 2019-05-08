@@ -1,8 +1,9 @@
 class AttachmentController < ApplicationController
-  before_action :authenticate_user!
+  before_action :set_user 
+  #before_action :authenticate_user! 
 
   #layout "sidebar_non_admin"
-  before_action :set_user 
+  
 
   def photo
     Rails.logger.debug("attchment controller photo action params = #{params.inspect}")
@@ -61,7 +62,9 @@ class AttachmentController < ApplicationController
     unless params["profile_id"].blank?
       # The action has been called by the wizard 
       @profile = Profile.find_by_id(params["profile_id"])
+      Rails.logger.debug("In Profile Controller @profile = #{@profile.inspect}")
       @user = @profile.user
+      Rails.logger.debug("In Profile Controller @user = #{@user.inspect}")
       set_current_user(@user)
     else
       @profile = Profile.find_by_id(params["id"])
