@@ -5,12 +5,20 @@ class ProfilesController < ApplicationController
   before_action :set_profile #, except: [:index, :search]
   #protect_from_forgery with: :null_session
 
+
   def index
     Rails.logger.debug "Profile Controller: index #{User.current.inspect}"
     unless current_user.blank?
-      @profiles = Profile.get_list(User.current)
+      if current_user.profile.moderated?
+        @profiles = Profile.get_list(User.current)
+      elsif current_user.profile.wizard_complete_thankyou_sent 
+        render 'thank_you'
+      else
+        redirect_to destroy_user_session_path and return
+      end
     else
-      @profiles = Profile.all.select{|x| !x.user.admin?}
+      Rails.logger.debug "Redirection to SIGNOUT"
+      redirect_to destroy_user_session_path and return
     end
   end
 
@@ -22,6 +30,8 @@ class ProfilesController < ApplicationController
   def thank_you
     Rails.logger.debug "Profile Controller: Thank you #{@profile.inspect}"
     @user = current_user
+    @profile.wizard_complete_thankyou_sent = true
+    @profile.save!
     render 'thank_you'
   
   end
@@ -29,7 +39,7 @@ class ProfilesController < ApplicationController
   def approval
     UserMailer.registration_confirmation(resource).deliver
   end
-  
+
   def edit
    
   end
@@ -101,26 +111,25 @@ class ProfilesController < ApplicationController
   def set_profile
     Rails.logger.debug("IN SET_USER")
     Rails.logger.debug("params = #{params.inspect}")
-   # unless params[:user_id].nil?
-      # Editing the profile from the user screens
-    #  @user = User.find_by_id(params[:user_id])
-   #   @profile = @user.profile
-  #  else
-      unless params[:id].blank?
-        @profile = Profile.find(params[:id])
-        @user = @profile.user
+    unless params[:id].blank?
+      @profile = Profile.find(params[:id])
+      @user = @profile.user
+      set_current_user(@user)
+      Rails.logger.debug("SARADA = #{@profile.inspect}")
+    else
+      unless params[:user_id].blank?
+        @user = User.find(params[:user_id])
+        @profile = @user.profile
         set_current_user(@user)
-        Rails.logger.debug("SARADA = #{@profile.inspect}")
       else
-        unless params[:user_id].blank?
-          @user = User.find(params[:user_id])
-          @profile = @user.profile
-          set_current_user(@user)
+        if(current_user.blank?)
+          redirect_to destroy_user_session_path and return
         else
+          @user = current_user
+          set_current_user(@user)
         end
-
       end
-   # end
+    end
   end
   
 end

@@ -41,7 +41,7 @@ class User < ApplicationRecord
   def init_profile
     self.create_profile
     self.profile.zipcode = self.zipcode
-    Rails.logger.debug "User DOB = #{self.dob.inspect}"
+    #Rails.logger.debug "User DOB = #{self.dob.inspect}"
     self.profile.dob = self.dob
     self.profile.step_status = "Basic Info"
     self.profile.save!
@@ -75,9 +75,9 @@ class User < ApplicationRecord
     if dob.blank?
       errors.add(:dob, 'Please Add your Date of Birth')
     else
-      Rails.logger.debug "Before dob = #{dob.inspect}"
+      #Rails.logger.debug "Before dob = #{dob.inspect}"
       age = ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
-      Rails.logger.debug "after x = #{age.inspect}"
+      #Rails.logger.debug "after age = #{age.inspect}"
     end
     if age < 18
       errors.add(:age, 'You should be over 18 years old.')
