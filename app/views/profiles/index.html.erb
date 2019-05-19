@@ -43,5 +43,111 @@
         </tr>
       <% end %>
     <% end %>
+
+    <!---  -->
+    <div class="container">
+        <div class="row">
+          <div class="col-md-8">            
+                <p class="lead">Here’s a display of all profiles.  Feel free to browse this list or use the filters to narrow your display.</p>
+                <div class="clearfix">
+                    <% @profiles.each do |profile| %>
+                      <div class="bordered-container profile-image-container text-center">
+                        <% if profile.avatar.attached? %>
+                          <%= image_tag profile.avatar.variant(resize: "160x200"), :class => "profile-image-small"%>
+                        <% else %>
+                           <%= image_tag("profile-default.png", :class => "profile-image-small", :size => "60x112") %>
+                        <% end %>
+                        <br><%= link_to profile.user.username, profile_path(profile), class: 'btn btn-default'%><br>
+                        
+                        
+                        <em class="font-sm"><b>Age:</b> <%= profile.age %>, <b>Distance:</b> <%= profile.distance %> miles</em>
+                      </div>
+                    <% end %>
+                </div>
+            
+          </div>
+          <div class="col-md-4">
+            <h3>Filter results:</h3>
+            <form method="post" class="search-form">
+              <input type='hidden' name='csrfmiddlewaretoken' value='e0QE4q8apTAG5FN0fjHh2C1sqslOGut4wdvfOWiciF0xka7f7lpmHS3G6dBkuNqo' />
+              <p><label for="id_age_min">Age between:</label> <input type="text" name="age_min" value="1" class="form-control input-lg" id="id_age_min" size="3" /></p>
+        <p><label for="id_age_max">and:</label> <input type="text" name="age_max" value="120" class="form-control input-lg" id="id_age_max" size="3" /></p>
+        <p><label for="id_distance">Distance:</label> <select name="distance" class="form-control input-lg" id="id_distance">
+          <option value="anywhere" selected>Any distance</option>
+
+          <option value="9">5 miles</option>
+
+          <option value="17">10 miles</option>
+
+          <option value="25">15 miles</option>
+
+        </select></p>
+        <p><label for="id_cancer_location">Type of Cancer:</label> <select name="cancer_location" class="form-control input-lg" id="id_cancer_location">
+          <option value="any_location" selected>Any type</option>
+
+          <option value="1">Bladder</option>
+
+          <option value="2">Brain</option>
+
+          <option value="3">Breast</option>
+
+          <option value="4">Bone</option>
+
+          <option value="5">Cervical</option>
+
+          <option value="6">Colorectal</option>
+
+          <option value="7">Esophageal</option>
+
+          <option value="8">Gall bladder</option>
+
+          <option value="9">Gastric</option>
+
+          <option value="10">Head and neck</option>
+
+          <option value="11">Kidney</option>
+
+          <option value="12">Lymphoma</option>
+
+          <option value="13">Leukemia</option>
+
+          <option value="14">Liver</option>
+
+          <option value="15">Lung</option>
+
+          <option value="16">Melanoma</option>
+
+          <option value="17">Multiple myeloma</option>
+
+          <option value="18">Ovarian</option>
+
+          <option value="19">Pancreatic</option>
+
+          <option value="20">Sarcoma</option>
+
+          <option value="21">Thyroid</option>
+
+          <option value="22">Other</option>
+
+        </select></p>
+              <button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Search</button>
+            </form>
+          </div>
+        </div>
+
+
+      
+        <footer>
+          <hr>
+          <p>
+            <a href="https://2unstoppable.org/faq/">Frequently Asked Questions</a> &bull;
+            <a href="/2unstoppable_terms/">Terms of Use</a>
+          </p>
+        </footer>
+      
+    </div>
+
+<!--- -->
+    
   </tbody>
 </table>
