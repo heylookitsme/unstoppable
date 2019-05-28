@@ -57,6 +57,8 @@ Rails.application.routes.draw do
     member do
       get :confirm_email
       get :email_confirmation
+      post 'save_like'
+      post 'save_unlike'
     end
   end
 

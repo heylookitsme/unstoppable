@@ -7,7 +7,9 @@ class ProfilesController < ApplicationController
 
 
   def index
-    Rails.logger.debug "Profile Controller: index #{User.current.inspect}"
+    Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
+
+    Rails.logger.debug "PARAMS = #{params.inspect}"
     unless current_user.blank?
       if current_user.profile.moderated?
         @profiles = Profile.get_list(User.current)
@@ -20,6 +22,19 @@ class ProfilesController < ApplicationController
       Rails.logger.debug "Redirection to SIGNOUT"
       redirect_to destroy_user_session_path and return
     end
+
+    unless params[:viewstyle].blank?
+      Rails.logger.info "ViewType = #{params[:viewstyle].inspect}"
+      if params[:viewstyle] == "listview"
+        render "listview"
+      else params[:viewstyle] == "mapview"
+
+      end
+    else
+      render "index"
+    end
+
+
   end
 
   
@@ -65,6 +80,7 @@ class ProfilesController < ApplicationController
   # GET profiles/search
 
   def search
+    Rails.logger.debug 'In search'
     user = current_user
     min_age = params["min_age"].blank? ? 0:params["min_age"].to_i
     max_age = params["max_age"].blank? ? 200:params["max_age"].to_i
@@ -85,7 +101,6 @@ class ProfilesController < ApplicationController
       format.html { render :action => "index" }
     end
   end
-
 
   private
 

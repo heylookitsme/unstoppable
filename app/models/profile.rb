@@ -7,6 +7,8 @@ class Profile < ApplicationRecord
   validate :validate_age
   has_and_belongs_to_many :activities
   has_and_belongs_to_many :exercise_reasons
+  #has_and_belongs_to_many :likes
+  has_many :likes #, class_name: "Profile", foreign_key: :profile_id
   has_one_attached :avatar
   #attr_accessor :age
   attribute :age
@@ -231,6 +233,14 @@ class Profile < ApplicationRecord
     end
   end
 
+
+  def check_liked(check_profile_id)
+    profile_liked = false
+    if self.likes.exists?(like_id: check_profile_id)
+      profile_liked = true
+    end
+    return profile_liked
+  end
   #has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => #"/images/:style/missing.png"
   #validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 end
