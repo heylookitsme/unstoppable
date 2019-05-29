@@ -9,16 +9,16 @@
           
           <div class="fieldWrapper">
             <%= text_field_tag :query, params[:query] %> 
-            <%= submit_tag "Search" %>
+            <%= submit_tag "Search" %> &nbsp;&nbsp;
           </div>
           <div class="fieldWrapper">
-            <%= text_field_tag :min_age, params[:min_age] || "18", :size => "5" %> <b>Min Age</b>
+            <%= text_field_tag :min_age, params[:min_age] || "18", :size => "5" %> <b>Min Age&nbsp;&nbsp;</b>
           </div>
           <div class="fieldWrapper">
-            <%= text_field_tag :max_age, params[:max_age] || "130", :size => "5"  %> <b>Max Age</b>
+            <%= text_field_tag :max_age, params[:max_age] || "130", :size => "5"  %> <b>Max Age &nbsp;&nbsp;</b>
           </div>
           <div class="fieldWrapper">
-            <%= text_field_tag :distance, params[:distance] , :size => "10" %> <b>Distance </b>
+            <%= text_field_tag :distance, params[:distance] , :size => "10" %> <b>Distance</b>
           </div>
           <div class="fieldWrapper">
 
