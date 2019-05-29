@@ -29,16 +29,19 @@
           <div class="col-md-12">            
                 
                 <div class="clearfix">
-                    <div class="bordered-container profile-image-container text-center">
-                        <% if current_user.profile.avatar.attached? %>
-                          <%= image_tag current_user.profile.avatar.variant(resize: "160x200"), :class => "profile-image-small"%>
-                        <% else %>
-                           <%= image_tag("profile-default.png", :class => "profile-image-small", :size => "60x112") %>
-                        <% end %>
-                        <br><%= link_to current_user.profile.user.username, profile_path(current_user.profile), class: 'btn btn-default'%><br>
-                           Self<br/>
-                        <em class="font-sm"><b>Age:</b> <%= current_user.profile.age %>, <b>Distance:</b> <%= current_user.profile.distance %> miles</em>
-                     </div>
+
+                    <% if current_user.profile.profile_exists(@profiles) %>
+                      <div class="bordered-container profile-image-container text-center">
+                          <% if current_user.profile.avatar.attached? %>
+                            <%= image_tag current_user.profile.avatar.variant(resize: "160x200"), :class => "profile-image-small"%>
+                          <% else %>
+                            <%= image_tag("profile-default.png", :class => "profile-image-small", :size => "60x112") %>
+                          <% end %>
+                          <br><%= link_to current_user.profile.user.username, profile_path(current_user.profile), class: 'btn btn-default'%><br>
+                            Self<br/>
+                          <em class="font-sm"><b>Age:</b> <%= current_user.profile.age %>, <b>Distance:</b> <%= current_user.profile.distance %> miles</em>
+                      </div>
+                    <% end %>
                 
                
                     <% @profiles.each do |profile| %>

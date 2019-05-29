@@ -258,75 +258,40 @@ $("#form").submit(function(e) {
 <% else %>
 
   <%= simple_form_for @profile, :url => attachment_photosave_path(:id => @profile.id), :method => :post, html: {multipart: true} do |f| %> 
+    <h3>Photo Upload</h3><br/>
     <div class="row">
         
-            <h2>Photo Upload</h2>
+           
         
-
+    <div class="fieldWrapper">
+    
       <%= f.label :avatar %>
+    </div>
 
+    <div class="fieldWrapper">
+      
       <%= f.file_field :avatar, id: "image_upload_id" %>
-     
+    </div>
+
       <div id="your_preview_id"></div>
 
-      <div>
+      <!-- div>
         <%= f.drag_and_drop_file_field :avatar, 'Drag and drop images here!' %>
-      </div>
+      </div -->
 
       <%= f.hidden_field :profile_id, :value => @profile.id %>
     
       <div class="col-md-8">
-
-      <form id="form">
-      <h1>Client-side image-editor and uploader</h1>
-      <h2>Image file select</h2>
-      <input id="file" type="file" />
-      <h2>Image cropper (Jcrop)</h2>
-      <button id="cropbutton" type="button">Crop</button>
-      <button id="scalebutton" type="button">Scale</button>
-      <button id="rotatebutton" type="button">Rotate</button>
-      <button id="hflipbutton" type="button">H-flip</button>
-      <button id="vflipbutton" type="button">V-flip</button>
-      <br>
-      <div id="views"></div>
-      <h2>Submit form</h2>
-      <input type="submit" value="Upload form data and image" />
-    </form>
-    
-
-      <div class="image-editor">
-      <%= f.file_field :avatar, id: "image_upload_id",  class: "cropit-image-input" %>
-        <!-- input type="file" class="cropit-image-input"-->
-        <div class="cropit-preview">
-          <div class="preview-text">
-            <span class="glyphicon glyphicon-upload"></span>
-            <p>Drag and drop a photo here to upload.</p>
-          </div>
+        <div class="actions">
+          <% unless @profile.moderated? %>
+            <%= link_to  "Back", :back,  :class => "btn btn-primary  btn-lg" %>
+            <%= link_to  "Skip", profiles_thank_you_path(:id => @profile.id), :class => "btn btn-primary  btn-lg" %>
+            <%= f.button :submit, "Save and Continue" %>
+          <% else %>
+            <%= f.button :submit, "Save" %>
+          <% end %> 
         </div>
-
-        <div class="controls-wrapper">
-          <span class="glyphicon glyphicon-repeat rotate-cw-btn"></span>
-
-          <label for="image-zoom">Resize image</label>
-          <span class="glyphicon glyphicon-minus"></span>
-          <input id="image-zoom" name="image-zoom" type="range" class="cropit-image-zoom-input">
-          <span class="glyphicon glyphicon-plus"></span>
-        </div>
-
-        <input type="hidden" name="image-data" class="hidden-image-data">
       </div>
-      <div class="actions">
-        <% unless @profile.moderated? %>
-          <%= link_to  "Back", :back, :class => "btn btn-primary" %>
-          <%= link_to  "Skip", profiles_thank_you_path(:id => @profile.id) %>
-          <%= f.button :submit, "Save and Continue" %>
-        <% else %>
-          <%= f.button :submit, "Save" %>
-        <% end %>
-        
-        
-      </div>
-    </div>
   <% end %>
 <% end %>
 </div>

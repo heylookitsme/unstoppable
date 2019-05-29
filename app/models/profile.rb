@@ -241,6 +241,13 @@ class Profile < ApplicationRecord
     end
     return profile_liked
   end
+
+  def profile_exists(profiles)
+    all_profile_ids = profiles.collect{|x| x.id}
+    e = all_profile_ids.include?(self.id)
+    Rails.logger.debug("EXISTS = {e.inspect}")
+    e
+  end
   #has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => #"/images/:style/missing.png"
   #validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 end

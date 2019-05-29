@@ -34,90 +34,92 @@ user.save!
 
 
 u=User.create(username:"dash", email:"dashcute@x.com", password: 'dash123', dob: "01-01-1942", zipcode: "20850")
-u.profile.cancer_location="Breast"
-u.profile.details_about_self="I may have some thyroid nodules"
-u.profile.other_cancer_location="Lymph"
 u.save!
 p = User.find_by_username("dash").profile
+p.cancer_location="Breast"
+p.details_about_self="I may have some thyroid nodules"
+p.other_cancer_location="Lymph"
 p.moderated=true
 p.save
 
 u=User.create(username:"dash100", email:"dash200@x.com", password: 'dash123', dob: "01-01-1942", zipcode: "20854")
-u.profile.cancer_location="Breast"
-u.profile.details_about_self="I may have some thyroid nodules"
-u.profile.other_cancer_location="Lymph"
 u.save!
-
-u=User.create(username:"dash1", email:"dash1@x.com", password: 'dash123', dob: "06-01-1959", zipcode: "20877")
-u.profile.cancer_location="Liver"
-u.profile.details_about_self="I may have some throat nodules"
-u.profile.other_cancer_location="Spleen"
-u.save!
-p = User.find_by_username("dash1").profile
+u = User.find_by_username("dash100").profile
+p.cancer_location="Heart"
+p.details_about_self="I may have some thyroid nodules"
+p.other_cancer_location=""
 p.moderated=true
 p.save
 
+u=User.create(username:"dash1", email:"dash1@x.com", password: 'dash123', dob: "06-01-1959", zipcode: "20877")
+u.save!
+p = User.find_by_username("dash1").profile
+p.cancer_location="Liver"
+p.details_about_self="I may have some thyroid nodules"
+p.other_cancer_location="Spleen"
+p.moderated=true
+p.save
 
 u=User.create(username:"dash2", email:"dash2@x.com", password: 'dash123', dob: "06-01-1958", zipcode: "22513")
-u.profile.cancer_location="Colon"
-u.profile.details_about_self="I may have some throat nodules"
-u.profile.other_cancer_location="Pancreas"
 u.save!
 p = User.find_by_username("dash2").profile
+p.cancer_location="Colon"
+p.details_about_self="I may have some throat nodules"
+p.other_cancer_location="Pancreas"
 p.moderated=true
 p.save
 
 u=User.create(username:"dash3", email:"dash3@x.com", password: 'dash123', dob: "6-12-1965", zipcode: "22436")
-u.profile.cancer_location="Brain"
-u.profile.details_about_self="I may have some throat nodules"
-u.profile.other_cancer_location="Neck"
 u.save!
 p = User.find_by_username("dash3").profile
+p.cancer_location="Brain"
+p.details_about_self="I may have some throat nodules"
+p.other_cancer_location="Neck"
 p.moderated=true
 p.save
 
 u=User.create(username:"dash21", email:"dash21@x.com", password: 'dash123', dob: "6-12-1950", zipcode: "20102")
-u.profile.cancer_location="Breast"
-u.profile.details_about_self=""
-u.profile.other_cancer_location=""
 u.save!
 p = User.find_by_username("dash21").profile
+p.cancer_location="Breast"
+p.details_about_self=""
+p.other_cancer_location=""
 p.moderated=true
 p.save
 
 u=User.create(username:"dash22", email:"dash22@x.com", password: 'dash123', dob: "6-12-1971", zipcode: "20171")
-u.profile.cancer_location="Breast"
-u.profile.details_about_self=""
-u.profile.other_cancer_location=""
 u.save!
 p = User.find_by_username("dash22").profile
+p.cancer_location="Breast"
+p.details_about_self=""
+p.other_cancer_location=""
 p.moderated=true
 p.save
 
 u=User.create(username:"dash23", email:"dash23@x.com", password: 'dash123', dob: "6-12-1991", zipcode: "20172")
-u.profile.cancer_location="Breast"
-u.profile.details_about_self=""
-u.profile.other_cancer_location=""
 u.save!
 p = User.find_by_username("dash23").profile
+p.cancer_location="Breast"
+p.details_about_self=""
+p.other_cancer_location=""
 p.moderated=true
 p.save
 
 u=User.create(username:"dash55", email:"dash55@x.com", password: 'dash123', dob: "6-12-1981", zipcode: "20172")
-u.profile.cancer_location="Breast"
-u.profile.details_about_self=""
-u.profile.other_cancer_location=""
 u.save!
 p = User.find_by_username("dash55").profile
+p.cancer_location="Breast"
+p.details_about_self=""
+p.other_cancer_location=""
 p.moderated=true
 p.save
 
 u=User.create(username:"dash56", email:"dash56@x.com", password: 'dash123', dob: "6-12-1981", zipcode: "22555")
-u.profile.cancer_location="Breast"
-u.profile.details_about_self=""
-u.profile.other_cancer_location=""
 u.save!
 p = User.find_by_username("dash56").profile
+p.cancer_location="Breast"
+p.details_about_self=""
+p.other_cancer_location=""
 p.moderated=true
 p.save
 =begin
