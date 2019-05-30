@@ -141,11 +141,8 @@
         </div>
 
         <div class="fieldWrapper">
-                <label for="id_self_description">About You. Tell us about yourself!</label>
-                <textarea name="self_description" class="form-control input-lg" id="id_self_description" rows="10" cols="40">
-    </textarea>
-                <div class="text-danger"></div>
-              </div>
+          <label for="id_self_description">About You. Tell us about yourself!</label>
+          <%= f.input :details_about_self, :as => :text, :input_html => { 'rows' => 10, 'cols' => 40 } %>
         </div>
         <!-- div class="fieldWrapper">
           <%= f.button :submit, "Save and Continue", :class => "btn btn-primary btn-lg"%>
