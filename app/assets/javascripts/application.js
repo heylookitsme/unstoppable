@@ -20,6 +20,7 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require active_storage_drag_and_drop
+//= require select_all.js
 
 // require self
 // direct_uploads.js
@@ -60,3 +61,7 @@ addEventListener("direct-upload:end", event => {
   const element = document.getElementById(`direct-upload-${id}`)
   element.classList.add("direct-upload--complete")
 })
+
+$(function() {
+  $("#selectAll").select_all();
+});

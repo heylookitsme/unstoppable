@@ -62,6 +62,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :conversations do
+    resource :messages
+    collection do
+      delete 'destroy_multiple'
+    end
+  end
+
   resources :profiles do
 
     collection do

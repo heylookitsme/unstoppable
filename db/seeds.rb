@@ -44,7 +44,7 @@ p.save
 
 u=User.create(username:"dash100", email:"dash200@x.com", password: 'dash123', dob: "01-01-1942", zipcode: "20854")
 u.save!
-u = User.find_by_username("dash100").profile
+p = User.find_by_username("dash100").profile
 p.cancer_location="Heart"
 p.details_about_self="I may have some thyroid nodules"
 p.other_cancer_location=""

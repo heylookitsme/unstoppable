@@ -46,9 +46,13 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <% end %>
                 </li>
-                
-                <li> 
-              
+                <li>
+                  <%= link_to conversations_path(:user_id => current_user.id), :class => "nav-item" do  %>
+                    <%= content_tag :span, "Messages", :class => "glyphicon glyphicon-envelope" %>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <% end %>
+                </li>
+                <li>
                   <%= link_to destroy_user_session_path, method: :delete, :class => "nav-item"  do %>
                     <%= content_tag :span, "Logout", :class => "glyphicon glyphicon-king" %>
                   <% end %>

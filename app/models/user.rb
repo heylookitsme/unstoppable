@@ -9,6 +9,8 @@ class User < ApplicationRecord
   #validates :zipcode, zipcode: { country_code: :us }
   validates :zipcode, zipcode: true
 
+  acts_as_messageable
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -63,6 +65,14 @@ class User < ApplicationRecord
     self.save!(:validate => false)
   end
 
+  def name
+    self.username
+  end
+
+  def mailboxer_email(object)
+    nil
+  end
+
   private
   def confirmation_token
         if self.confirm_token.blank?
@@ -90,4 +100,5 @@ class User < ApplicationRecord
       errors.add(:zipcode, 'This is not a valid US zipcode')
     end
   end
+
 end
