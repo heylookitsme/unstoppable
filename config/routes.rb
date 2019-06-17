@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   get 'profiles/thank_you'
 
+  get 'conversations/sentbox'
+
   #get 'profile/show'
 
   #get 'profile/edit'

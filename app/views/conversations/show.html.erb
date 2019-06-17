@@ -1,16 +1,41 @@
-<h3> Subject: <%= @conversation.subject %> </h3>
 
-<% @conversation.receipts_for(current_user).each do |receipt| %>
-    <div class="fieldWrapper">
-        <div> <%= receipt.message.sender.name %> commented: </div>
-        <p> <%= receipt.message.body %> </p>
+<div class="container">
+    <div id="postman">
+        <h1>Conversation</h1>
+        <h2>Subject: <%= @conversation.subject %></h2>
+        <% @receipts.each do |r| %>
+            <div class="bordered-container message-container">
+                <div class="pm_message">
+                    <div class="pm_header">
+                        <% if r.message.sender.id == current_user.id %>
+                            <span class="pm_sender"><strong>&lt;me&gt;</strong></span>
+                        <% else %>
+                            <span class="pm_sender"><strong><%= r.message.sender.name %></strong></span>
+                        <% end %>
+                        <span class="pm_date"><%= r.message.updated_at.to_time.strftime('%B %e at %l:%M %p') %></span>
+                        <span class="pm_subject"> , Subject: <%= r.message.subject %></span>
+                    </div>
+                    <div class="pm_body"><%= r.message.body %></div>
+                </div>
+            </div>
+        <% end %>
+        <span id="pm_buttons" class="btn-group">
+            <%= button_to conversations_path, method: :get, :class => "btn btn-default" do %>
+                <span class="glyphicon glyphicon-arrow-left"> Back</span>
+            <% end %>
+            <%= button_to conversations_path, :class => "btn btn-default", params: { :id => @conversation.id }, method: :delete do %>
+                <span class="glyphicon glyphicon-trash"> Delete</span>
+            <% end %>
+            <button class="btn btn-default" type="submit" onclick="this.form.action='/messages/archive/?next=/messages/inbox/'"><span class="glyphicon glyphicon-folder-open"></span> Archive</button>
+        </span>
+        <hr />
+        <h2>Reply</h2>
+        <%= form_tag conversation_messages_path(@conversation), method: :post do %>
+            <div id="pm_reply">
+                <textarea name="body" id="id_body" cols="55" rows="12">
+                </textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Reply</button>
+        <% end %>
     </div>
-<% end %>
-
-<%= form_tag conversation_messages_path(@conversation), method: :post do %>
-    <div>
-        <%= text_area_tag :body %>
-    </div>
-
-    <%= submit_tag %>
-<% end %>
+</div>
