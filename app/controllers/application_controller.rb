@@ -33,11 +33,15 @@ class ApplicationController < ActionController::Base
     Rails.logger.debug("In application controller current user = #{current_user.inspect}")
     session[:user_id] = resource_or_scope.id
     #user_path(resource_or_scope)
-    if resource_or_scope.admin?
-      rails_admin_path
-    else
+
+    #### Jun 18, 2019
+    #if resource_or_scope.admin?
+    #  rails_admin_path
+    #else
       profiles_path
-    end
+    #end
+
+    ####
     #if resource_or_scope.is_a?(User)
     #  super
    #else

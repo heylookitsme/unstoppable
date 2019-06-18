@@ -21,11 +21,25 @@
                 <a class="navbar-brand" href="https://2unstoppable.org/"><%= image_tag "2unstoppable.png" %></a> 
               </li>
               <% if current_user && current_user.profile && current_user.profile.moderated? %> 
-                <li> <b> <h5> User: <%= current_user.username %> </b> &nbsp;&nbsp; </h5></li>
+                <li> <b> <h5> User: <%= current_user.username %> </b> &nbsp;</h5>
+                </li>
+                <li>
+                  <% if current_user.profile.avatar.attached? %>
+                    <%= image_tag current_user.profile.avatar.variant(resize: "30x30") %>
+                  <% end %>&nbsp;
+                </li>
+                <li>
+                  <% if current_user.admin? %>
+                    <%= link_to rails_admin_path, :class => "nav-item" do %>
+                      <%= content_tag :span, "Dashboard", :class => "glyphicon glyphicon-dashboard" %>
+                      &nbsp
+                    <% end %>
+                  <% end %>
+                </li>
                 <li>
                   <%= link_to profile_path(current_user.profile), :class => "nav-item" do %>
                     <%= content_tag :span, "View Profile  ", :class => "glyphicon glyphicon-user" %>
-                    &nbsp;&nbsp;
+                    &nbsp
                   <% end %>
                 </li>
                 <li>
@@ -43,7 +57,7 @@
                 <li>
                   <%= link_to profiles_path(:user_id => current_user.id), :class => "nav-item" do  %>
                     <%= content_tag :span, "Browse Profiles", :class => "glyphicon glyphicon-search" %>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;
                   <% end %>
                 </li>
                 <li>
@@ -56,9 +70,7 @@
                   <%= link_to destroy_user_session_path, method: :delete, :class => "nav-item"  do %>
                     <%= content_tag :span, "Logout", :class => "glyphicon glyphicon-king" %>
                   <% end %>
-                    
                 </li>
-
               <% end %>
           </ul>
         </nav>

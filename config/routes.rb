@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+
   get 'attachment/photo'
 
   post 'attachment/photosave'
