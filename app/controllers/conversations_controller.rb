@@ -1,9 +1,13 @@
 class ConversationsController < ApplicationController
+    skip_before_action :verify_authenticity_token
+    #protect_from_forgery with: :null_session
+    before_action :authenticate_user!
 
     def index
         Rails.logger.debug("params = #{params.inspect}")
-        @conversations = current_user.mailbox.conversations #
-        Rails.logger.debug("Conversations = #{@conversations.inspect}")
+        #@conversations = current_user.mailbox.conversations #
+        @conversations = current_user.mailbox.inbox #
+        Rails.logger.debug("Conversations Inbox = #{@conversations.inspect}")
     end
     def show
         # <span class="badge"><%= current_user.mailbox.inbox({:read => false}).count %></span >
@@ -39,16 +43,40 @@ class ConversationsController < ApplicationController
 
     end
 
-    def destroy_multiple
-        Mailboxer::Conversation.destroy(params[:conversation_ids])
+    def trash
+        Rails.logger.debug("params = #{params.inspect}")
+        @conversations = current_user.mailbox.trash
+        @recipients = {}
+        @conversations.each do |s|
+            @recipients[s.id] = s.messages.first.recipients.first.username
+        end
+
+    end
+
+=begin
+    def trash_multiple
+        Rails.logger.debug("Archive conversation for the following: #{params[:conversation_ids].inspect}")
+        #params[:conversation_ids].each do |c|
+        #    c.move_to_trash(c)
+        #end
         respond_to do |format|
           format.html { redirect_to conversations_path }
           #format.json { head :no_content }
         end
     end
+=end
 
+    def destroy_multiple
+        #Rails.logger.debug("Archive conversation for the following: #{params[:conversation_ids].inspect}")
+        Mailboxer::Conversation.destroy(params[:conversation_ids])
+        respond_to do |format|
+          format.html { redirect_to conversations_path }
+          format.json { head :no_content }
+        end
+    end
  
     def destroy
+        Rails.logger.debug("Destroy : #{params[:conversation_ids].inspect}")
         Mailboxer::Conversation.destroy(params[:id])
         respond_to do |format|
           format.html { redirect_to conversations_path }

@@ -1,11 +1,13 @@
 <h1> All  Conversations </h1>
 
-<%= link_to "New Conversation", new_conversation_path() %>
 
 <div class="container">
       
 <div id="postman">
     <h1>Received Messages</h1>
+    <ul class="nav justify-content-end">
+        <li> <%= link_to "New Conversation", new_conversation_path(), :class => "btn btn-primary btn-lg pull-right" %></li> </li>
+    </ul>
     <ul class="nav nav-tabs">
         <li class="nav-item"><a class="nav-link active" href="/conversations">Inbox</a></li>
         <li class="nav-item"><a class="nav-link" href="/conversations/sentbox">Sent</a></li>
@@ -39,10 +41,9 @@
 
     <span id="pm_buttons">
         <div class="btn-group">
-            <%= submit_tag "Delete selected", :class => 'btn btn-primary btn-xs', method: :delete %>
-
-            <button class="btn btn-default" type="submit" onclick="this.form.action='/messages/delete/'"><span class="glyphicon glyphicon-trash"></span> Delete</button>
-            <button class="btn btn-default" type="submit" onclick="this.form.action='/messages/archive/'"><span class="glyphicon glyphicon-folder-open"></span> Archive</button>
+            <%= button_to  method: :delete, :archive => false, :class => "btn btn-default" do %>
+                <span class="glyphicon glyphicon-trash"> Delete Selected</span>
+            <% end %>
 
         </div>
     </span>

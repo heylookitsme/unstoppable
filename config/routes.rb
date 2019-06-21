@@ -18,6 +18,8 @@ Rails.application.routes.draw do
 
   get 'conversations/sentbox'
 
+  get 'conversations/trash'
+
   #get 'profile/show'
 
   #get 'profile/edit'
