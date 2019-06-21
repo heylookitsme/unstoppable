@@ -1,8 +1,8 @@
 
 <div class="container">
     <div id="postman">
-        <h1>Conversation</h1>
-        <h2>Subject: <%= @conversation.subject %></h2>
+        <h2>Conversation with <%= @recipients %> </h2>
+        <h3>Subject: <%= @conversation.subject %></h3>
         <% @receipts.each do |r| %>
             <div class="bordered-container message-container">
                 <div class="pm_message">

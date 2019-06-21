@@ -13,6 +13,9 @@ class ConversationsController < ApplicationController
         # <span class="badge"><%= current_user.mailbox.inbox({:read => false}).count %></span >
         @conversation = current_user.mailbox.conversations.find(params[:id])
         @receipts = @conversation.receipts_for current_user
+        unless params["recipients"].blank?
+            @recipients = params["recipients"]
+        end
     end
 
     def new
