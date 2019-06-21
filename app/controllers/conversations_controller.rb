@@ -11,10 +11,16 @@ class ConversationsController < ApplicationController
     end
     def show
         # <span class="badge"><%= current_user.mailbox.inbox({:read => false}).count %></span >
+        Rails.logger.debug("In show params = #{params.inspect}")
+        Rails.logger.debug("In show request = #{request.referer.inspect}")
         @conversation = current_user.mailbox.conversations.find(params[:id])
         @receipts = @conversation.receipts_for current_user
         unless params["recipients"].blank?
             @recipients = params["recipients"]
+        end
+        @from_tab = ""
+        unless params["from_tab"].blank?
+            @from_tab = params["from_tab"]
         end
     end
 

@@ -30,7 +30,7 @@
                     <tr>
                         <td><%= check_box_tag "conversation_ids[]", conversation.id, false, class: 'selectable' %></td>
                         <td><%= @recipients[conversation.id] %> </td>
-                        <td><%= link_to conversation.subject, conversation_path(conversation, :recipients => @recipients[conversation.id]) %> - <%= conversation.messages.last.body %> </td>
+                        <td><%= link_to conversation.subject, conversation_path(conversation, :recipients => @recipients[conversation.id], :from_tab => "sentbox") %> - <%= conversation.messages.last.body %> </td>
                         <td><%= conversation.updated_at %></td>
                     </tr>
                 <% end %> 

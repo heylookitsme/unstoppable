@@ -20,8 +20,14 @@
             </div>
         <% end %>
         <span id="pm_buttons" class="btn-group">
-            <%= button_to conversations_path, method: :get, :class => "btn btn-default" do %>
-                <span class="glyphicon glyphicon-arrow-left"> Back</span>
+            <% if @from_tab == "sentbox" %>
+                <%= button_to conversations_sentbox_path, method: :get, :class => "btn btn-default" do %>
+                    <span class="glyphicon glyphicon-arrow-left"> Back</span>
+                <% end %>
+            <% else %>
+                <%= button_to conversations_path, method: :get, :class => "btn btn-default" do %>
+                    <span class="glyphicon glyphicon-arrow-left"> Back</span>
+                <% end %>
             <% end %>
             <%= button_to conversation_path, method: :delete, :class => "btn btn-default" do %>
                 <span class="glyphicon glyphicon-trash"> Delete</span>
