@@ -19,6 +19,9 @@ class User < ApplicationRecord
 
   attr_accessor :zipcode
   attr_accessor :country_alpha2
+
+  attr_accessor :unread_messages
+
   attribute :dob, :date
 
   after_create :init_profile
@@ -26,6 +29,10 @@ class User < ApplicationRecord
   before_create :confirmation_token
 
   before_validation :set_country_alpha2
+
+  def unread_messages
+    self.mailbox.inbox(:unread => true).count
+  end
 
   def set_country_alpha2
     country_iso = ISO3166::Country.find_country_by_name("united states")

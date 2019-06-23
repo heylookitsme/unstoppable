@@ -60,10 +60,9 @@
                     &nbsp;
                   <% end %>
                 </li>
-                <li>
                   <%= link_to conversations_path(:user_id => current_user.id), :class => "nav-item" do  %>
-                    <%= content_tag :span, "Messages", :class => "glyphicon glyphicon-envelope" %>
-                    &nbsp;&nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-envelope">Messages</span>
+                    <span class="badge badge-pill badge-dark"><%= current_user.unread_messages %></span>&nbsp;
                   <% end %>
                 </li>
                 <li>

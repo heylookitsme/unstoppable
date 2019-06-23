@@ -15,6 +15,10 @@ class ConversationsController < ApplicationController
         Rails.logger.debug("In show request = #{request.referer.inspect}")
         @conversation = current_user.mailbox.conversations.find(params[:id])
         @receipts = @conversation.receipts_for current_user
+        @receipts.mark_as_read
+        #@receipts = mailbox.receipts_for(conversation).not_trash
+        #@receipts.mark_as_read
+
         unless params["recipients"].blank?
             @recipients = params["recipients"]
         end
