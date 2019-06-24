@@ -72,6 +72,7 @@ Rails.application.routes.draw do
     resource :messages
     collection do
       delete 'destroy_multiple'
+      delete 'trash_multiple'
     end
   end
 

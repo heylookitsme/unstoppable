@@ -66,25 +66,22 @@ class ConversationsController < ApplicationController
 
     end
 
-=begin
+
     def trash_multiple
-        Rails.logger.debug("Archive conversation for the following: #{params[:conversation_ids].inspect}")
-        #params[:conversation_ids].each do |c|
-        #    c.move_to_trash(c)
-        #end
+        Rails.logger.debug("Archive conversation for the followingg: #{params.inspect}")
+        multiple_conversation_delete(params)
         respond_to do |format|
-          format.html { redirect_to conversations_path }
-          #format.json { head :no_content }
+            format.html { redirect_to conversations_trash_path }
+            format.json { head :no_content }
         end
     end
-=end
 
     def destroy_multiple
-        #Rails.logger.debug("Archive conversation for the following: #{params[:conversation_ids].inspect}")
-        Mailboxer::Conversation.destroy(params[:conversation_ids])
+        Rails.logger.debug("Archive conversation for the following: #{params.inspect}")
+        multiple_conversation_delete(params)
         respond_to do |format|
-          format.html { redirect_to conversations_path }
-          format.json { head :no_content }
+            format.html { redirect_to conversations_path }
+            format.json { head :no_content }
         end
     end
  
@@ -94,6 +91,27 @@ class ConversationsController < ApplicationController
         respond_to do |format|
           format.html { redirect_to conversations_path }
           #format.json { head :no_content }
+        end
+    end
+
+    private
+
+    def multiple_conversation_delete(params)
+        unless params[:commit].blank?
+            if params[:commit] == "Delete"
+                Mailboxer::Conversation.destroy(params[:conversation_ids])
+            elsif params[:commit] == "Archive"
+                Rails.logger.debug("conversation_ids = : #{params[:conversation_ids].inspect}")
+                params[:conversation_ids].each do |c_id|
+                    current_user.mailbox.conversations.each do |conversation|
+                        if conversation.id  == c_id.to_i
+                                Rails.logger.debug("Matched Conversation id = #{c_id}.inspect being moved to trash")
+                                conversation.move_to_trash(current_user)
+                            break
+                        end
+                    end
+                end
+            end
         end
     end
 

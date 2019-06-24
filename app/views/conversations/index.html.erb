@@ -11,11 +11,11 @@
     <ul class="nav nav-tabs">
         <li class="nav-item"><a class="nav-link active" href="/conversations">Inbox</a></li>
         <li class="nav-item"><a class="nav-link" href="/conversations/sentbox">Sent</a></li>
-        <li class="nav-item"><a class="nav-link" href="/messages/archives/">Archives</a></li>
+        <li class="nav-item"><a class="nav-link" href="/conversations/trash">Archives</a></li>
     </ul>
     <br>
 
-<%= form_tag destroy_multiple_conversations_path, method: :delete do %>
+<%= form_tag destroy_multiple_conversations_path, method: :delete  do %>
     <%= hidden_field_tag :from_tab, :value => "sentbox" %>
     <table id="pm_messages" class="table table-striped">
         <thead>
@@ -41,13 +41,10 @@
 
     <span id="pm_buttons">
         <div class="btn-group">
-            <%= button_to  method: :delete, :archive => false, :class => "btn btn-default" do %>
-                <span class="glyphicon glyphicon-trash"> Delete Selected</span>
-            <% end %>
-
+            <%= submit_tag  "Delete", :class => 'btn btn-primary btn-xs',  :value => "Delete" %>&nbsp;
+            <%= submit_tag "Archive", :class => 'btn btn-primary btn-xs', :value => "Archive" %>
         </div>
     </span>
-
 <% end %>
 
 
