@@ -1,193 +1,56 @@
-<script>
-$('#image_upload_id').on('change', function() {
-    showImage(this);
-})
 
-var crop_max_width = 400;
-var crop_max_height = 400;
-var jcrop_api;
-var canvas;
-var context;
-var image;
-
-var prefsize;
-
-$("#file").change(function() {
-  loadImage(this);
-});
-
-function loadImage(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    canvas = null;
-    reader.onload = function(e) {
-      image = new Image();
-      image.onload = validateImage;
-      image.src = e.target.result;
-    }
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-
-function dataURLtoBlob(dataURL) {
-  var BASE64_MARKER = ';base64,';
-  if (dataURL.indexOf(BASE64_MARKER) == -1) {
-    var parts = dataURL.split(',');
-    var contentType = parts[0].split(':')[1];
-    var raw = decodeURIComponent(parts[1]);
-
-    return new Blob([raw], {
-      type: contentType
-    });
-  }
-  var parts = dataURL.split(BASE64_MARKER);
-  var contentType = parts[0].split(':')[1];
-  var raw = window.atob(parts[1]);
-  var rawLength = raw.length;
-  var uInt8Array = new Uint8Array(rawLength);
-  for (var i = 0; i < rawLength; ++i) {
-    uInt8Array[i] = raw.charCodeAt(i);
-  }
-
-  return new Blob([uInt8Array], {
-    type: contentType
-  });
-}
-
-function validateImage() {
-  if (canvas != null) {
-    image = new Image();
-    image.onload = restartJcrop;
-    image.src = canvas.toDataURL('image/png');
-  } else restartJcrop();
-}
-
-function restartJcrop() {
-  if (jcrop_api != null) {
-    jcrop_api.destroy();
-  }
-  $("#views").empty();
-  $("#views").append("<canvas id=\"canvas\">");
-  canvas = $("#canvas")[0];
-  context = canvas.getContext("2d");
-  canvas.width = image.width;
-  canvas.height = image.height;
-  context.drawImage(image, 0, 0);
-  $("#canvas").Jcrop({
-    onSelect: selectcanvas,
-    onRelease: clearcanvas,
-    boxWidth: crop_max_width,
-    boxHeight: crop_max_height
-  }, function() {
-    jcrop_api = this;
-  });
-  clearcanvas();
-}
-
-function clearcanvas() {
-  prefsize = {
-    x: 0,
-    y: 0,
-    w: canvas.width,
-    h: canvas.height,
-  };
-}
-
-function selectcanvas(coords) {
-  prefsize = {
-    x: Math.round(coords.x),
-    y: Math.round(coords.y),
-    w: Math.round(coords.w),
-    h: Math.round(coords.h)
-  };
-}
-
-function applyCrop() {
-  alert("HI")
-  canvas.width = prefsize.w;
-  canvas.height = prefsize.h;
-  context.drawImage(image, prefsize.x, prefsize.y, prefsize.w, prefsize.h, 0, 0, canvas.width, canvas.height);
-  validateImage();
-}
-
-function applyScale(scale) {
-  if (scale == 1) return;
-  canvas.width = canvas.width * scale;
-  canvas.height = canvas.height * scale;
-  context.drawImage(image, 0, 0, canvas.width, canvas.height);
-  validateImage();
-}
-
-function applyRotate() {
-  canvas.width = image.height;
-  canvas.height = image.width;
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  context.translate(image.height / 2, image.width / 2);
-  context.rotate(Math.PI / 2);
-  context.drawImage(image, -image.width / 2, -image.height / 2);
-  validateImage();
-}
-
-function applyHflip() {
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  context.translate(image.width, 0);
-  context.scale(-1, 1);
-  context.drawImage(image, 0, 0);
-  validateImage();
-}
-
-function applyVflip() {
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  context.translate(0, image.height);
-  context.scale(1, -1);
-  context.drawImage(image, 0, 0);
-  validateImage();
-}
-
-$("#cropbutton").click(function(e) {
-  applyCrop();
-});
-$("#scalebutton").click(function(e) {
-  var scale = prompt("Scale Factor:", "1");
-  applyScale(scale);
-});
-$("#rotatebutton").click(function(e) {
-  applyRotate();
-});
-$("#hflipbutton").click(function(e) {
-  applyHflip();
-});
-$("#vflipbutton").click(function(e) {
-  applyVflip();
-});
-
-$("#form").submit(function(e) {
-  e.preventDefault();
-  formData = new FormData($(this)[0]);
-  var blob = dataURLtoBlob(canvas.toDataURL('image/png'));
-  //---Add file blob to the form data
-  formData.append("cropped_image[]", blob);
-  $.ajax({
-    url: "whatever.php",
-    type: "POST",
-    data: formData,
-    contentType: false,
-    cache: false,
-    processData: false,
-    success: function(data) {
-      alert("Success");
-    },
-    error: function(data) {
-      alert("Error");
-    },
-    complete: function(data) {}
-  });
-});
-
-
-</script>
 <%= stylesheet_link_tag "application" %>
 <!-- %= stylesheet_link_tag "registration" %-->
+<!-- begin script -->
+
+<script src="https://cdn.jsdelivr.net/jquery.cropit/0.5.1/jquery.cropit.js"></script>
+
+<script>
+  $(function() {
+    $('.image-editor').cropit({
+      onImageError: function (e) {
+        $('#photo-upload-errors').text(e.message).removeClass('hidden');
+      },
+      onFileChange: function (e) {
+        $('#photo-upload-errors').text('').addClass('hidden');
+      }
+    });
+
+    // Handle rotation
+    $('.rotate-cw-btn').click(function() {
+      $('.image-editor').cropit('rotateCW');
+    });
+
+    $('form').submit(function() {
+      var imageData = $('.image-editor').cropit('export');
+      $('.hidden-image-data').val(imageData);
+    });
+  });
+</script>
+
+
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-52287007-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+    <!-- load font awesome asynchronously -->
+    <script>
+    (function() {
+    var css = document.createElement('link');
+    css.href = '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css';
+    css.rel = 'stylesheet';
+    document.getElementsByTagName('head')[0].appendChild(css);
+    })();
+    </script>
+
+
 <% unless @profile.moderated %>
   <div class="container">
         
@@ -238,63 +101,42 @@ $("#form").submit(function(e) {
   </div>
 <% end %>  
 
+
+
 <div class="container">
 <p class="font-sm font-light"><em><span class='font-purple'>Including a photo will help other members feel more comfortable.</span></em></p>
 
-<% if @profile.avatar.attached? %>
-  
-  <div>
-    <p>
-      <strong>Avatar:</strong>
-      <br>
-      <%= image_tag @profile.avatar.variant(resize: "300x300") %>
-    </p>
+<h1>Photo Upload4</h1>
 
-    <!-- p><%= image_tag @profile.avatar.variant(resize: "50x50") %></p -->
-
-   <%=  @profile.id %>
-    <%= link_to 'Remove', delete_avatar_url(:id => @profile.id) %>
-  </div>
-<% else %>
-
-  <%= simple_form_for @profile, :url => attachment_photosave_path(:id => @profile.id), :method => :post, html: {multipart: true} do |f| %> 
-    <h3>Photo Upload</h3><br/>
-    <div class="row">
-        
-           
-        
-    <div class="fieldWrapper">
-    
-      <%= f.label :avatar %>
-    </div>
-
-    <div class="fieldWrapper">
-      
-      <%= f.file_field :avatar, id: "image_upload_id" %>
-    </div>
-
-      <div id="your_preview_id"></div>
-
-      <!-- div>
-        <%= f.drag_and_drop_file_field :avatar, 'Drag and drop images here!' %>
-      </div -->
-
-      <%= f.hidden_field :profile_id, :value => @profile.id %>
-    
-      <div class="col-md-8">
-        <div class="actions">
-          <% unless @profile.moderated? %>
-            <%= link_to  "Back", :back,  :class => "btn btn-primary  btn-lg" %>
-            <%= link_to  "Skip", profiles_thank_you_path(:id => @profile.id), :class => "btn btn-primary  btn-lg" %>
-            <%= f.button :submit, "Save and Continue" %>
-          <% else %>
-            <%= f.button :submit, "Save" %>
-          <% end %> 
+<%= simple_form_for @profile, :url => attachment_photosave_path(:id => @profile.id), :method => :post, html: {multipart: true } do |f| %> 
+   
+    <div id="photo-upload-errors" class="hidden alert alert-danger"></div>
+    <div class="image-editor">
+      <input type="file" name="profile[avatar]" class="cropit-image-input">
+      <div class="cropit-preview">
+        <div class="preview-text">
+          <span class="glyphicon glyphicon-upload"></span>
+          <p>Drag and drop a photo here to upload.</p>
         </div>
       </div>
+
+      <div class="controls-wrapper">
+        <span class="glyphicon glyphicon-repeat rotate-cw-btn"></span>
+
+        <label for="image-zoom">Resize image</label>
+        <span class="glyphicon glyphicon-minus"></span>
+        <input id="image-zoom" name="image-zoom" type="range" class="cropit-image-zoom-input">
+        <span class="glyphicon glyphicon-plus"></span>
+      </div>
+
+      <input type="hidden" name="image-data" class="hidden-image-data">
+
+    </div>
+
+    <%= f.button :submit, "Save" %>
+    <%= link_to "Cancel", :back %>
   <% end %>
-<% end %>
-</div>
+
 
 <script src="https://cdn.jsdelivr.net/jquery/1.12.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>

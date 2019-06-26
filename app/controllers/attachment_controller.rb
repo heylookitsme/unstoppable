@@ -1,6 +1,7 @@
 class AttachmentController < ApplicationController
-  before_action :set_user 
-  #before_action :authenticate_user! 
+  before_action :set_user
+  skip_before_action :verify_authenticity_token
+  before_action :authenticate_user! 
 
   #layout "sidebar_non_admin"
   
