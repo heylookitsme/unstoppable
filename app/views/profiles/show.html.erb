@@ -10,7 +10,7 @@
       <div class="col-md-6">
         &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
         <%= button_to new_conversation_path, method: :get,  params: { :user_id => @profile.user.id },  :class => "btn btn-lg btn-primary pull-right" do %>
-          <span class="glyphicon glyphicon-send">Send Message to <%= current_user.username %></span>
+          <span class="glyphicon glyphicon-send">Send Message to <%= @profile.user.username %></span>
         <% end %>
       </div>
     </div>
@@ -30,11 +30,9 @@
             <strong>Avatar:</strong>
             <br>
             <%= image_tag @profile.avatar.variant(resize: "300x300") %>
-
-
-          <!-- p><%= image_tag @profile.avatar.variant(resize: "50x50") %></p -->
-
-          <%= link_to 'Remove Photo/Avatar', delete_avatar_url(@profile.id) %>
+            <% if @profile.user == current_user %>
+              <%= link_to 'Remove Photo/Avatar', delete_avatar_url(@profile.id) %>
+            <% end %>
           </div>
         <% end %> &nbsp;
     </div>

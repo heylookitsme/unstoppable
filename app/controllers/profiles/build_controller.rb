@@ -18,7 +18,7 @@ class Profiles::BuildController < ApplicationController
       Rails.logger.debug("Wizard update params1 = #{params[:profile][:profile_id].inspect}")
       @profile = Profile.find(params[:profile][:profile_id])
       @user = @profile.user
-      set_current_user(@user) unless @user.blank?
+      #set_current_user(@user) unless @user.blank?
       #@profile.update_attributes(params[:profile])
       @profile.step_status = params[:profile][:id]
       @profile.update(profile_params)
@@ -29,7 +29,7 @@ class Profiles::BuildController < ApplicationController
       Rails.logger.debug("finish_wizard_path update params = #{params.inspect}")
       @profile = Profile.find(params[:profile_id])
       @user = @profile.user
-      set_current_user(@user) unless @user.blank?
+      #set_current_user(@user) unless @user.blank?
       attachment_photo_path(:profile_id => @profile.id)
     end
   

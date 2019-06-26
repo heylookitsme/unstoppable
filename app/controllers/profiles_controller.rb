@@ -129,19 +129,19 @@ class ProfilesController < ApplicationController
     unless params[:id].blank?
       @profile = Profile.find(params[:id])
       @user = @profile.user
-      set_current_user(@user)
+      #set_current_user(@user)
       Rails.logger.debug("SARADA = #{@profile.inspect}")
     else
       unless params[:user_id].blank?
         @user = User.find(params[:user_id])
         @profile = @user.profile
-        set_current_user(@user)
+        #set_current_user(@user)
       else
         if(current_user.blank?)
           redirect_to destroy_user_session_path and return
         else
           @user = current_user
-          set_current_user(@user)
+          #set_current_user(@user)
         end
       end
     end

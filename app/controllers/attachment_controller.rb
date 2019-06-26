@@ -66,11 +66,11 @@ class AttachmentController < ApplicationController
       Rails.logger.debug("In Profile Controller @profile = #{@profile.inspect}")
       @user = @profile.user
       Rails.logger.debug("In Profile Controller @user = #{@user.inspect}")
-      set_current_user(@user)
+      #set_current_user(@user)
     else
       @profile = Profile.find_by_id(params["id"])
       @user = @profile.user
-      set_current_user(@user)
+      #set_current_user(@user)
     end
    
   end
