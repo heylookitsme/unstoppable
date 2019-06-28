@@ -325,6 +325,7 @@ DEPENDENCIES
   geokit-rails
   jbuilder (~> 2.5)
   jquery-rails
+  kaminari
   listen (~> 3.0.5)
   mail (~> 2.7)
   mailboxer

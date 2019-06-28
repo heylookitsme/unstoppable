@@ -64,6 +64,7 @@ gem 'zip-codes'
 gem 'mailboxer'
 gem 'select_all-rails'
 gem 'jquery-rails'
+gem 'kaminari'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

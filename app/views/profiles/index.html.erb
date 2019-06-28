@@ -53,7 +53,7 @@
                             <%= button_to 'Save', save_like_user_path(profile.user.id), method: :post %>
                           <% end %>
                         
-                        <em class="font-sm"><b>Age:</b> <%= profile.age %>, <b>Distance:</b> <%= profile.distance %> miles</em>
+                        <em class="font-sm"><b>Age:</b> <%= profile.age %>, <b>Distance:</b> miles</em>
                       </div>
                     <% end %>
                 </div>
@@ -63,6 +63,6 @@
         
       
     </div>
-
+    <%= paginate @profiles %>
 <!--- -->
   
