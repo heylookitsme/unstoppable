@@ -8,9 +8,10 @@
         </div>
       </div>
       <div class="col-md-6">
-        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-        <%= button_to new_conversation_path, method: :get,  params: { :user_id => @profile.user.id },  :class => "btn btn-lg btn-primary pull-right" do %>
-          <span class="glyphicon glyphicon-send">Send Message to <%= @profile.user.username %></span>
+        <% unless current_user == @profile.user %>
+          <%= button_to new_conversation_path, method: :get,  params: { :user_id => @profile.user.id },  :class => "btn btn-lg btn-primary pull-right" do %>
+            <span>Send Message to <%= @profile.user.username %></span>
+          <% end %>
         <% end %>
       </div>
     </div>
