@@ -5,6 +5,7 @@ class Profile < ApplicationRecord
   validates :dob, :presence => true
   validate :check_referred_by
   validate :validate_age
+  validate :check_zipcode
   has_and_belongs_to_many :activities
   has_and_belongs_to_many :exercise_reasons
   #has_and_belongs_to_many :likes
@@ -247,6 +248,13 @@ class Profile < ApplicationRecord
     e = all_profile_ids.include?(self.id)
     Rails.logger.debug("EXISTS = {e.inspect}")
     e
+  end
+
+  def check_zipcode
+    zipcode_details = ZipCodes.identify(self.zipcode)
+    if zipcode_details.nil?
+      errors.add(:zipcode, 'This is not a valid US zipcode')
+    end
   end
   #has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => #"/images/:style/missing.png"
   #validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
