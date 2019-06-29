@@ -77,17 +77,17 @@ class Profile < ApplicationRecord
     d
   end
 
-  def self.get_list(current_user)
+  def self.get_list(profile_list, culat, culong)
     #Rails.logger.debug "in Profile get_list CURRENT = #{User.current.inspect}"
     all_profiles = []
-    for profile in Profile.all do
-      unless profile.user.admin?
-        Rails.logger.debug "#{current_user.profile.latitude}.inspect"
-        if !current_user.profile.latitude.nil? && !current_user.profile.longitude.nil? && !profile.latitude.nil? && !profile.longitude.nil?
-          profile.distance = profile.distance_to([current_user.profile.latitude, current_user.profile.longitude]).round
+    for profile in profile_list do
+      #unless profile.user.admin?
+        Rails.logger.debug "#{culat}.inspect"
+        if !culat.nil? && !culong.nil? && !profile.latitude.nil? && !profile.longitude.nil?
+          profile.distance = profile.distance_to([culat, culong]).round
         end
         all_profiles << profile
-      end
+      #end
     end
     all_profiles
   end
