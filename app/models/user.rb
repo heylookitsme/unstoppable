@@ -53,6 +53,7 @@ class User < ApplicationRecord
     #Rails.logger.debug "User DOB = #{self.dob.inspect}"
     self.profile.dob = self.dob
     self.profile.step_status = "Basic Info"
+    self.profile.moderated = true
     self.profile.save!
   end
 

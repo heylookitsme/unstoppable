@@ -32,6 +32,8 @@ class Profile < ApplicationRecord
   before_save :check_send_approved_email
   after_save :send_email
 
+=begin
+# TEMPORARILY DISABLING SEARCHES
   searchable do
     text :details_about_self
     text :other_cancer_location
@@ -45,6 +47,7 @@ class Profile < ApplicationRecord
     
     #latlon(:zipcode) { Sunspot::Util::Coordinates.new(:latitude, :longitude) }
   end
+=end
 
   def address
     self.zipcode
