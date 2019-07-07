@@ -12,11 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2019_06_08_213359) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -33,37 +36,37 @@ ActiveRecord::Schema.define(version: 2019_06_08_213359) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "activities", force: :cascade do |t|
+  create_table "activities", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "activities_profiles", force: :cascade do |t|
+  create_table "activities_profiles", id: :serial, force: :cascade do |t|
     t.integer "profile_id"
     t.integer "activity_id"
   end
 
-  create_table "exercise_reasons", force: :cascade do |t|
+  create_table "exercise_reasons", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "exercise_reasons_profiles", force: :cascade do |t|
+  create_table "exercise_reasons_profiles", id: :serial, force: :cascade do |t|
     t.integer "exercise_reason_id"
     t.integer "profile_id"
   end
 
   create_table "likes", force: :cascade do |t|
-    t.integer "profile_id"
+    t.bigint "profile_id"
     t.integer "like_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["profile_id"], name: "index_likes_on_profile_id"
   end
 
-  create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|
+  create_table "mailboxer_conversation_opt_outs", id: :serial, force: :cascade do |t|
     t.string "unsubscriber_type"
     t.integer "unsubscriber_id"
     t.integer "conversation_id"
@@ -71,13 +74,13 @@ ActiveRecord::Schema.define(version: 2019_06_08_213359) do
     t.index ["unsubscriber_id", "unsubscriber_type"], name: "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type"
   end
 
-  create_table "mailboxer_conversations", force: :cascade do |t|
+  create_table "mailboxer_conversations", id: :serial, force: :cascade do |t|
     t.string "subject", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "mailboxer_notifications", force: :cascade do |t|
+  create_table "mailboxer_notifications", id: :serial, force: :cascade do |t|
     t.string "type"
     t.text "body"
     t.string "subject", default: ""
@@ -100,7 +103,7 @@ ActiveRecord::Schema.define(version: 2019_06_08_213359) do
     t.index ["type"], name: "index_mailboxer_notifications_on_type"
   end
 
-  create_table "mailboxer_receipts", force: :cascade do |t|
+  create_table "mailboxer_receipts", id: :serial, force: :cascade do |t|
     t.string "receiver_type"
     t.integer "receiver_id"
     t.integer "notification_id", null: false
@@ -117,7 +120,7 @@ ActiveRecord::Schema.define(version: 2019_06_08_213359) do
     t.index ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type"
   end
 
-  create_table "profiles", force: :cascade do |t|
+  create_table "profiles", id: :serial, force: :cascade do |t|
     t.date "dob"
     t.string "zipcode"
     t.string "other_favorite_activities"
@@ -146,7 +149,7 @@ ActiveRecord::Schema.define(version: 2019_06_08_213359) do
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "username", default: "", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -168,4 +171,8 @@ ActiveRecord::Schema.define(version: 2019_06_08_213359) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
+  add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
+  add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
 end

@@ -5,13 +5,30 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: sqlite3
+  adapter: postgresql
   pool: 5
   timeout: 5000
 
+#development:
+ # <<: *default
+ # database: db/development.sqlite3
+
 development:
+  adapter: postgresql
+  port: 5433
+  encoding: unicode
+  database: raghunathchintala
+  pool: 5
+  username: raghunathchintala
+  password: tars123
+
+production:
   <<: *default
-  database: db/development.sqlite3
+  adapter: postgresql
+  encoding: unicode
+  database: uns_prod
+  username: uns_prod
+  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
 
 #default: &default
 #  adapter:  postgresql
