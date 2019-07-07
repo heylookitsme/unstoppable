@@ -31,6 +31,9 @@ user.profile.cancer_location="Lung"
 user.profile.details_about_self="I may have some thyroid nodules"
 user.profile.other_cancer_location="Bladder"
 user.save!
+p = User.find_by_username("admin").profile
+p.moderated=true
+p.save
 
 
 u=User.create(username:"dash", email:"dashcute@x.com", password: 'dash123', dob: "01-01-1942", zipcode: "20850")
