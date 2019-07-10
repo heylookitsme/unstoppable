@@ -27,10 +27,10 @@ ExerciseReason.find_or_create_by!(name: 'Sense of Accomplishment')
 ExerciseReason.find_or_create_by!(name: 'Other  - Describe in About You question below')
 
 user = User.create(username:"admin", email:"test@test.com", password: 'dash123', admin: true, dob: "01-01-1985", zipcode: "20854")
+user.save!
 user.profile.cancer_location="Lung"
 user.profile.details_about_self="I may have some thyroid nodules"
 user.profile.other_cancer_location="Bladder"
-user.save!
 p = User.find_by_username("admin").profile
 p.moderated=true
 p.save

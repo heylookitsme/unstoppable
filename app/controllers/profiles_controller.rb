@@ -12,8 +12,8 @@ class ProfilesController < ApplicationController
     Rails.logger.debug "PARAMS = #{params.inspect}"
     unless current_user.blank?
       if current_user.profile.moderated?
-        profiles_list = Profile.all.order("updated_at DESC") #.page(params[:page])
-        @profiles = Profile.get_list(profiles_list, current_user.profile.latitude, current_user.profile.longitude)
+       @profiles = Profile.all.order("updated_at DESC").page(params[:page])
+        #@profiles = Profile.get_list(profiles_list, current_user.profile.latitude, current_user.profile.longitude)
       elsif current_user.profile.wizard_complete_thankyou_sent 
         render 'thank_you'
       else
