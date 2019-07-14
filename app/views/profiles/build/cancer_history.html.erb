@@ -65,7 +65,7 @@
       <%= simple_form_for  @profile, :url => wizard_path, html: {multipart: true} do |f| %>
         <!-- %= f.error_message_for(:referred_by) % -->
 
-        <%= f.hidden_field :step_status, :value => "Cancer Me" %>
+        <%= f.hidden_field :step_status, :value => "Cancer History" %>
 
         <%= f.hidden_field :profile_id, :value => @profile.id %>
         

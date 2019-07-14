@@ -21,7 +21,9 @@ class AttachmentController < ApplicationController
       flash[:notices] = ["Your profile avatar was successfully updated"]
       @profile.step_status = "Photo Attached"
       @profile.save
-      unless @profile.moderated?
+      #unless @profile.moderated?
+      if @profile.step_status == "About Me" || @profile.step_status == "Cancer History"
+        @profile.step_status = "Photo Attached Wizard"
         render :template => 'profiles/thank_you.html.erb'
       else
         render :template => 'profiles/show.html.erb'
@@ -66,11 +68,9 @@ class AttachmentController < ApplicationController
       Rails.logger.debug("In Profile Controller @profile = #{@profile.inspect}")
       @user = @profile.user
       Rails.logger.debug("In Profile Controller @user = #{@user.inspect}")
-      #set_current_user(@user)
     else
       @profile = Profile.find_by_id(params["id"])
       @user = @profile.user
-      #set_current_user(@user)
     end
    
   end

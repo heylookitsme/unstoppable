@@ -1,13 +1,13 @@
 class User < ApplicationRecord
   has_one :profile, :dependent => :destroy
-  validates :username, presence: :true, uniqueness: { case_sensitive: false } #, message: "Please enter the Username"
+  validates :username, presence: :true, uniqueness: { case_sensitive: false }
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
-  validate :dob_minimum
+  validate :dob_minimum, :if => :no_password_change
   #validates :zipcode, presence: :true
-  validate :check_zipcode
+  validate :check_zipcode,  :if => :no_password_change
   #validates_zipcode :zipcode
   #validates :zipcode, zipcode: { country_code: :us }
-  validates :zipcode, zipcode: true
+  validates :zipcode, zipcode: true,  :if => :no_password_change
 
   acts_as_messageable
 
@@ -30,6 +30,10 @@ class User < ApplicationRecord
 
   before_validation :set_country_alpha2
 
+  def no_password_change
+    !encrypted_password_changed?
+  end
+
   def unread_messages
     self.mailbox.inbox(:unread => true).count
   end
@@ -50,7 +54,6 @@ class User < ApplicationRecord
   def init_profile
     self.create_profile
     self.profile.zipcode = self.zipcode
-    #Rails.logger.debug "User DOB = #{self.dob.inspect}"
     self.profile.dob = self.dob
     self.profile.step_status = "Basic Info"
     self.profile.moderated = true
@@ -82,10 +85,11 @@ class User < ApplicationRecord
   end
 
   private
+
   def confirmation_token
-        if self.confirm_token.blank?
-            self.confirm_token = SecureRandom.urlsafe_base64.to_s
-        end
+    if self.confirm_token.blank?
+        self.confirm_token = SecureRandom.urlsafe_base64.to_s
+    end
   end
   
   def dob_minimum

@@ -72,7 +72,11 @@
                   <%= link_to destroy_user_session_path, method: :delete, :class => "nav-item"  do %>
                     <%= content_tag :span, "Logout", :class => "glyphicon glyphicon-king" %>
                   <% end %>
-                </li>
+                </li><li>
+                <%= link_to edit_password_user_path(current_user), method: :get, :class => "nav-item"  do %>
+                  <%= content_tag :span, "Change Password", :class => "glyphicon glyphicon-king" %>
+                <% end %>
+              </li>
               <% end %>
           </ul>
         </nav>

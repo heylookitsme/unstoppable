@@ -13,4 +13,9 @@ class UserMailer < ApplicationMailer
   def approval(user)
     mail(:to => "#{user.username} <#{user.email}>", :subject => "Your 2Unstoppable Profile Has Been Approved")
   end
+
+  def forgot_username(user)
+    @user = user
+    mail(:to => "#{user.username} <#{user.email}>", :subject => "Username Reminder")
+  end
 end

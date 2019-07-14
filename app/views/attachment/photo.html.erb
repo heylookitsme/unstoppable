@@ -133,8 +133,18 @@
 
     </div>
 
-    <%= f.button :submit, "Save" %>
-    <%= link_to "Cancel", :back %>
+    <% if @profile.step_status ==  "About Me" || @profile.step_status ==  "Cancer History" %>
+      <div class="fieldWrapper">
+      
+              <%= link_to  "< Back", :back, :class => "btn btn-primary btn-lg" %>
+              <%= f.button :submit, "Save and Continue", :class => "btn btn-primary btn-lg"%>
+              <%= link_to 'Skip >', profiles_thank_you_path, :class => "btn btn-primary btn-lg" %>
+      </div>
+    <% else %>
+      <%= button_to :submit, "Save" %>
+      <%= link_to "Cancel", :back %>
+    <% end %>
+
   <% end %>
 
 

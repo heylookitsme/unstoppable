@@ -23,7 +23,8 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:username, :email, :admin, email_confirmed, confirm_token)
+    #params.require(:user).permit(:username, :email, :admin, email_confirmed, confirm_token, reset_password_token, :password, :password_confirmation, :current_password)
+    params.require(:user).permit(:password, :password_confirmation, :current_password)
   end
 
   def save_like
@@ -81,6 +82,22 @@ class UsersController < ApplicationController
     else
       flash[:error] = "Sorry. User does not exist"
       redirect_to users_sign_out_path
+    end
+  end
+
+  def edit_password
+    @user = current_user
+    render "edit_password"
+  end
+
+  def update_password
+    @user = current_user
+    if @user.update_with_password(user_params)
+      # Sign in the user by passing validation in case their password changed
+      bypass_sign_in(@user)
+      redirect_to root_path
+    else
+      render "edit_password"
     end
   end
 end

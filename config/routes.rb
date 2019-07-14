@@ -31,6 +31,10 @@ Rails.application.routes.draw do
   get 'users/index'
 
   get 'delete_avatar/:id', to: 'attachment#delete_avatar', as: :delete_avatar 
+
+  get '/get_email_address', to: 'management#get_email_address', as: :get_email_address
+
+  post '/send_username', to: 'management#send_username', as: :send_username
   
 
    devise_scope :user  do
@@ -60,6 +64,9 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :index] do
     resource :profile, only: [:show, :edit, :update]
+    patch 'update_password', on: :collection
+    get 'edit_password', on: :member
+    #get 'forward_username', on: :member
     member do
       get :confirm_email
       get :email_confirmation
