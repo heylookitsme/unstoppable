@@ -1,6 +1,100 @@
 
-<%= stylesheet_link_tag "application" %>
-<!-- %= stylesheet_link_tag "registration" %-->
+
+<div class="container">
+  <div class="row registration-steps row-no-padding">
+
+    <% if @profile.step_status ==  "About Me" || @profile.step_status ==  "Cancer History" %> 
+        <div class="row registration-steps row-no-padding">
+          <div class="col-md-2">
+            <div class="registration-step registration-step-complete">
+              <div class="number"><div class="circle">1</div></div>
+              Basic Info
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="registration-step registration-step-complete">
+              <div class="number"><div class="circle">2</div></div>
+              Confirm Email
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="registration-step registration-step-complete">
+              <div class="number"><div class="circle">3</div></div>
+              About Me
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="registration-step registration-step-complete">
+              <div class="number"><div class="circle">4</div></div>
+              Cancer History
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="registration-step registration-step-active">
+              <div class="number"><div class="circle">5</div></div>
+              Photo
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="registration-step ">
+              <div class="number"><div class="circle">6</div></div>
+              Browse Profiles
+            </div>
+          </div>
+    <% end %>  
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <p class="font-sm font-light"><em><span class='font-purple'>Including a photo will help other members feel more comfortable.</span></em></p>
+      <br/>
+      <h3>Photo Upload</h3>
+
+      <%= simple_form_for @profile, :url => attachment_photosave_path(:id => @profile.id), :method => :post, html: {multipart: true } do |f| %>
+          <div id="photo-upload-errors" class="hidden alert alert-danger"></div>
+          <div class="image-editor">
+            <input type="file" name="profile[avatar]" class="cropit-image-input">
+            <div class="cropit-preview">
+              <div class="preview-text">
+                <span class="glyphicon glyphicon-upload"></span>
+                <p>Drag and drop a photo here to upload.</p>
+              </div>
+            </div>
+
+            <div class="controls-wrapper">
+              <span class="glyphicon glyphicon-repeat rotate-cw-btn"></span>
+
+              <label for="image-zoom">Resize image</label>
+              <span class="glyphicon glyphicon-minus"></span>
+              <input id="image-zoom" name="image-zoom" type="range" class="cropit-image-zoom-input">
+              <span class="glyphicon glyphicon-plus"></span>
+            </div>
+
+            <input type="hidden" name="image-data" class="hidden-image-data">
+
+          </div>
+
+          <% if @profile.step_status ==  "About Me" || @profile.step_status ==  "Cancer History" %>
+            <div class="fieldWrapper">
+                    <%= link_to  "< Back", :back, :class => "btn btn-primary btn-lg" %>
+                    <%= f.button :submit, "Save and Continue", :class => "btn btn-primary btn-lg"%>
+                    <%= link_to 'Skip >', profiles_thank_you_path, :class => "btn btn-primary btn-lg" %>
+            </div>
+          <% else %>
+            <div class="fieldWrapper">
+              <%= button_to :submit, "Save", :class => "btn btn-primary btn-lg"%>
+              <%= link_to "Cancel", :back, :class => "btn btn-primary btn-lg" %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+
+<script src="https://cdn.jsdelivr.net/jquery/1.12.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
 <!-- begin script -->
 
 <script src="https://cdn.jsdelivr.net/jquery.cropit/0.5.1/jquery.cropit.js"></script>
@@ -49,111 +143,6 @@
     document.getElementsByTagName('head')[0].appendChild(css);
     })();
     </script>
-
-
-<% unless @profile.moderated %>
-  <div class="container">
-        
-    <div class="row registration-steps row-no-padding">
-    
-      <div class="col-md-2">
-        <div class="registration-step registration-step-complete">
-          <div class="number"><div class="circle">1</div></div>
-          Basic Info
-        </div>
-      </div>
-    
-      <div class="col-md-2">
-        <div class="registration-step registration-step-complete">
-          <div class="number"><div class="circle">2</div></div>
-          Confirm Email
-        </div>
-      </div>
-    
-      <div class="col-md-2">
-        <div class="registration-step registration-step-complete">
-          <div class="number"><div class="circle">3</div></div>
-          About Me
-        </div>
-      </div>
-    
-      <div class="col-md-2">
-        <div class="registration-step registration-step-complete">
-          <div class="number"><div class="circle">4</div></div>
-          Cancer History
-        </div>
-      </div>
-    
-      <div class="col-md-2">
-        <div class="registration-step registration-step-active">
-          <div class="number"><div class="circle">5</div></div>
-          Photo
-        </div>
-      </div>
-    
-      <div class="col-md-2">
-        <div class="registration-step ">
-          <div class="number"><div class="circle">6</div></div>
-          Browse Profiles
-        </div>
-      </div>
-    
-  </div>
-<% end %>  
-
-
-
-<div class="container">
-<p class="font-sm font-light"><em><span class='font-purple'>Including a photo will help other members feel more comfortable.</span></em></p>
-
-<h1>Photo Upload4</h1>
-
-<%= simple_form_for @profile, :url => attachment_photosave_path(:id => @profile.id), :method => :post, html: {multipart: true } do |f| %> 
-   
-    <div id="photo-upload-errors" class="hidden alert alert-danger"></div>
-    <div class="image-editor">
-      <input type="file" name="profile[avatar]" class="cropit-image-input">
-      <div class="cropit-preview">
-        <div class="preview-text">
-          <span class="glyphicon glyphicon-upload"></span>
-          <p>Drag and drop a photo here to upload.</p>
-        </div>
-      </div>
-
-      <div class="controls-wrapper">
-        <span class="glyphicon glyphicon-repeat rotate-cw-btn"></span>
-
-        <label for="image-zoom">Resize image</label>
-        <span class="glyphicon glyphicon-minus"></span>
-        <input id="image-zoom" name="image-zoom" type="range" class="cropit-image-zoom-input">
-        <span class="glyphicon glyphicon-plus"></span>
-      </div>
-
-      <input type="hidden" name="image-data" class="hidden-image-data">
-
-    </div>
-
-    <% if @profile.step_status ==  "About Me" || @profile.step_status ==  "Cancer History" %>
-      <div class="fieldWrapper">
-      
-              <%= link_to  "< Back", :back, :class => "btn btn-primary btn-lg" %>
-              <%= f.button :submit, "Save and Continue", :class => "btn btn-primary btn-lg"%>
-              <%= link_to 'Skip >', profiles_thank_you_path, :class => "btn btn-primary btn-lg" %>
-      </div>
-    <% else %>
-      <%= button_to :submit, "Save" %>
-      <%= link_to "Cancel", :back %>
-    <% end %>
-
-  <% end %>
-
-
-<script src="https://cdn.jsdelivr.net/jquery/1.12.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-
-
-<script src="https://cdn.jsdelivr.net/jquery.cropit/0.5.1/jquery.cropit.js"></script>
 
   
 
