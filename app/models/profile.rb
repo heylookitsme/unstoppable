@@ -3,34 +3,30 @@ class Profile < ApplicationRecord
   validates_uniqueness_of :user_id, :message => "User can only have one Profile"
   validates :user_id, presence: true
   validates :dob, :presence => true
+  validate :check_fitness_level
   validate :check_referred_by
   validate :validate_age
   validate :check_zipcode
   has_and_belongs_to_many :activities
   has_and_belongs_to_many :exercise_reasons
-  #has_and_belongs_to_many :likes
-  has_many :likes #, class_name: "Profile", foreign_key: :profile_id
+  has_many :likes 
   has_one_attached :avatar
-  #attr_accessor :age
   attribute :age
   attribute :distance, default: 0
   # Attribute for determining if approved email needs to be sent
   attribute :send_approved_email, :default => false
-
-=begin
-  acts_as_mappable :default_units => :miles,
-                   
-                   :lat_column_name => :latitude,
-                   :lng_column_name => :longitude
-=end
-
-  #validates :zipcode, presence: true
   geocoded_by :address
-  #after_validation :geocode
   after_validation :geocode, :if => :zipcode_changed?
   before_save :compute_latlong
-  before_save :check_send_approved_email
-  after_save :send_email
+
+  #constants
+  STEP_BASIC_INFO = "Basic Info"
+  STEP_ABOUT_ME = "About Me"
+  STEP_CANCER_HISTORY = "Cancer History"
+  STEP_CONFIRMED_EMAIL = "Confirmed Email"
+  STEP_EMAIL_CONFIRMATION_SENT = "Email Confirmation Sent"
+  STEP_PHOTO_ATTACHED_WIZARD = "Photo Attached Wizard"
+  STEP_PHOTO_ATTACHED = "Photo Attached"
 
 =begin
 # TEMPORARILY DISABLING SEARCHES
@@ -38,7 +34,7 @@ class Profile < ApplicationRecord
     text :details_about_self
     text :other_cancer_location
     text :cancer_location
-    integer :age
+    integer :age 
     integer :distance
     text :zipcode
     text :activities do
@@ -49,21 +45,12 @@ class Profile < ApplicationRecord
   end
 =end
 
-  def address
-    self.zipcode
+  def email_confirmed?
+    self.step_status == STEP_CONFIRMED_EMAIL
   end
 
-  def check_send_approved_email
-    if self.moderated_changed?
-      self.send_approved_email = true
-    end
-  end
- 
-  def send_email
-    # Send email here
-    if send_approved_email && self.moderated
-      UserMailer.approval(self.user).deliver
-    end
+  def address
+    self.zipcode
   end
 
   def distance
@@ -229,7 +216,7 @@ class Profile < ApplicationRecord
 
   def check_referred_by
     unless self.step_status.blank?
-      if self.step_status != "Basic Info" &&  self.step_status != "Confirmed Email" && self.step_status != "About Me"
+      if self.step_status != STEP_BASIC_INFO &&  self.step_status != STEP_CONFIRMED_EMAIL && self.step_status != STEP_ABOUT_ME
         if self.referred_by.blank?
           errors.add(:referred_by, ', Please select one of the options in How did you learn from us')
         end
@@ -237,6 +224,15 @@ class Profile < ApplicationRecord
     end
   end
 
+  def check_fitness_level
+    unless self.step_status.blank?
+      if self.step_status != STEP_BASIC_INFO &&  self.step_status != STEP_CONFIRMED_EMAIL && self.step_status != STEP_CANCER_HISTORY
+        if self.fitness_level.blank?
+          errors.add(:fitness_level, ', Please select one of the options in How did you learn from us')
+        end
+      end
+    end
+  end
 
   def check_liked(check_profile_id)
     profile_liked = false

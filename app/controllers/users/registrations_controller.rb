@@ -18,12 +18,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
  protected
 
  def after_sign_up_path_for(resource)
-  Rails.logger.debug "#{resource.inspect}"
+  Rails.logger.debug "In after_sign_up_path_for resource = #{resource.inspect}"
   #UserMailer.with(user: resource).welcome_email.deliver_later
   UserMailer.registration_confirmation(resource).deliver
   flash[:success] = "Please confirm your email address to continue"
   #redirect_to root_url
-  email_confirmation_user_path(resource, :user_id => resource.id)
+  # Removing email confirmation from second step and move to the end step
+  # email_confirmation_user_path(resource, :user_id => resource.id)
+  profile_build_path(:about_me, :profile_id => resource.profile.id)
   #destroy_user_session_path
  end
 

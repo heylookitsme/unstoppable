@@ -7,42 +7,42 @@
         Basic Info
       </div>
     </div>
-  
+
     <div class="col-md-2">
       <div class="registration-step registration-step-complete">
         <div class="number"><div class="circle">2</div></div>
-        Confirm Email
-      </div>
-    </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step registration-step-complete">
-        <div class="number"><div class="circle">3</div></div>
         About Me
       </div>
     </div>
-  
+
     <div class="col-md-2">
       <div class="registration-step registration-step-active">
-        <div class="number"><div class="circle">4</div></div>
+        <div class="number"><div class="circle">3</div></div>
         Cancer History
       </div>
     </div>
-  
+
     <div class="col-md-2">
-      <div class="registration-step ">
-        <div class="number"><div class="circle">5</div></div>
+      <div class="registration-step">
+        <div class="number"><div class="circle">4</div></div>
         Photo
       </div>
     </div>
-  
+
+    <div class="col-md-2">
+      <div class="registration-step">
+        <div class="number"><div class="circle">5</div></div>
+        Confirm Email
+      </div>
+    </div>
+
     <div class="col-md-2">
       <div class="registration-step ">
         <div class="number"><div class="circle">6</div></div>
         Browse Profiles
       </div>
     </div>
-  
+      
   </div>
 
   <div class="row">
@@ -53,9 +53,6 @@
       </div>
       <div class="col-md-3 buttons">
         <%= link_to  "< Back", previous_wizard_path, :class => "btn btn-primary  btn-lg" %>
-        <%= link_to 'Skip >', next_wizard_path, :class => "btn btn-primary  btn-lg" %>
-        <!-- button type="submit" name="skip" value="0" class="btn btn-default btn-lg pull-right">Skip <span class="glyphicon glyphicon-chevron-right"></span></button>
-        <div class="pad-md"><a name="back" class="btn btn-default btn-lg pull-right" href="/profiles/register/about"><span class="glyphicon glyphicon-chevron-left"></span> Back</a></div -->
       </div>
   </div>
   <p class="font-sm font-light"><em><span class='font-purple'>This information will become part of your profile so that other members can learn more about you.  Women have told us that sometimes this information is important to them.</span></em></p>
@@ -63,7 +60,17 @@
   <div class="row">
     <div class="col-md-8">    
       <%= simple_form_for  @profile, :url => wizard_path, html: {multipart: true} do |f| %>
-        <!-- %= f.error_message_for(:referred_by) % -->
+        <% if @profile.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+
+            <ul>
+            <% @profile.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
 
         <%= f.hidden_field :step_status, :value => "Cancer History" %>
 
@@ -107,7 +114,6 @@
         <div class="fieldWrapper">
             <%= link_to  "< Back", previous_wizard_path, :class => "btn btn-primary btn-lg" %>
             <%= f.button :submit, "Save and Continue", :class => "btn btn-primary btn-lg"%>
-            <%= link_to 'Skip >', next_wizard_path, :class => "btn btn-primary btn-lg" %>
         </div>
         <% end %>
     </div>

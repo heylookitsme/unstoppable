@@ -1,0 +1,6 @@
+<h1> Please confirm your email </h1>
+<p> Please Login to your account to confirm your email </p>
+<h3> Would you like the confirmation email to be resent to your account? </h3>
+<%= simple_form_for(@user, as: :user, method: :post, url: resend_confirmation_user_path) do |f| %>
+  <%= f.button :submit, "Resend Email Confirmation" %>
+<% end %>

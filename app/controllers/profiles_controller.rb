@@ -11,19 +11,37 @@ class ProfilesController < ApplicationController
 
     Rails.logger.debug "PARAMS = #{params.inspect}"
     unless current_user.blank?
-      if current_user.profile.moderated?
+      case current_user.profile.step_status
+        when Profile::STEP_CONFIRMED_EMAIL
+          @profiles = Profile.all.order("updated_at DESC").page(params[:page])
+        when Profile::STEP_EMAIL_CONFIRMATION_SENT
+          redirect_to remind_confirmation_user_path(current_user)
+        when Profile::STEP_CANCER_HISTORY
+          redirect_to attachment_photo_path(:profile_id => current_user.profile.id)
+        when Profile::STEP_ABOUT_ME
+          redirect_to profile_build_path(:cancer_history, :profile_id => current_user.profile.id)
+        when Profile::STEP_BASIC_IN
+          redirect_to profile_build_path(:about_me, :profile_id => current_user.profile.id)
+      end
+    end
+=begin     
+      if current_user.profile.step_status == Profile::STEP_CONFIRMED_EMAIL
        @profiles = Profile.all.order("updated_at DESC").page(params[:page])
         #@profiles = Profile.get_list(profiles_list, current_user.profile.latitude, current_user.profile.longitude)
-      elsif current_user.profile.wizard_complete_thankyou_sent 
-        render 'thank_you'
-      else
-        redirect_to destroy_user_session_path and return
+      #elsif current_user.profile.wizard_complete_thankyou_sent 
+      ##  render 'thank_you'
+      elsif current_user.profile.step_status == Profile::STEP_EMAIL_CONFIRMATION_SENT
+        #redirect_to destroy_user_session_path and return
+        # TODO render the page reminding the User to confirm email
+        redirect_to remind_confirmation_user_path(current_user)
+      elsif 
       end
     else
       Rails.logger.debug "Redirection to SIGNOUT"
       redirect_to destroy_user_session_path and return
     end
-
+=end
+    # Optional views
     unless params[:viewstyle].blank?
       Rails.logger.info "ViewType = #{params[:viewstyle].inspect}"
       if params[:viewstyle] == "listview"
@@ -31,11 +49,7 @@ class ProfilesController < ApplicationController
       else params[:viewstyle] == "mapview"
 
       end
-    else
-      render "index"
     end
-
-
   end
 
   

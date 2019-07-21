@@ -31,99 +31,122 @@ user.save!
 user.profile.cancer_location="Lung"
 user.profile.details_about_self="I may have some thyroid nodules"
 user.profile.other_cancer_location="Bladder"
+user.created_at = Time.now
+user.updated_at = Time.now
 p = User.find_by_username("admin").profile
-p.moderated=true
+p.step_status = Profile::STEP_CONFIRMED_EMAIL
+p.fitness_level = "very active"
 p.save
 
 
 u=User.create(username:"dash", email:"dashcute@x.com", password: 'dash123', dob: "01-01-1942", zipcode: "20850")
+u.created_at = Time.now
+u.updated_at = Time.now
 u.save!
 p = User.find_by_username("dash").profile
 p.cancer_location="Breast"
 p.details_about_self="I may have some thyroid nodules"
 p.other_cancer_location="Lymph"
-p.moderated=true
+p.step_status = Profile::STEP_CONFIRMED_EMAIL
 p.save
 
 u=User.create(username:"dash100", email:"dash200@x.com", password: 'dash123', dob: "01-01-1942", zipcode: "20854")
+u.created_at = Time.now
+u.updated_at = Time.now
 u.save!
 p = User.find_by_username("dash100").profile
 p.cancer_location="Heart"
 p.details_about_self="I may have some thyroid nodules"
 p.other_cancer_location=""
-p.moderated=true
+p.step_status = Profile::STEP_CONFIRMED_EMAIL
 p.save
 
 u=User.create(username:"dash1", email:"dash1@x.com", password: 'dash123', dob: "06-01-1959", zipcode: "20877")
+u.created_at = Time.now
+u.updated_at = Time.now
 u.save!
 p = User.find_by_username("dash1").profile
 p.cancer_location="Liver"
 p.details_about_self="I may have some thyroid nodules"
 p.other_cancer_location="Spleen"
-p.moderated=true
+p.step_status = Profile::STEP_CONFIRMED_EMAIL
 p.save
 
 u=User.create(username:"dash2", email:"dash2@x.com", password: 'dash123', dob: "06-01-1958", zipcode: "22513")
+u.created_at = Time.now
+u.updated_at = Time.now
 u.save!
 p = User.find_by_username("dash2").profile
 p.cancer_location="Colon"
 p.details_about_self="I may have some throat nodules"
 p.other_cancer_location="Pancreas"
-p.moderated=true
+p.step_status = Profile::STEP_CONFIRMED_EMAIL
 p.save
 
 u=User.create(username:"dash3", email:"dash3@x.com", password: 'dash123', dob: "6-12-1965", zipcode: "22436")
+u.created_at = Time.now
+u.updated_at = Time.now
 u.save!
 p = User.find_by_username("dash3").profile
 p.cancer_location="Brain"
 p.details_about_self="I may have some throat nodules"
 p.other_cancer_location="Neck"
-p.moderated=true
+p.step_status = Profile::STEP_CONFIRMED_EMAIL
 p.save
 
 u=User.create(username:"dash21", email:"dash21@x.com", password: 'dash123', dob: "6-12-1950", zipcode: "20102")
+u.created_at = Time.now
+u.updated_at = Time.now
 u.save!
 p = User.find_by_username("dash21").profile
 p.cancer_location="Breast"
 p.details_about_self=""
 p.other_cancer_location=""
-p.moderated=true
+p.step_status = Profile::STEP_CONFIRMED_EMAIL
 p.save
 
 u=User.create(username:"dash22", email:"dash22@x.com", password: 'dash123', dob: "6-12-1971", zipcode: "20171")
+u.created_at = Time.now
+u.updated_at = Time.now
 u.save!
 p = User.find_by_username("dash22").profile
 p.cancer_location="Breast"
 p.details_about_self=""
 p.other_cancer_location=""
-p.moderated=true
+p.step_status = Profile::STEP_CONFIRMED_EMAIL
 p.save
 
 u=User.create(username:"dash23", email:"dash23@x.com", password: 'dash123', dob: "6-12-1991", zipcode: "20172")
+u.created_at = Time.now
+u.updated_at = Time.now
 u.save!
 p = User.find_by_username("dash23").profile
 p.cancer_location="Breast"
 p.details_about_self=""
 p.other_cancer_location=""
-p.moderated=true
+p.step_status = Profile::STEP_CONFIRMED_EMAIL
 p.save
 
 u=User.create(username:"dash55", email:"dash55@x.com", password: 'dash123', dob: "6-12-1981", zipcode: "20172")
+u.created_at = Time.now
+u.updated_at = Time.now
 u.save!
 p = User.find_by_username("dash55").profile
 p.cancer_location="Breast"
 p.details_about_self=""
 p.other_cancer_location=""
-p.moderated=true
+p.step_status = Profile::STEP_CONFIRMED_EMAIL
 p.save
 
 u=User.create(username:"dash56", email:"dash56@x.com", password: 'dash123', dob: "6-12-1981", zipcode: "22555")
+u.created_at = Time.now
+u.updated_at = Time.now
 u.save!
 p = User.find_by_username("dash56").profile
 p.cancer_location="Breast"
 p.details_about_self=""
 p.other_cancer_location=""
-p.moderated=true
+p.step_status = Profile::STEP_CONFIRMED_EMAIL
 p.save
 =begin
 

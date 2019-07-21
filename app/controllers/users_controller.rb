@@ -75,14 +75,36 @@ class UsersController < ApplicationController
       #redirect_to new_session_path(user)
       #redirect_to profile_after_signup_path(:about_me, :profile_id => user.profile.id)
       
-      user.profile.step_status = "Confirmed Email"
+      user.profile.step_status = Profile::STEP_CONFIRMED_EMAIL
       user.profile.save!(:validate => false)
-
-      redirect_to profile_build_path(:about_me, :profile_id => user.profile.id)
+      # Removing email confirmation from second step and move to the end step
+      # redirect_to profile_build_path(:about_me, :profile_id => user.profile.id)
+      redirect_to new_session_path(user)
     else
       flash[:error] = "Sorry. User does not exist"
       redirect_to users_sign_out_path
     end
+  end
+
+  def email_confirmation
+    Rails.logger.info "In User controller, email_confirmation"
+    Rails.logger.info "In  email_confirmation = #{params.inspect}"
+    @user = User.find_by_id(params[:id])
+  end
+
+  def remind_confirmation
+    Rails.logger.info "In User controller, remind_confirmation"
+    Rails.logger.info "In  remind_confirmation = #{params.inspect}"
+    @user = User.find_by_id(params[:id])
+  end
+
+  def resend_confirmation
+    Rails.logger.info "In User controller, resend_confirmation"
+    Rails.logger.info "In  resend_confirmation = #{params.inspect}"
+    @user = User.find_by_id(params[:id])
+    UserMailer.registration_confirmation(@user).deliver
+    flash[:success] = "Please confirm your email address to continue"
+    redirect_to email_confirmation_user_path(@user, :user_id => @user.id)
   end
 
   def edit_password

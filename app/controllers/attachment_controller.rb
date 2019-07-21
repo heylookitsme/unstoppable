@@ -13,24 +13,28 @@ class AttachmentController < ApplicationController
   def photosave
     #@user = current_user
     #@profile = current_user.profile
+    Rails.logger.debug("attachment controller photosave params = #{params.inspect}")
     
-    @profile.avatar.attach(params[:profile][:avatar])
-   
-
-    if @profile.update(profile_params)
-      flash[:notices] = ["Your profile avatar was successfully updated"]
-      @profile.step_status = "Photo Attached"
-      @profile.save
-      #unless @profile.moderated?
-      if @profile.step_status == "About Me" || @profile.step_status == "Cancer History"
-        @profile.step_status = "Photo Attached Wizard"
-        render :template => 'profiles/thank_you.html.erb'
+    unless params[:profile].blank? || params[:profile][:avatar].blank?
+      @profile.avatar.attach(params[:profile][:avatar])
+      if @profile.update(profile_params)
+        flash[:notices] = ["Your profile avatar was successfully updated"]
+        #@profile.step_status = STEP_PHOTO_ATTACHED_WIZARD
+        #@profile.save
       else
-        render :template => 'profiles/show.html.erb'
+        flash[:notices] = ["Your profile avatar could not be updated"]
+        render 'photo'
       end
+    end
+    unless @profile.step_status == Profile::STEP_CONFIRMED_EMAIL
+      # Removing email confirmation from second step and move to the end step
+      # render :template => 'profiles/thank_you.html.erb'
+      @user = @profile.user
+      @profile.step_status = Profile::STEP_EMAIL_CONFIRMATION_SENT
+      @profile.save
+      redirect_to email_confirmation_user_path(@user)
     else
-      flash[:notices] = ["Your profile avatar could not be updated"]
-      render 'photo'
+      render :template => 'profiles/show.html.erb'
     end
     #redirect_back(fallback_location: request.referer)
   end
@@ -40,7 +44,7 @@ class AttachmentController < ApplicationController
     @avatar = @profile.avatar
     #@profile = @avatar.record
     if @avatar.purge
-      @profile.step_status = "Cancer History"
+      @profile.step_status = Profile::STEP_CANCER_HISTORY
       @profile.save
       flash[:notices] = ["Your profile avatar was successfully removed"]
       render 'photo'

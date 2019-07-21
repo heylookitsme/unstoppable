@@ -8,42 +8,42 @@
           Basic Info
         </div>
       </div>
-    
-      <div class="col-md-2">
-        <div class="registration-step registration-step-complete">
-          <div class="number"><div class="circle">2</div></div>
-          Confirm Email
-        </div>
-      </div>
-    
+
       <div class="col-md-2">
         <div class="registration-step registration-step-active">
-          <div class="number"><div class="circle">3</div></div>
+          <div class="number"><div class="circle">2</div></div>
           About Me
         </div>
       </div>
-    
+
       <div class="col-md-2">
-        <div class="registration-step ">
-          <div class="number"><div class="circle">4</div></div>
+        <div class="registration-step">
+          <div class="number"><div class="circle">3</div></div>
           Cancer History
         </div>
       </div>
-    
+
       <div class="col-md-2">
-        <div class="registration-step ">
-          <div class="number"><div class="circle">5</div></div>
+        <div class="registration-step">
+          <div class="number"><div class="circle">4</div></div>
           Photo
         </div>
       </div>
-    
+
+      <div class="col-md-2">
+        <div class="registration-step">
+          <div class="number"><div class="circle">5</div></div>
+          Confirm Email
+        </div>
+      </div>
+
       <div class="col-md-2">
         <div class="registration-step ">
           <div class="number"><div class="circle">6</div></div>
           Browse Profiles
         </div>
       </div>
-    
+
   </div>
   <p class="lead">Welcome back! In order to increase your chances of finding an exercise partner, we encourage you to fill out as much information as possible in the following steps.</p>
   <div class="row registration">
@@ -53,13 +53,6 @@
       <div class="col-md-2 buttons">
       </div>
       <div class="col-md-2 buttons">
-      
-        <!-- button type="submit" name="skip" class="btn btn-default btn-lg pull-right">Skip <span class="glyphicon glyphicon-chevron-right"></span></button --->
-        <%= link_to 'Skip >', next_wizard_path, :class => "btn btn-primary btn-lg pull-right" %>
-        <!-- %= link_to 'Skip', next_wizard_path, :class => "btn btn-default btn-lg pull-right" do %---->
-        <!-- span class="glyphicon glyphicon-chevron-right"></span> My span&nbsp;</span>My data
-        <!--% end % -->
-        <!-- %= link_to 'Skip >', next_wizard_path, :class => "btn btn-default btn-lg pull-right" %-->
       </div>
   </div>
   <p class="font-sm font-light"><em><span class='font-purple'>This information will become part of your profile so that other members can learn more about you.</span></em></p>
@@ -70,7 +63,7 @@
 
         <% if @profile.errors.any? %>
           <div id="error_explanation">
-            <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
+            <h2><%= pluralize(@profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
 
             <ul>
             <% @profile.errors.full_messages.each do |message| %>
@@ -104,7 +97,7 @@
         </div>
 
         <div class="fieldWrapper">
-          <%= f.input :fitness_level, include_blank: "- Select one -", 
+          <%= f.input :fitness_level, required: true, include_blank: "- Select one -", 
               collection: Profile.fitness_level_descriptions, 
               label: "How would you describe your current fitness level?"  %>
         </div>

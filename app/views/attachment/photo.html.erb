@@ -1,48 +1,47 @@
 
 
 <div class="container">
-  <div class="row registration-steps row-no-padding">
-
-    <% if @profile.step_status ==  "About Me" || @profile.step_status ==  "Cancer History" %> 
-        <div class="row registration-steps row-no-padding">
-          <div class="col-md-2">
-            <div class="registration-step registration-step-complete">
-              <div class="number"><div class="circle">1</div></div>
-              Basic Info
-            </div>
+  <% if @profile.step_status ==  "About Me" || @profile.step_status ==  "Cancer History" %> 
+      <div class="row registration-steps row-no-padding">
+        <div class="col-md-2">
+          <div class="registration-step registration-step-complete">
+            <div class="number"><div class="circle">1</div></div>
+            Basic Info
           </div>
-          <div class="col-md-2">
-            <div class="registration-step registration-step-complete">
-              <div class="number"><div class="circle">2</div></div>
-              Confirm Email
-            </div>
+        </div>
+        <div class="col-md-2">
+          <div class="registration-step registration-step-complete">
+            <div class="number"><div class="circle">2</div></div>
+            Confirm Email
           </div>
-          <div class="col-md-2">
-            <div class="registration-step registration-step-complete">
-              <div class="number"><div class="circle">3</div></div>
-              About Me
-            </div>
+        </div>
+        <div class="col-md-2">
+          <div class="registration-step registration-step-complete">
+            <div class="number"><div class="circle">3</div></div>
+            About Me
           </div>
-          <div class="col-md-2">
-            <div class="registration-step registration-step-complete">
-              <div class="number"><div class="circle">4</div></div>
-              Cancer History
-            </div>
+        </div>
+        <div class="col-md-2">
+          <div class="registration-step registration-step-complete">
+            <div class="number"><div class="circle">4</div></div>
+            Cancer History
           </div>
-          <div class="col-md-2">
-            <div class="registration-step registration-step-active">
-              <div class="number"><div class="circle">5</div></div>
-              Photo
-            </div>
+        </div>
+        <div class="col-md-2">
+          <div class="registration-step registration-step-active">
+            <div class="number"><div class="circle">5</div></div>
+            Photo
           </div>
-          <div class="col-md-2">
-            <div class="registration-step ">
-              <div class="number"><div class="circle">6</div></div>
-              Browse Profiles
-            </div>
+        </div>
+        <div class="col-md-2">
+          <div class="registration-step ">
+            <div class="number"><div class="circle">6</div></div>
+            Browse Profiles
           </div>
-    <% end %>  
-  </div>
+        </div>
+      </div>
+  <% end %>  
+  
 
   <div class="row">
     <div class="col-md-8">
@@ -77,8 +76,7 @@
           <% if @profile.step_status ==  "About Me" || @profile.step_status ==  "Cancer History" %>
             <div class="fieldWrapper">
                     <%= link_to  "< Back", :back, :class => "btn btn-primary btn-lg" %>
-                    <%= f.button :submit, "Save and Continue", :class => "btn btn-primary btn-lg"%>
-                    <%= link_to 'Skip >', profiles_thank_you_path, :class => "btn btn-primary btn-lg" %>
+                    <%= f.button :submit, "Submit Profile", :class => "btn btn-primary btn-lg"%>
             </div>
           <% else %>
             <div class="fieldWrapper">
@@ -87,8 +85,9 @@
             </div>
           <% end %>
         <% end %>
-      </div>
     </div>
+  </div>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/jquery/1.12.3/jquery.min.js"></script>

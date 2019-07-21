@@ -35,7 +35,7 @@
       <div class="container-fluid">
       
         <div class="row">
-          <% if current_user && current_user.profile && current_user.profile.moderated? %> 
+          <% if current_user && current_user.profile && current_user.profile.step_status === Profile::STEP_CONFIRMED_EMAIL %> 
             <div class="col-sm-3 col-md-2 sidebar" id="sidebar">
               <div class="list-group">
               <%= link_to "View Profile", profile_path(current_user.profile), :class => "list-group-item active" %>

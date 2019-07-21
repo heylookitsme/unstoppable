@@ -12,46 +12,52 @@
     </div>
   
     <div class="col-md-2">
-      <div class="registration-step registration-step-active">
+      <div class="registration-step registration-step-complete">
         <div class="number"><div class="circle">2</div></div>
-        Confirm Email
-      </div>
-    </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step ">
-        <div class="number"><div class="circle">3</div></div>
         About Me
       </div>
     </div>
   
     <div class="col-md-2">
-      <div class="registration-step ">
-        <div class="number"><div class="circle">4</div></div>
+      <div class="registration-step registration-step-complete">
+        <div class="number"><div class="circle">3</div></div>
         Cancer History
       </div>
     </div>
   
     <div class="col-md-2">
-      <div class="registration-step ">
-        <div class="number"><div class="circle">5</div></div>
+      <div class="registration-step  registration-step-complete">
+        <div class="number"><div class="circle">4</div></div>
         Photo
       </div>
     </div>
   
+    <div class="col-md-2">
+      <div class="registration-step registration-step-active">
+        <div class="number"><div class="circle">5</div></div>
+        Confirm Email
+      </div>
+    </div>
+
     <div class="col-md-2">
       <div class="registration-step ">
         <div class="number"><div class="circle">6</div></div>
         Browse Profiles
       </div>
     </div>
+
   </div>
 </div>
 
     <div class="container-fluid"  width="100%">
-    
-    <h2>Email Confirmation</h2>
-    <hr>
-    <p>An email confirmation has been sent to the address you've specified. Please follow the instructions there to continue the sign up process.</p>
+      <h1>Thank you, <%= @user.username %></h1>
+      <p>Thanks for signing up! Please confirm your email.</p>
+      
+      <h2>Email Confirmation</h2>
+      <hr>
+      <p>An email confirmation has been sent to the address you've specified. Please follow the instructions there to continue the sign up process.</p>
+      <p>If you have any questions please feel free to <a href="https://2unstoppable.org/contact-us">contact us</a>.</p>
     </div>
   
+
+    

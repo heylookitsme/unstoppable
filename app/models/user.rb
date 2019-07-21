@@ -3,10 +3,7 @@ class User < ApplicationRecord
   validates :username, presence: :true, uniqueness: { case_sensitive: false }
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
   validate :dob_minimum, :if => :no_password_change
-  #validates :zipcode, presence: :true
   validate :check_zipcode,  :if => :no_password_change
-  #validates_zipcode :zipcode
-  #validates :zipcode, zipcode: { country_code: :us }
   validates :zipcode, zipcode: true,  :if => :no_password_change
 
   acts_as_messageable
@@ -55,8 +52,7 @@ class User < ApplicationRecord
     self.create_profile
     self.profile.zipcode = self.zipcode
     self.profile.dob = self.dob
-    self.profile.step_status = "Basic Info"
-    self.profile.moderated = true
+    self.profile.step_status = Profile::STEP_BASIC_INFO
     self.profile.save!
   end
 
