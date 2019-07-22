@@ -8,7 +8,6 @@ class ProfilesController < ApplicationController
 
   def index
     Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
-
     Rails.logger.debug "PARAMS = #{params.inspect}"
     unless current_user.blank?
       case current_user.profile.step_status
@@ -24,23 +23,6 @@ class ProfilesController < ApplicationController
           redirect_to profile_build_path(:about_me, :profile_id => current_user.profile.id)
       end
     end
-=begin     
-      if current_user.profile.step_status == Profile::STEP_CONFIRMED_EMAIL
-       @profiles = Profile.all.order("updated_at DESC").page(params[:page])
-        #@profiles = Profile.get_list(profiles_list, current_user.profile.latitude, current_user.profile.longitude)
-      #elsif current_user.profile.wizard_complete_thankyou_sent 
-      ##  render 'thank_you'
-      elsif current_user.profile.step_status == Profile::STEP_EMAIL_CONFIRMATION_SENT
-        #redirect_to destroy_user_session_path and return
-        # TODO render the page reminding the User to confirm email
-        redirect_to remind_confirmation_user_path(current_user)
-      elsif 
-      end
-    else
-      Rails.logger.debug "Redirection to SIGNOUT"
-      redirect_to destroy_user_session_path and return
-    end
-=end
     # Optional views
     unless params[:viewstyle].blank?
       Rails.logger.info "ViewType = #{params[:viewstyle].inspect}"
@@ -82,7 +64,7 @@ class ProfilesController < ApplicationController
     unless @profile.avatar.present?
       @profile.remove_avatar!
     end
-
+    previous_step = @profile.step_status
     if @profile.update(profile_params)
       flash[:notices] = ["Your profile was successfully updated"]
       render 'show'
@@ -144,19 +126,16 @@ class ProfilesController < ApplicationController
     unless params[:id].blank?
       @profile = Profile.find(params[:id])
       @user = @profile.user
-      #set_current_user(@user)
       Rails.logger.debug("SARADA = #{@profile.inspect}")
     else
       unless params[:user_id].blank?
         @user = User.find(params[:user_id])
         @profile = @user.profile
-        #set_current_user(@user)
       else
         if(current_user.blank?)
           redirect_to destroy_user_session_path and return
         else
           @user = current_user
-          #set_current_user(@user)
         end
       end
     end

@@ -15,13 +15,20 @@ class Profiles::BuildController < ApplicationController
     def update
       Rails.logger.info "in Wizard update"
       Rails.logger.debug("Wizard update params = #{params.inspect}")
-      Rails.logger.debug("Wizard update params1 = #{params[:profile][:profile_id].inspect}")
       @profile = Profile.find(params[:profile][:profile_id])
       @user = @profile.user
-      #set_current_user(@user) unless @user.blank?
-      #@profile.update_attributes(params[:profile])
-      @profile.step_status = params[:profile][:id]
+      prev_step_status = @profile.step_status
+      Rails.logger.debug("Wizard current_step_status = #{prev_step_status.inspect}")
       @profile.update(profile_params)
+      unless prev_step_status.blank?
+        if Profile::STEPS_ORDER.index(prev_step_status) > Profile::STEPS_ORDER.index(@profile.step_status)
+          @profile.step_status = prev_step_status
+          @profile.save
+          Rails.logger.info "Step status remains unchanged!"
+        else
+          Rails.logger.info "Change step status to #{@profile.step_status.inspect} from #{prev_step_status.inspect}"
+        end
+      end
       render_wizard @profile
     end
 
