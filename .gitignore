@@ -31,6 +31,7 @@ capybara-*.html
 /public/system
 /coverage/
 /spec/tmp
+/config/secrets/
 solr
 *.orig
 rerun.txt
