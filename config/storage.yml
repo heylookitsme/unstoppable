@@ -8,7 +8,7 @@
 
 google:
   service: GCS
-  project: todo-pic
+  project: unstoppable-test
   credentials: <%= ENV['GOOGLE_APPLICATION_CREDENTIALS'] %>
   bucket: unstoppable-test-123456
 google_dev:
