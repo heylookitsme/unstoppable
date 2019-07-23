@@ -18,4 +18,10 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(:to => "#{user.username} <#{user.email}>", :subject => "Username Reminder")
   end
+
+  def inform_admins_new_registration(user)
+    @user = user
+    recipients = User.all.select{|x| x.admin?}.collect{|x| x.email}.join(', ')
+    mail(:to => recipients, :subject => "User: #{user.username}, Email: #{user.email} has confirmed")
+  end
 end

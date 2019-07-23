@@ -72,13 +72,13 @@ class UsersController < ApplicationController
       user.email_activate
       flash[:success] = "Welcome to the Sample App! Your email has been confirmed.
       Please sign in to continue."
-      #redirect_to new_session_path(user)
-      #redirect_to profile_after_signup_path(:about_me, :profile_id => user.profile.id)
-      
+      # STEP_CONFIRMED_EMAIL = "Confirmed Email"
       user.profile.step_status = Profile::STEP_CONFIRMED_EMAIL
       user.profile.save!(:validate => false)
       # Removing email confirmation from second step and move to the end step
       # redirect_to profile_build_path(:about_me, :profile_id => user.profile.id)
+      # Send email to all the Admins, that a new User has confirmed
+      UserMailer.inform_admins_new_registration(user).deliver
       redirect_to new_session_path(user)
     else
       flash[:error] = "Sorry. User does not exist"

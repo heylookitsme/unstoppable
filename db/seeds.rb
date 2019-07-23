@@ -26,6 +26,7 @@ ExerciseReason.find_or_create_by!(name: 'Physical Health')
 ExerciseReason.find_or_create_by!(name: 'Sense of Accomplishment')
 ExerciseReason.find_or_create_by!(name: 'Other  - Describe in About You question below')
 
+=begin
 user = User.create(username:"admin", email:"test@test.com", password: 'dash123', admin: true, dob: "01-01-1985", zipcode: "20854")
 user.save!
 user.profile.cancer_location="Lung"
@@ -37,11 +38,12 @@ p = User.find_by_username("admin").profile
 p.step_status = Profile::STEP_CONFIRMED_EMAIL
 p.fitness_level = "very active"
 p.save
+=end
 
-
-u=User.create(username:"dash", email:"dashcute@x.com", password: 'dash123', dob: "01-01-1942", zipcode: "20850")
+u=User.create(username:"dash", email:"sarada_chintala@hotmail.com", password: 'dash123', dob: "01-01-1942", zipcode: "20850")
 u.created_at = Time.now
 u.updated_at = Time.now
+u.admin = true
 u.save!
 p = User.find_by_username("dash").profile
 p.cancer_location="Breast"
