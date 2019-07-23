@@ -9,7 +9,7 @@ RailsAdmin.config do |config|
    config.current_user_method(&:current_user)
 
    config.navigation_static_links = {
-  '2Unstoppable' => 'http://localhost:3000'
+  '2Unstoppable' => 'http://uns1.herokuapp.com'
 }
   ## == Cancan ==
   # config.authorize_with :cancan
