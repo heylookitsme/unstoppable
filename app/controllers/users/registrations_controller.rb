@@ -18,7 +18,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
  protected
 
  def after_sign_up_path_for(resource)
-  Rails.logger.debug "In after_sign_up_path_for resource = #{resource.inspect}"
+  Rails.logger.debug "In after_sign_up_path_for resource#{resource.inspect}"
   #UserMailer.with(user: resource).welcome_email.deliver_later
   UserMailer.registration_confirmation(resource).deliver
   flash[:success] = "Please confirm your email address to continue"
@@ -41,7 +41,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   
   private
     def check_captcha
-      if !verify_recaptcha secret_key: '6Lfan4EUAAAAALHBMh_Rl6SOoDosdhrIRi2vRD3M'
+      if !verify_recaptcha secret_key: '6Lf6Ja8UAAAAADJ0KepnOzpsPfKki_uG1AwjrxvU'
         flash.delete :recaptcha_error
         build_resource(sign_up_params)
         resource.valid?
