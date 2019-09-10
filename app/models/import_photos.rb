@@ -1,7 +1,7 @@
 require "csv"
 require "rubygems"
-require "down"
 require "fileutils"
+require 'open-uri'
 
 class ImportPhotos
 
@@ -24,20 +24,13 @@ class ImportPhotos
               puts dirsaved
               puts "url = #{url}"
               puts " image name = #{image_file_name}"
-              tempfile = Down.download(url)
-              puts "printing tempfile"
-              puts tempfile.path
-              #puts "#{tempfile.original_filename}"
-              #FileUtils.mv(tempfile.path, "./importedphotos/#{image_file_name}")
-
               user = User.find_by_email(user_hash["email"])
               break if user.blank?
               profile = user.profile
-              puts "user = #{user.inspect}"
-              puts "profile = #{profile.inspect}"
-              #medium.image.attach(io: file, filename: 'some-image.jpg')
-              #profile.avatar.attach(io: file, filename: "./importedphotos/x.png")
-              profile.avatar.attach(io: File.open("./importedphotos/x.png"), filename: "x.png", content_type: "image/png")
+              puts "Importing photo for user = #{user.username}"
+              #puts "profile = #{profile.inspect}"
+              file = open(url)
+              profile.avatar.attach(io: file, filename: image_file_name, content_type: 'image/png')
               profile.save!
             end
           end

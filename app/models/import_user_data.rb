@@ -1,6 +1,6 @@
 require "csv"
 require "rubygems"
-require "down"
+#require "down"
 
 class ImportUserData
 
