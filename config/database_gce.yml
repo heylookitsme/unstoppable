@@ -1,0 +1,23 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+development:
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: postgres
+  password: L8XQeSPLmHo8
+  host: 34.74.68.245
+  database: uns_dev
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: postgres
+  password: L8XQeSPLmHo8
+  host: 34.74.68.245
+  database: uns_prod
