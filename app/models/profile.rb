@@ -12,7 +12,7 @@ class Profile < ApplicationRecord
   has_many :likes 
   has_one_attached :avatar
   attribute :age
-  attribute :distance, default: 0
+  #attribute :distance, default: 0
   # Attribute for determining if approved email needs to be sent
   attribute :send_approved_email, :default => false
   geocoded_by :address
@@ -51,10 +51,6 @@ class Profile < ApplicationRecord
     self.step_status == STEP_CONFIRMED_EMAIL
   end
 
-  def address
-    self.zipcode
-  end
-
   def distance
     d=0
     unless self.user.admin?
@@ -69,6 +65,11 @@ class Profile < ApplicationRecord
     end
     d
   end
+
+  def address
+    [self.city, self.state, self.country].compact.join(', ')
+  end
+    
 
   def self.get_list(profile_list, culat, culong)
     #Rails.logger.debug "in Profile get_list CURRENT = #{User.current.inspect}"
@@ -89,7 +90,12 @@ class Profile < ApplicationRecord
     Rails.logger.debug "IN COMPUTE_LATLONG"
     unless self.zipcode.nil?
       begin
-        result = Geocoder.search(self.zipcode)
+        zipcode_details = ZipCodes.identify(self.zipcode)
+        self[:city] = zipcode_details[:city]
+        self[:state] = zipcode_details[:state_name]
+        self[:state_code] = zipcode_details[:state_code]
+        self[:country] = "USA"
+        result = Geocoder.search(self.address)
       rescue Geocoder::OverQueryLimitError
         sleep 2
         retry
@@ -99,6 +105,7 @@ class Profile < ApplicationRecord
         latlong = result.first.coordinates 
         self.latitude = latlong[0]
         self.longitude = latlong[1]
+        # Save city
       end
     end
   end
