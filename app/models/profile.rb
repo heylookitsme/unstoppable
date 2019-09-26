@@ -4,7 +4,6 @@ class Profile < ApplicationRecord
   validates :user_id, presence: true
   validates :dob, :presence => true
   validate :check_fitness_level
-  validate :check_referred_by
   validate :validate_age
   validate :check_zipcode
   has_and_belongs_to_many :activities
@@ -52,6 +51,7 @@ class Profile < ApplicationRecord
   end
 
   def distance
+    Rails.logger.debug "DISTANCE"
     d=0
     unless self.user.admin?
       if !User.current.blank? && !User.current.profile.blank?
@@ -64,6 +64,7 @@ class Profile < ApplicationRecord
       end
     end
     d
+    Rails.logger.debug "DISTANCE=#{d}"
   end
 
   def address
@@ -223,6 +224,7 @@ class Profile < ApplicationRecord
     end
   end
 
+=begin 
   def check_referred_by
     unless self.step_status.blank?
       if self.step_status != STEP_BASIC_INFO &&  self.step_status != STEP_CONFIRMED_EMAIL && self.step_status != STEP_ABOUT_ME
@@ -232,6 +234,7 @@ class Profile < ApplicationRecord
       end
     end
   end
+=end
 
   def check_fitness_level
     unless self.step_status.blank?

@@ -104,10 +104,6 @@
           <%= f.input :which_wellness_program, label: "If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax):" %>
         </div>
 
-        <div class="fieldWrapper">
-          <%= f.input :referred_by, as: :radio_buttons, collection: Profile.referred_by, required: true, label: 'How did you learn about us?' %>
-          <!-- %= f.error_message_for(:referred_by) % -->
-        </div>
         <!-- div class="actions">
           <%= f.submit %>
         </div -->

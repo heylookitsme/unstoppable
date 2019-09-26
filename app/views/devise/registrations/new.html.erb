@@ -4,47 +4,49 @@
 <div class="container">
   <div class="row registration-steps row-no-padding">
   
-    <div class="col-md-2">
-      <div class="registration-step registration-step-active">
-        <div class="number"><div class="circle">1</div></div>
-        Basic Info
-      </div>
+  <div class="col-md-2">
+    <div class="registration-step registration-step-active">
+      <div class="number"><div class="circle">1</div></div>
+      Basic Info
     </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step ">
-        <div class="number"><div class="circle">2</div></div>
-        Confirm Email
-      </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="registration-step">
+      <div class="number"><div class="circle">2</div></div>
+      About Me
     </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step ">
-        <div class="number"><div class="circle">3</div></div>
-        About Me
-      </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="registration-step">
+      <div class="number"><div class="circle">3</div></div>
+      Cancer History
     </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step ">
-        <div class="number"><div class="circle">4</div></div>
-        Cancer History
-      </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="registration-step">
+      <div class="number"><div class="circle">4</div></div>
+      Photo
     </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step ">
-        <div class="number"><div class="circle">5</div></div>
-        Photo
-      </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="registration-step">
+      <div class="number"><div class="circle">5</div></div>
+      Confirm Email
     </div>
-  
-    <div class="col-md-2">
-      <div class="registration-step ">
-        <div class="number"><div class="circle">6</div></div>
-        Browse Profiles
-      </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="registration-step ">
+      <div class="number"><div class="circle">6</div></div>
+      Browse Profiles
     </div>
+  </div>
+
+
 </div>
 
 <!-- div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" -->    
@@ -52,78 +54,64 @@
 <div class="row">
     <div class="col-md-8">
       
-      <h2><em>Sign Up begins here</em></h2>
-      <h1>Basic Information</h1>
+      <h1>Account Information</h1>
       <hr>
       <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <%= bootstrap_devise_error_messages! %>
+       
         <!-- %= devise_error_messages! % -->
 
-        <div class="form-group>
+        <%= f.error_notification %>
+
+        <div class="form-group", class: "required">
           <%= f.label :username %>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1"> <span class="glyphicon glyphicon-user"  id="basic-addon1"></span></span>
-            </div>
-            <%= f.text_field :username, autofocus: true, autocomplete: 'username',  placeholder: "Username" , class: 'form-control', "aria-label" =>  "Username", "aria-describedby" => "basic-addon1"  %>
-          </div>
-          <%= f.error_message_for(:username) %>
+          <p class="font-sm font-light"><em>Your username will be your profile display name.</em></p>
+          <%= f.input :username,  label: false %>
         </div>
 
-        <div class="form-group">
+        <div class="form-group", class: "required">
           <%= f.label :email %>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon13"> <span class="glyphicon glyphicon-envelope"  id="basic-addon13"></span></span>
-            </div>
-            <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control',  placeholder: "Email" ,"aria-label" =>  "Email", "aria-describedby" => "basic-addon1" %>
-          </div>
-          <%= f.error_message_for(:email) %>
-      </div>
-
+          <p class="font-sm font-light"><em>Email address will not be seen by other users.</em></p>
+          <%= f.input :email, label: false, required: true %>
+        </div>
+        
 
         <div class="form-group">
-          <%= f.label :date_of_birth %>
-          <p class="font-sm font-light"><em>We don't display your full date of birth. We only use this to calculate and display your age to help find your exercise partner.</em></p>
-          <%= f.input :dob, label: false,
-          as: :date, start_year: Date.today.year - 90,
-          end_year: Date.today.year,
+          <%= f.label :date_of_birth, class: "required"%>
+          <p class="font-sm font-light"><em>Only your calculated age is displayed as part of your profile.</em></p>
+          <%= f.input :dob, label: false, include_blank: true,
+          as: :date, start_year: Date.today.year - 120,
+          end_year: Date.today.year - 1,
           order: [:day, :month, :year] %>
         </div>
 
         <div class="form-group">
-          <%= f.label :what_is_your_home_zipcode %>
+          <%= f.label :what_is_your_home_zipcode? , class: "required" %>
           <p class="font-sm font-light"><em>Zip code will be kept private, but will be used by our system to find exercise partners near you.</em></p>
-          <%= f.text_field :zipcode,  placeholder: "Zipcode", autofocus: true, autocomplete: 'zipcode', class: 'form-control' %>
-          <%= f.error_message_for(:zipcode) %>
+          <%= f.input :zipcode, label: false, required: true %>
         </div>
 
         <div class="form-group">
-        <%= f.label :password %>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon12"> <span class="glyphicon glyphicon-lock"  id="basic-addon12"></span></span>
-            </div>
-            <input autocomplete="current-password" placeholder="Password" class="form-control input-lg" type="password" name="user[password]" id="user_password" aria-label="Password " aria-describedby="basic-addon12"/>
-          </div>
+          <%= f.label :password , class: "required" %>
+          <%= f.input :password, label: false, input_html: { autocomplete: 'current-password' } %>
           <% if @minimum_password_length %>
             <small class="form-text text-muted"><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></small>
           <% end %>
-      </div>
+        </div>
 
 
         <div class="form-group">
-          <%= f.label :password_confirmation %>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon14"> <span class="glyphicon glyphicon-lock"  id="basic-addon14"></span></span>
-            </div>
-            <input autocomplete="current-password" placeholder="Password" class="form-control input-lg" type="password" name="user[password_confirmation]" id="user_password_confirmation" aria-label="Password " aria-describedby="basic-addon14"/>
-          </div>
+          <%= f.label :password_confirmation, class: "required"%>
+          <%= f.input :password_confirmation, label: false, required: true,  input_html: { autocomplete: 'current-password' } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :how_did_you_learn_about_us?, class: "required"%>
+          <%= f.input :referred_by, as: :select, collection: Profile.referred_by, label: false, required: true %>
         </div>
 
         <div class="field">
           <%= flash[:recaptcha_error] %>
+          <%= f.label :recaptcha, class: "required"%>
           <%= recaptcha_tags site_key: '6Lf6Ja8UAAAAABXowY3tZ5UXOsSeyO61__kGKhFj'
           %>
         </div>
@@ -136,23 +124,3 @@
     </div>
   </div>  
 </div>
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-52287007-1', 'auto');
-    ga('send', 'pageview');
-    </script>
-
-    <!-- load font awesome asynchronously -->
-    <script>
-    (function() {
-    var css = document.createElement('link');
-    css.href = '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css';
-    css.rel = 'stylesheet';
-    document.getElementsByTagName('head')[0].appendChild(css);
-    })();
-    </script>
-<!-- %= render 'devise/shared/links' % -->

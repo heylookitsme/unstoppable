@@ -19,7 +19,7 @@ class ProfilesController < ApplicationController
           redirect_to attachment_photo_path(:profile_id => current_user.profile.id)
         when Profile::STEP_ABOUT_ME
           redirect_to profile_build_path(:cancer_history, :profile_id => current_user.profile.id)
-        when Profile::STEP_BASIC_IN
+        when Profile::STEP_BASIC_INFO
           redirect_to profile_build_path(:about_me, :profile_id => current_user.profile.id)
       end
     end

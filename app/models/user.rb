@@ -2,9 +2,12 @@ class User < ApplicationRecord
   has_one :profile, :dependent => :destroy
   validates :username, presence: :true, uniqueness: { case_sensitive: false }
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
-  validate :dob_minimum, :if => :no_password_change
   validate :check_zipcode,  :if => :no_password_change
-  validates :zipcode, zipcode: true,  :if => :no_password_change
+  validates :zipcode, presence: :true,  :if => :no_password_change
+  validate :check_referred_by, :if => :no_password_change
+  validates :dob, presence: :true, :if => :no_password_change
+  validate :dob_minimum, :if => :no_password_change
+  validate :check_username, :if => :no_password_change
 
   acts_as_messageable
 
@@ -20,6 +23,8 @@ class User < ApplicationRecord
   attr_accessor :unread_messages
 
   attribute :dob, :date
+
+  attribute :referred_by
 
   after_create :init_profile
 
@@ -53,6 +58,7 @@ class User < ApplicationRecord
     self.profile.zipcode = self.zipcode
     self.profile.dob = self.dob
     self.profile.step_status = Profile::STEP_BASIC_INFO
+    self.profile.referred_by = self.referred_by
     self.profile.save!
   end
 
@@ -89,23 +95,35 @@ class User < ApplicationRecord
   end
   
   def dob_minimum
-    age = 0
-    if dob.blank?
-      errors.add(:dob, 'Please Add your Date of Birth')
-    else
+      age = 0
       #Rails.logger.debug "Before dob = #{dob.inspect}"
-      age = ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
-      #Rails.logger.debug "after age = #{age.inspect}"
-    end
-    if age < 18
-      errors.add(:age, 'You should be over 18 years old.')
-    end
+      unless self.dob.nil?
+        age = ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
+        #Rails.logger.debug "after age = #{age.inspect}"
+        if age < 18
+          errors.add(:dob, 'You should be over 18 years old.')
+        end
+      end
   end
 
   def check_zipcode
     zipcode_details = ZipCodes.identify(self.zipcode)
-    if zipcode_details.nil?
-      errors.add(:zipcode, 'This is not a valid US zipcode')
+    unless zipcode_details.blank?
+      errors.add(:zip_code, 'Please enter a valid US Zip Code')
+    end
+  end
+
+  def check_referred_by
+    if referred_by.blank?
+      errors.add(:referred_by, 'Please select a value')
+    end
+  end
+
+  def check_username
+    unless username.blank?
+     if username.include?("@")
+      errors.add(:username, 'Username cannot be an email address.')
+     end
     end
   end
 
