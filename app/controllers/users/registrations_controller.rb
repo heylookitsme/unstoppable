@@ -13,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect.
 
   def sign_up_params
-    params.require(:user).permit(:email, :username, :password, :password_confirmation, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :remember_me, :referred_by)
+    params.require(:user).permit(:email, :username, :password, :password_confirmation, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :remember_me, :referred_by, :terms_of_service)
  end
  protected
 
