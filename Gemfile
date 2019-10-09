@@ -62,11 +62,10 @@ gem 'countries', :require => 'countries/global'
 gem 'zip-codes'
 gem 'mailboxer'
 gem 'select_all-rails'
-gem 'jquery-rails'
 gem 'kaminari'
 gem "google-cloud-storage", "~> 1.8", require: false
 gem 'rb-readline'
-gem 'zip-codes'
+gem 'popper_js'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

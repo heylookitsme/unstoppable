@@ -9,6 +9,11 @@ class User < ApplicationRecord
   validate :dob_minimum, :if => :no_password_change
   validate :check_username, :if => :no_password_change
 
+  attr_accessor :terms_of_service
+  #validates_acceptance_of :terms_of_service, on: :create
+  validate :check_terms
+  #validates :terms_of_service, :acceptance => {:accept => true} , on: :create, allow_nil: false
+
   acts_as_messageable
 
   # Include default devise modules. Others available are:
@@ -124,6 +129,18 @@ class User < ApplicationRecord
      if username.include?("@")
       errors.add(:username, 'Username cannot be an email address.')
      end
+    end
+  end
+
+  def check_terms
+    Rails.logger.debug("XXX terms of service = #{self.terms_of_service}")
+    Rails.logger.debug("XXX terms of service = #{self.persisted?}")
+    Rails.logger.debug("XXX errors = #{errors.inspect}")
+    unless self.persisted?
+      if self.terms_of_service==0
+        Rails.logger.debug("ADDING ERROR")
+        errors.add(:terms_of_service, 'Please accept terms of service')
+      end
     end
   end
 

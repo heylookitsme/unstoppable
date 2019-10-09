@@ -383,6 +383,7 @@ DEPENDENCIES
   mini_magick
   paperclip
   pg
+  popper_js
   puma (~> 3.0)
   rails (~> 5.2)
   rails_admin (>= 1.0.0.rc)

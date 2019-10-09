@@ -7,7 +7,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
+    Rails.logger.debug "In configure_permitted_parameters"
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :terms_of_service])
     devise_parameter_sanitizer.permit(:sign_in, keys: [:username])
   end
 

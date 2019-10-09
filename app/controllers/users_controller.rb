@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   protect_from_forgery with: :null_session
-  before_action :authenticate_user!, :except => [:show, :confirm_email]
+  before_action :authenticate_user!, :except => [:show, :confirm_email, :terms]
   #layout "sidebar"
 
   def index
@@ -90,6 +90,7 @@ class UsersController < ApplicationController
     Rails.logger.info "In User controller, email_confirmation"
     Rails.logger.info "In  email_confirmation = #{params.inspect}"
     @user = User.find_by_id(params[:id])
+    #reset_session
   end
 
   def remind_confirmation
@@ -105,6 +106,7 @@ class UsersController < ApplicationController
     UserMailer.registration_confirmation(@user).deliver
     flash[:success] = "Please confirm your email address to continue"
     redirect_to email_confirmation_user_path(@user, :user_id => @user.id)
+    #reset_session
   end
 
   def edit_password
@@ -120,6 +122,14 @@ class UsersController < ApplicationController
       redirect_to root_path
     else
       render "edit_password"
+    end
+  end
+
+  def terms
+    Rails.logger.debug "UserCOntroller: terms"
+    respond_to do |format|
+      format.html
+      format.js
     end
   end
 end

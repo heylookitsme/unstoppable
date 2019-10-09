@@ -30,6 +30,9 @@ Rails.application.routes.draw do
 
   get 'users/index'
 
+  get 'users/terms'
+  #get "user/terms" => 'user#terms', :as => :terms 
+
   get 'delete_avatar/:id', to: 'attachment#delete_avatar', as: :delete_avatar 
 
   get '/get_email_address', to: 'management#get_email_address', as: :get_email_address
@@ -71,7 +74,7 @@ Rails.application.routes.draw do
       get :confirm_email
       get :email_confirmation
       get :remind_confirmation
-      post:resend_confirmation
+      post :resend_confirmation
       post 'save_like'
       post 'save_unlike'
     end
