@@ -137,7 +137,7 @@ class User < ApplicationRecord
     Rails.logger.debug("XXX terms of service = #{self.persisted?}")
     Rails.logger.debug("XXX errors = #{errors.inspect}")
     unless self.persisted?
-      if self.terms_of_service==0
+      if self.terms_of_service == "0"
         Rails.logger.debug("ADDING ERROR")
         errors.add(:terms_of_service, 'Please accept terms of service')
       end
