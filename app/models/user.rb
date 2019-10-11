@@ -1,17 +1,8 @@
 class User < ApplicationRecord
   has_one :profile, :dependent => :destroy
-  validates :username, presence: :true, uniqueness: { case_sensitive: false }
-  validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
-  validate :check_zipcode,  :if => :no_password_change
-  validates :zipcode, presence: :true,  :if => :no_password_change
-  validate :check_referred_by, :if => :no_password_change
-  validates :dob, presence: :true, :if => :no_password_change
-  validate :dob_minimum, :if => :no_password_change
-  validate :check_username, :if => :no_password_change
-
   attr_accessor :terms_of_service
   #validates_acceptance_of :terms_of_service, on: :create
-  validate :check_terms
+  validate :check_terms, :if => :no_password_change
   #validates :terms_of_service, :acceptance => {:accept => true} , on: :create, allow_nil: false
 
   acts_as_messageable
@@ -37,8 +28,23 @@ class User < ApplicationRecord
 
   before_validation :set_country_alpha2
 
+  validates :username, presence: :true, uniqueness: { case_sensitive: false }
+  validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
+  validate :check_zipcode,  :if => :no_password_change
+  validate :check_referred_by, :if => :no_password_change
+  validates :dob, presence: :true, :if => :no_password_change
+  validate :dob_minimum, :if => :no_password_change
+  validate :check_username, :if => :no_password_change
+
+  # When the change password screen is used, we want to bypass the validations
   def no_password_change
-    !encrypted_password_changed?
+   
+    status = true
+    if self.persisted?
+      status = !encrypted_password_changed?
+    end
+    Rails.logger.debug "ZZZ status = #{status}"
+    status
   end
 
   def unread_messages
@@ -77,7 +83,6 @@ class User < ApplicationRecord
   end
 
   def email_activate
-    Rails.logger.debug "IN EMAIL_ACTOV=begin TE =end"
     self.email_confirmed = true
     self.confirm_token = nil
     self.save!(:validate => false)
@@ -112,9 +117,13 @@ class User < ApplicationRecord
   end
 
   def check_zipcode
+    if self.zipcode.blank?
+      errors.add(:zipcode, 'cannot be blank')
+      return
+    end
     zipcode_details = ZipCodes.identify(self.zipcode)
-    unless zipcode_details.blank?
-      errors.add(:zip_code, 'Please enter a valid US Zip Code')
+    if zipcode_details.blank?
+      errors.add(:zipcode, 'Please enter a valid US Zip Code')
     end
   end
 
@@ -133,12 +142,8 @@ class User < ApplicationRecord
   end
 
   def check_terms
-    Rails.logger.debug("XXX terms of service = #{self.terms_of_service}")
-    Rails.logger.debug("XXX terms of service = #{self.persisted?}")
-    Rails.logger.debug("XXX errors = #{errors.inspect}")
     unless self.persisted?
       if self.terms_of_service == "0"
-        Rails.logger.debug("ADDING ERROR")
         errors.add(:terms_of_service, 'Please accept terms of service')
       end
     end
