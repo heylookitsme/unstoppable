@@ -360,3 +360,7 @@ label[for=id_date_of_birth_month] {
   width: auto;
   display: inline;
 }
+label.required:after {
+  content: " *";
+  color: #ff0000;
+}
