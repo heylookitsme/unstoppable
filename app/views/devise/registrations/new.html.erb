@@ -63,20 +63,20 @@
         <%= f.error_notification %>
 
         <div class="form-group">
-          <label class="string required required" for="user_username">Username:</label>
+          <label class="string required required" for="user_username"> <span class="largeFont" >Username: </span></label>
           <p class="font-sm font-light"><em>Your username will be your profile display name.</em></p>
           <%= f.input :username,  label: false %>
         </div>
 
         <div class="form-group", class: "required">
-          <label class="email optional required" for="user_email">Email:</label>
+          <label class="email optional required" for="user_email"><span class="largeFont" >Email:</span></label>
           <p class="font-sm font-light"><em>Email address will not be seen by other users.</em></p>
           <%= f.input :email, label: false, required: true %>
         </div>
         
 
         <div class="form-group">
-          <label class="string optional required" for="user_date_of_birth">Date of birth: </label>
+          <label class="string optional required" for="user_date_of_birth"><span class="largeFont" >Date of birth: </span></label>
           <p class="font-sm font-light"><em>Only your calculated age is displayed as part of your profile.</em></p>
           <%= f.input :dob, label: false, include_blank: true,
           as: :date, start_year: Date.today.year - 120,
@@ -85,13 +85,13 @@
         </div>
 
         <div class="form-group">
-          <label class="string optional required" for="user_zipcode">Zipcode:</label>
-          <p class="font-sm font-light"><em>Zip code will be kept private, but will be used by our system to find exercise partners near you.</em></p>
-          <%= f.input :zipcode, label: false, required: true, placeholder: 'can read US zipcode' %>
+          <label class="string optional required" for="user_zipcode"><span class="largeFont" >Zip Code:</span></label>
+          <p class="font-sm font-light"><em>Zip Code will be kept private, but will be used by our system to find exercise partners near you.</em></p>
+          <%= f.input :zipcode, label: false, required: true, placeholder: 'can read US zip code' %>
         </div>
 
         <div class="form-group">
-          <label class="password optional required" for="user_password">Password:</label>
+          <label class="password optional required" for="user_password"><span class="largeFont">Password:</span></label>
           <%= f.input :password, label: false, input_html: { autocomplete: 'current-password' } %>
           <% if @minimum_password_length %>
             <small class="form-text text-muted"><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></small>
@@ -100,17 +100,17 @@
 
 
         <div class="form-group">
-          <label class="password optional required" for="user_password_confirmation">Password confirmation:</label>
+          <label class="password optional required" for="user_password_confirmation"><span class="largeFont">Password confirmation:</span></label>
           <%= f.input :password_confirmation, label: false, required: true,  input_html: { autocomplete: 'current-password' } %>
         </div>
 
         <div class="form-group">
-          <%= f.label :how_did_you_learn_about_us?, class: "required"%>
+          <label class="string optional required" for="user_how_did_you_learn_about_us"><span class="largeFont">How did you learn about us?</span></label>
           <%= f.input :referred_by, as: :select, collection: Profile.referred_by, label: false, required: true %>
         </div>
 
         <div class="form-group">
-          <label class="string optional label required" for="user_terms_of_use">Terms of use:</label>
+          <label class="string optional label required" for="user_terms_of_use"><span class="largeFont">Terms of use:</span></label>
           <%= f.input :terms_of_service, as: :boolean,  label: false,  allow_nil: false %>
           I agree to the <%= link_to 'Terms of Use', users_terms_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}  %>
           <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -120,10 +120,9 @@
           </div>
         </div>
 
-        
         <div class="form-group">
           <%= flash[:recaptcha_error] %>
-          <label class="string optional required" for="user_recaptcha">Recaptcha:</label>
+          <label class="string optional required" for="user_recaptcha"><span class="largeFont">Recaptcha:</span></label>
           <%= recaptcha_tags site_key: '6Lf6Ja8UAAAAABXowY3tZ5UXOsSeyO61__kGKhFj'
           %>
         </div>
