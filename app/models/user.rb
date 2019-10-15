@@ -107,10 +107,8 @@ class User < ApplicationRecord
   
   def dob_minimum
       age = 0
-      #Rails.logger.debug "Before dob = #{dob.inspect}"
       unless self.dob.nil?
         age = ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
-        #Rails.logger.debug "after age = #{age.inspect}"
         if age < 18
           errors.add(:dob, 'You should be over 18 years old.')
         end
