@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_one :profile, :dependent => :destroy
   attr_accessor :terms_of_service
-  validates_acceptance_of :terms_of_service, on: :create, :allow_nil => false
+  validates_acceptance_of :terms_of_service, on: :create, :allow_nil => false, :if => :no_password_change
   #validate :check_terms, :if => :no_password_change
   #validates_acceptance_of :check_terms, :allow_nil => false, :if => :no_password_change
   #validates :terms_of_service, :acceptance => {:accept => true} , on: :create, allow_nil: false
