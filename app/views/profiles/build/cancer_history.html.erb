@@ -79,6 +79,7 @@
         <div class="fieldWrapper">
           <%= f.input :cancer_location, include_blank: "- Select one -", 
             collection: Profile.cancer_locations_list, 
+            required: true,
             label: "What was your primary cancer diagnosis? (if other, fill in below):"  %>
         </div>
 
