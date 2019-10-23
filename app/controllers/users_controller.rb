@@ -8,17 +8,15 @@ class UsersController < ApplicationController
   end
 
   def show
-    Rails.logger.info("In show")
     @user = User.find_by_id(params[:id])
     @profile = @user.profile
-    Rails.logger.info("1z user = #{@user.inspect}")
+    Rails.logger.info("1n show user = #{@user.inspect}")
   end
 
   def edit
-    Rails.logger.info("In edit")
     @user = User.find_by_id(params[:id])
     @profile = @user.profile
-    Rails.logger.info("user = #{@user.inspect}")
+    Rails.logger.info("in edit user= #{@user.inspect}")
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
