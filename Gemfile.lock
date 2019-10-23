@@ -104,10 +104,14 @@ GEM
       warden (~> 1.2.3)
     devise-bootstrap-views (1.1.0)
     digest-crc (0.4.1)
+    dnsruby (1.61.3)
+      addressable (~> 2.5)
     dotenv (2.7.2)
     dotenv-rails (2.7.2)
       dotenv (= 2.7.2)
       railties (>= 3.2, < 6.1)
+    email_verifier (0.1.0)
+      dnsruby (>= 1.5)
     erubi (1.8.0)
     execjs (2.7.0)
     faraday (0.15.4)
@@ -371,6 +375,7 @@ DEPENDENCIES
   devise
   devise-bootstrap-views (~> 1.0)
   dotenv-rails
+  email_verifier
   geocoder
   geokit-rails
   google-cloud-storage (~> 1.8)

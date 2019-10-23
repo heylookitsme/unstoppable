@@ -66,6 +66,7 @@ gem 'kaminari'
 gem "google-cloud-storage", "~> 1.8", require: false
 gem 'rb-readline'
 gem 'popper_js'
+gem 'email_verifier'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

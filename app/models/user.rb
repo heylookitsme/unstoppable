@@ -37,6 +37,8 @@ class User < ApplicationRecord
   validate :dob_minimum, :if => :no_password_change
   validate :check_username, :if => :no_password_change
 
+  validates_email_realness_of :email
+
   # When the change password screen is used, we want to bypass the validations
   def no_password_change
    
