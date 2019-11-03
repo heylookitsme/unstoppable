@@ -1,0 +1,20 @@
+<div class="search-results-count">
+  <p><%= @search_results_total %> out of 100 blogposts contain "<%= "#{params[:search]}" %>".</p>
+</div>
+<% @profiles.each do |profile| %>
+    <div class="bordered-container profile-image-container text-center">
+      <% if profile.avatar.attached? %>
+        <%= image_tag profile.avatar.variant(resize: "160x200"), :class => "profile-image-small"%>
+      <% else %>
+          <%= image_tag("profile-default.png", :class => "profile-image-small", :size => "60x112") %>
+      <% end %>
+      <br><%= link_to profile.user.username, profile_path(profile), class: 'btn btn-default'%><br>
+        <% if (current_user.profile.check_liked(profile.id)) %>
+          <p><span class="glyphicon glyphicon-heart"></span> Saved</p>
+          <%= button_to 'Remove Save', save_unlike_user_path(profile.user.id), method: :post %>
+        <% else %>
+          <%= button_to 'Save', save_like_user_path(profile.user.id), method: :post %>
+        <% end %>
+      <em class="font-sm"><b>Age:</b> <%= profile.age %>, <b>Distance:</b> <%= profile.city %>, <%= profile.state_code %> </em>
+    </div>
+  <% end %>               

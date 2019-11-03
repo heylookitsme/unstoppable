@@ -12,7 +12,15 @@ class ProfilesController < ApplicationController
     unless current_user.blank?
       case current_user.profile.step_status
         when Profile::STEP_CONFIRMED_EMAIL
-          @profiles = Profile.all.order("updated_at DESC").page(params[:page])
+          if params[:search]
+            @profiles = Profile.all.order("updated_at DESC").page(params[:page])
+            @search_results_profiles = Profile.search_cancer_type(params[:search])
+            respond_to do |format|
+              format.js { render partial: 'search-results'}
+            end
+          else
+            @profiles = Profile.all.order("updated_at DESC").page(params[:page])
+          end
         when Profile::STEP_EMAIL_CONFIRMATION_SENT
           redirect_to remind_confirmation_user_path(current_user)
         when Profile::STEP_CANCER_HISTORY
