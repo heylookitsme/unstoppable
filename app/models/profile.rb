@@ -29,7 +29,7 @@ class Profile < ApplicationRecord
   STEPS_ORDER = [STEP_BASIC_INFO, STEP_ABOUT_ME, STEP_CANCER_HISTORY, STEP_EMAIL_CONFIRMATION_SENT, STEP_CONFIRMED_EMAIL]
 
   include PgSearch
-  pg_search_scope :search_cancer_type, :against => [:cancer_location, :other_cancer_location, :details_about_self, :city],
+  pg_search_scope :search_cancer_type, :against => [:cancer_location, :other_cancer_location, :details_about_self, :city, :zipcode],
     using: {
       :tsearch => {:prefix => true}
     }
