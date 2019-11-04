@@ -33,7 +33,7 @@
                   <% if profile.avatar.attached? %>
                     <%= image_tag profile.avatar.variant(resize: "160x200"), :class => "profile-image-small"%>
                   <% else %>
-                      <%= image_tag("profile-default.png", :class => "profile-image-small", :size => "60x112") %>
+                      <%= image_tag("profile-default.jpg") %>
                   <% end %>
                   <br><%= link_to profile.user.username, profile_path(profile), class: 'btn btn-default'%><br>
                     <% if (current_user.profile.check_liked(profile.id)) %>

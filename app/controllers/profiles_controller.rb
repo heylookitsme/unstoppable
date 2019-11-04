@@ -14,7 +14,9 @@ class ProfilesController < ApplicationController
         when Profile::STEP_CONFIRMED_EMAIL
           if params[:search]
             @profiles = Profile.all.order("updated_at DESC").page(params[:page])
+            @profiles_total = @profiles.size unless @profiles.blank?
             @search_results_profiles = Profile.search_cancer_type(params[:search])
+            @search_results_total = @search_results_profiles.size unless @search_results_profiles.blank?
             respond_to do |format|
               format.js { render partial: 'search-results'}
             end
