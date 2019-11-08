@@ -12,16 +12,25 @@ class ProfilesController < ApplicationController
     unless current_user.blank?
       case current_user.profile.step_status
         when Profile::STEP_CONFIRMED_EMAIL
-          if params[:search]
+          unless !params.has_key?(:search)  || (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
             @profiles = Profile.all.order("updated_at DESC").page(params[:page])
             @profiles_total = @profiles.size unless @profiles.blank?
-            @search_results_profiles = Profile.search_cancer_type(params[:search])
+            unless params[:search].blank?
+              @search_results_profiles = Profile.search_cancer_type(params[:search])
+            else
+              @search_results_profiles = @profiles
+            end
+            unless @search_results_profiles.blank?
+              @search_results_profiles = process_search
+            end
+            @search_results_total = 0
             @search_results_total = @search_results_profiles.size unless @search_results_profiles.blank?
             respond_to do |format|
               format.js { render partial: 'search-results'}
             end
           else
             @profiles = Profile.all.order("updated_at DESC").page(params[:page])
+            @search_results_profiles = @profiles
           end
         when Profile::STEP_EMAIL_CONFIRMATION_SENT
           redirect_to remind_confirmation_user_path(current_user)
@@ -86,6 +95,7 @@ class ProfilesController < ApplicationController
 
   # GET profiles/search
 
+=begin This is the SOLR search
   def search
     Rails.logger.debug 'In search'
     user = current_user
@@ -108,8 +118,35 @@ class ProfilesController < ApplicationController
       format.html { render :action => "index" }
     end
   end
+=end
 
   private
+
+  def process_search
+    unless params["min_age"].blank? && params["max_age"].blank?
+      @min_age = params["min_age"].blank? ? Profile::MIN_AGE : params["min_age"].to_i
+      @max_age = params["max_age"].blank? ? Profile::MAX_AGE : params["max_age"].to_i
+      # if the user has given a string input instead of a number
+      @max_age = Profile::MAX_AGE if @max_age == 0
+      @min_age = Profile::MIN_AGE if @min_age == 0
+      @search_results_profiles = @search_results_profiles.select{|x| x.age.to_i >= @min_age && x.age.to_i <= @max_age}
+    end
+    unless params["distance"].blank?
+      @distance = params["distance"].blank? ? 2000:params["distance"].to_i
+      culat = current_user.profile.latitude
+      culong = current_user.profile.longitude
+      @search_results_profiles.each do |profile|
+        if !culat.nil? && !culong.nil? && !profile.latitude.nil? && !profile.longitude.nil?
+            d =  Geocoder::Calculations.distance_between([culat, culong], [profile.latitude, profile.longitude])
+            profile.distance = d.round
+        end
+      end
+      if @distance > 0
+        @search_results_profiles = @search_results_profiles.select{|x| x.distance <= @distance}
+      end
+    end
+    @search_results_profiles
+  end
 
   def profile_params
     params.require(:profile).permit(

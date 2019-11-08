@@ -1,20 +1,36 @@
 <div class="search-results-count">
-  <p><%= @search_results_total %> out of <%= @profiles_total %> contain "<%= "#{params[:search]}" %>".</p>
-</div>
-<% @search_results_profiles.each do |profile| %>
-    <div class="bordered-container profile-image-container text-center">
-        <% if profile.avatar.attached? %>
-        <%= image_tag profile.avatar.variant(resize: "160x200"), :class => "profile-image-small"%>
+    <div class="row">
+        <% unless params[:search].blank? %>
+            <p><%= @search_results_total %> out of <%= @profiles_total %> contain "<%= "#{params[:search]}" %>". 
+            </p>
         <% else %>
-            <%= image_tag("profile-default.jpg") %>
+            <% if @search_results_total > 0 %>
+                <p><%= @search_results_total %> out of <%= @profiles_total %> have age within <%= @min_age %> and <%= @max_age %> years.&nbsp;</p>
+                <% if @distance && @distance > 0 %>
+                    <p> All profiles are within <%= @distance %> miles distance. </p>
+                <% end %>
+            <% else %>
+                <p> No profile matches the filter critirea </p>
+            <% end %>
         <% end %>
-        <br><%= link_to profile.user.username, profile_path(profile), class: 'btn btn-default'%><br>
-        <% if (current_user.profile.check_liked(profile.id)) %>
-            <p><span class="glyphicon glyphicon-heart"></span> Saved</p>
-            <%= button_to 'Remove Save', save_unlike_user_path(profile.user.id), method: :post %>
-        <% else %>
-            <%= button_to 'Save', save_like_user_path(profile.user.id), method: :post %>
-        <% end %>
-        <em class="font-sm"><b>Age:</b> <%= profile.age %>, <b>Distance:</b> <%= profile.city %>, <%= profile.state_code %> </em>
     </div>
-  <% end %>
+</div>
+<% unless @search_results_profiles.blank? %>
+    <% @search_results_profiles.each do |profile| %>
+        <div class="bordered-container profile-image-container text-center">
+            <% if profile.avatar.attached? %>
+            <%= image_tag profile.avatar.variant(resize: "160x200"), :class => "profile-image-small"%>
+            <% else %>
+                <%= image_tag("profile-default.jpg") %>
+            <% end %>
+            <br><%= link_to profile.user.username, profile_path(profile), class: 'btn btn-default'%><br>
+            <% if (current_user.profile.check_liked(profile.id)) %>
+                <p><span class="glyphicon glyphicon-heart"></span> Saved</p>
+                <%= button_to 'Remove Save', save_unlike_user_path(profile.user.id), method: :post %>
+            <% else %>
+                <%= button_to 'Save', save_like_user_path(profile.user.id), method: :post %>
+            <% end %>
+            <em class="font-sm"><b>Age:</b> <%= profile.age %>, <b>Distance:</b> <%= profile.city %>, <%= profile.state_code %> </em>
+        </div>
+    <% end %>
+<% end %>

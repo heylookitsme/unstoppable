@@ -11,7 +11,7 @@ class Profile < ApplicationRecord
   has_many :likes 
   has_one_attached :avatar
   attribute :age
-  #attribute :distance, default: 0
+  attribute :distance, default: 0
   # Attribute for determining if approved email needs to be sent
   attribute :send_approved_email, :default => false
   geocoded_by :address
@@ -27,6 +27,9 @@ class Profile < ApplicationRecord
   STEP_PHOTO_ATTACHED_WIZARD = "Photo Attached Wizard"
   STEP_PHOTO_ATTACHED = "Photo Attached"
   STEPS_ORDER = [STEP_BASIC_INFO, STEP_ABOUT_ME, STEP_CANCER_HISTORY, STEP_EMAIL_CONFIRMATION_SENT, STEP_CONFIRMED_EMAIL]
+
+  MIN_AGE = 18
+  MAX_AGE = 130
 
   include PgSearch
   pg_search_scope :search_cancer_type, :against => [:cancer_location, :other_cancer_location, :details_about_self, :city, :zipcode],
@@ -55,6 +58,7 @@ class Profile < ApplicationRecord
     self.step_status == STEP_CONFIRMED_EMAIL
   end
 
+=begin
   def distance
     Rails.logger.debug "DISTANCE"
     d=0
@@ -71,6 +75,7 @@ class Profile < ApplicationRecord
     d
     Rails.logger.debug "DISTANCE=#{d}"
   end
+=end
 
   def address
     [self.city, self.state, self.country].compact.join(', ')

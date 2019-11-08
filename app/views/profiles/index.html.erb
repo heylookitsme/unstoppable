@@ -10,10 +10,10 @@
             <%= submit_tag "Search", id:"search-btn" %> &nbsp;&nbsp;
           </div>
           <div class="fieldWrapper">
-            <%= text_field_tag :min_age, params[:min_age] || "18", :size => "5" %> <b>Min Age&nbsp;&nbsp;</b>
+            <%= text_field_tag :min_age, params[:min_age] || Profile::MIN_AGE, :size => "5" %> <b>Min Age&nbsp;&nbsp;</b>
           </div>
           <div class="fieldWrapper">
-            <%= text_field_tag :max_age, params[:max_age] || "130", :size => "5"  %> <b>Max Age &nbsp;&nbsp;</b>
+            <%= text_field_tag :max_age, params[:max_age] || Profile::MAX_AGE, :size => "5"  %> <b>Max Age &nbsp;&nbsp;</b>
           </div>
           <div class="fieldWrapper">
             <%= text_field_tag :distance, params[:distance] , :size => "10" %> <b>Distance</b>
