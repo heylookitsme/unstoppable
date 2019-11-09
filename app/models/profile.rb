@@ -4,6 +4,7 @@ class Profile < ApplicationRecord
   validates :user_id, presence: true
   validates :dob, :presence => true
   validate :check_fitness_level
+  validate :check_cancer_location
   validate :validate_age
   validate :check_zipcode
   has_and_belongs_to_many :activities
@@ -251,6 +252,16 @@ class Profile < ApplicationRecord
       if self.step_status != STEP_BASIC_INFO &&  self.step_status != STEP_CONFIRMED_EMAIL && self.step_status != STEP_CANCER_HISTORY
         if self.fitness_level.blank?
           errors.add(:fitness_level, ', Please select one of the options in How did you learn from us')
+        end
+      end
+    end
+  end
+
+  def check_cancer_location
+    unless self.step_status.blank?
+      if self.step_status != STEP_BASIC_INFO &&  self.step_status != STEP_CONFIRMED_EMAIL
+        if self.cancer_location.blank?
+          errors.add(:cancer_location, ', Please select one of the options for your primary cancer diagnosis')
         end
       end
     end
