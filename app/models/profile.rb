@@ -30,7 +30,7 @@ class Profile < ApplicationRecord
 
   MIN_AGE = 18
   MAX_AGE = 130
-
+  #Method used for Profile search
   include PgSearch
   pg_search_scope :search_cancer_type, :against => [:cancer_location, :other_cancer_location, :details_about_self, :city, :zipcode],
     using: {
