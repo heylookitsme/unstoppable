@@ -84,7 +84,6 @@ class Profile < ApplicationRecord
     
 
   def self.get_list(profile_list, culat, culong)
-    #Rails.logger.debug "in Profile get_list CURRENT = #{User.current.inspect}"
     all_profiles = []
     for profile in profile_list do
       #unless profile.user.admin?
