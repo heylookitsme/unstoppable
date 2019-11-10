@@ -8,7 +8,7 @@ class ProfilesController < ApplicationController
 
   def index
     Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
-    Rails.logger.debug "PARAMS = #{params.inspect}"
+    Rails.logger.debug "Profile Controller: PARAMS = #{params.inspect}"
     unless current_user.blank?
       case current_user.profile.step_status
         when Profile::STEP_CONFIRMED_EMAIL
