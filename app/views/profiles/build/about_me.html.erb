@@ -45,7 +45,7 @@
       </div>
 
   </div>
-  <p class="lead">Welcome back! In order to increase your chances of finding an exercise partner, we encourage you to fill out as much information as possible in the following steps.</p>
+  <p class="lead">We encourage you to fill out as much information about yourself to help other members get to know you better.</p>
   <div class="row registration">
       <div class="col-md-8">
         <h2>My Public Info - About Me &amp; Physical Activity History</h2>
@@ -64,12 +64,6 @@
         <% if @profile.errors.any? %>
           <div id="error_explanation">
             <h2><%= pluralize(@profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
-
-            <ul>
-            <% @profile.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-            </ul>
           </div>
         <% end %>
 
@@ -78,18 +72,7 @@
         <%= f.hidden_field :profile_id, :value => @profile.id %>
 
         <div class="fieldWrapper">
-          <%= f.input :dob, label: "Date of Birth:",
-          as: :date, start_year: Date.today.year - 90,
-          end_year: Date.today.year - 12, 
-          order: [:day, :month, :year] %>
-        </div>
-
-        <div class="fieldWrapper">
-          <%= f.input :zipcode, label: "Zipcode:" %>
-        </div>
-
-        <div class="fieldWrapper">
-          <%= f.association :activities, as: :check_boxes,    label: "What are your favourite Activities?" %>
+          <%= f.association :activities, as: :check_boxes,    label: "What are your favorite Activities?" %>
         </div>
 
         <div class="fieldWrapper">
@@ -97,9 +80,9 @@
         </div>
 
         <div class="fieldWrapper">
-          <%= f.input :fitness_level, required: true, include_blank: "- Select one -", 
-              collection: Profile.fitness_level_descriptions, 
-              label: "How would you describe your current fitness level?"  %>
+          <label class="string optional required" for="fitness_level"><span class="mediumFont" >How would you describe your current fitness level?</span></label>
+          <%= f.input :fitness_level, required: true, label: false, include_blank: "- Select one -", 
+              collection: Profile.fitness_level_descriptions %>
         </div>
 
         <div class="fieldWrapper">

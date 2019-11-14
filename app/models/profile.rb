@@ -219,7 +219,7 @@ class Profile < ApplicationRecord
 
   def self.referred_by
     [ 'Facebook/social media',
-      'News media',
+      'News/Media',
       'Word of mouth',
       'Web search',
       'Event/conference/symposium',

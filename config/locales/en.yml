@@ -36,8 +36,8 @@ en:
         user:
           attributes:
             username:
-              blank: "Required. Please enter Username"
+              blank: "Please enter Username"
             email:
-              blank: "Required. Please enter Email"
+              blank: "Please enter Email"
 
 
