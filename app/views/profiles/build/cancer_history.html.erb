@@ -55,7 +55,7 @@
         <%= link_to  "< Back", previous_wizard_path, :class => "btn btn-primary  btn-lg" %>
       </div>
   </div>
-  <p class="font-sm font-light"><em><span class='font-purple'>This information will become part of your profile so that other members can learn more about you.  Women have told us that sometimes this information is important to them.</span></em></p>
+  <p class="font-sm font-light"><em><span class='font-purple'>This information will become part of your profile so that other members can learn more about you.</span></em></p>
       <hr>
   <div class="row">
     <div class="col-md-8">    
@@ -77,32 +77,36 @@
         <%= f.hidden_field :profile_id, :value => @profile.id %>
         
         <div class="fieldWrapper">
+          <label class="string required required"><span class="mediumFont" >What was your primary cancer diagnosis? </span></label>
           <%= f.input :cancer_location, include_blank: "- Select one -", 
-            collection: Profile.cancer_locations_list, 
-            required: true,
-            label: "What was your primary cancer diagnosis? (if other, fill in below):"  %>
+            collection: Profile.cancer_locations_list, label: false,
+            required: true %>
         </div>
 
         <div class="fieldWrapper">
-          <%= f.input :other_cancer_location , label: "Other cancer location:" %>
+          <label><span class="mediumFont" >Additional Cancer Information (e.g., stage, year diagnosed, DCIS, TNBC): </span></label>
+          <%= f.input :other_cancer_location, label: false %>
         </div>
 
         <div class="fieldWrapper">
+          <label><span class="mediumFont" >Which of the following best describes you? </span></label>
           <%= f.input :treatment_status, include_blank: "- Select one -", 
-            collection: Profile.treatment_status_descriptions, 
-            label: "Which of the following best describes you?"  %>
+            collection: Profile.treatment_status_descriptions, label: false %>
         </div>
 
         <div class="fieldWrapper">
-          <%= f.input :treatment_description, label: "Please briefly describe your cancer treatments:",  as: :text %>
+          <label><span class="mediumFont" >Please briefly describe your cancer treatments: </span></label>
+          <%= f.input :treatment_description, label: false,  as: :text %>
         </div>
 
         <div class="fieldWrapper">
-          <%= f.input :part_of_wellness_program, label: "Have you ever been part of a support group or wellness program following your cancer diagnosis?", as: :radio_buttons %>
+          <label><span class="mediumFont" >Have you ever been part of a support group or wellness program following your cancer diagnosis?: </span></label>
+          <%= f.input :part_of_wellness_program, label: false, as: :radio_buttons %>
         </div>
 
         <div class="fieldWrapper">
-          <%= f.input :which_wellness_program, label: "If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax):" %>
+          <label><span class="mediumFont" >If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax): </span></label>
+          <%= f.input :which_wellness_program, label: false %>
         </div>
 
         <!-- div class="actions">
