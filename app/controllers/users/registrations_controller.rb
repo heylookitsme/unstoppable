@@ -43,19 +43,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
     def check_captcha
       if !verify_recaptcha secret_key: '6Lf6Ja8UAAAAADJ0KepnOzpsPfKki_uG1AwjrxvU'
         flash.delete :recaptcha_error
-        build_resource(sign_up_params)
+        params = sign_up_params
+        build_resource(params)
         resource.valid?
         #resource.errors.add(:base, "There was an error with the recaptcha code below. Please re-enter the code.")
-        flash[:recaptcha_error] = "Please select Recaptcha"
+        if params["g-recaptcha-response"].blank?
+          flash[:recaptcha_error] = "Please select reCAPTCHA box to proceed"
+        end
+        if params["terms_of_service"] == "0"
+          flash[:terms_of_service_error] = "Please agree to the Terms of Use"
+        end
         clean_up_passwords(resource)
         respond_with_navigational(resource) { render :new }
       else
         flash.delete(:recaptcha_error)
         #super
       end
-     
     end
-    
 
   # GET /resource/edit
   # def edit

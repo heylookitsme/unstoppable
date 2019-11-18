@@ -32,6 +32,8 @@
 en:
   activerecord:
     errors:
+      messages:
+        minimumpassword: "Password needs to have a minumum of 8 characters"
       models:
         user:
           attributes:
@@ -39,5 +41,9 @@ en:
               blank: "Please enter Username"
             email:
               blank: "Please enter Email"
+              invalid: "Please enter valid email address"
+            password:
+              blank: "Please enter Password"
+              too_short: "Password is too short(minimum is 8 characters)"
 
 

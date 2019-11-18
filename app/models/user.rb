@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_one :profile, :dependent => :destroy
   attr_accessor :terms_of_service
-  validates_acceptance_of :terms_of_service, on: :create, :allow_nil => false, :if => :no_password_change
+  #validates_acceptance_of :terms_of_service, on: :create, :allow_nil => false, :if => :no_password_change
   #validate :check_terms, :if => :no_password_change
   #validates_acceptance_of :check_terms, :allow_nil => false, :if => :no_password_change
   #validates :terms_of_service, :acceptance => {:accept => true} , on: :create, allow_nil: false
@@ -29,24 +29,22 @@ class User < ApplicationRecord
 
   before_validation :set_country_alpha2
 
-  validates :username, presence: :true, uniqueness: { case_sensitive: false }
-  validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
-  validate :check_zipcode,  :if => :no_password_change
+  validates :username, presence: {:message => "", :hint => "abcdef" }, uniqueness: { case_sensitive: false }
+  validate :password_complexity
+  validates :email, presence: {:message => "" }, uniqueness: { case_sensitive: false }
+  validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true, :message => "Please enter a valid Username", :unless => Proc.new { |a| a.username.include?("@") }
+  validate :check_zipcode, :if => :no_password_change
   validate :check_referred_by, :if => :no_password_change
-  validates :dob, presence: :true, :if => :no_password_change
+  validates :dob, presence: {:message => "Please enter Date of Birth", :hint => "abcdef" }, :if => :no_password_change
   validate :dob_minimum, :if => :no_password_change
   validate :check_username, :if => :no_password_change
 
-  validates_email_realness_of :email
-
   # When the change password screen is used, we want to bypass the validations
   def no_password_change
-   
     status = true
     if self.persisted?
       status = !encrypted_password_changed?
     end
-    Rails.logger.debug "ZZZ status = #{status}"
     status
   end
 
@@ -112,14 +110,14 @@ class User < ApplicationRecord
       unless self.dob.nil?
         age = ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
         if age < 18
-          errors.add(:dob, 'You should be over 18 years old.')
+          errors.add(:dob, 'Must be 18 or older to create an account.')
         end
       end
   end
 
   def check_zipcode
     if self.zipcode.blank?
-      errors.add(:zipcode, 'cannot be blank')
+      errors.add(:zipcode, 'Please enter Zipcode')
       return
     end
     zipcode_details = ZipCodes.identify(self.zipcode)
@@ -136,18 +134,25 @@ class User < ApplicationRecord
 
   def check_username
     unless username.blank?
-     if username.include?("@")
-      errors.add(:username, 'Username cannot be an email address.')
-     end
+      if username.include?("@")
+        errors.add(:username, 'Username cannot be an email address.')
+      end
     end
   end
 
   def check_terms
     unless self.persisted?
       if self.terms_of_service == "0"
-        errors.add(:terms_of_service, 'Please accept terms of service')
+        errors.add(:terms_of_service, 'Please agree to the Terms of Use')
       end
     end
+  end
+
+  def password_complexity
+    # Regexp extracted from https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+    return if password.blank? || password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+
+    errors.add :password, 'Complexity requirement not met. Please use: 1 uppercase, 1 lowercase, 1 digit and 1 special character'
   end
 
 end

@@ -57,10 +57,6 @@
       <h1>Account Information</h1>
       <hr>
       <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-       
-        <%= devise_error_messages! %>
-
-        <%= f.error_notification %>
 
         <div class="form-group">
           <label class="string required required" for="user_username"> <span class="largeFont" >Username: </span></label>
@@ -76,8 +72,8 @@
         
 
         <div class="form-group">
-          <label class="string optional required" for="user_date_of_birth"><span class="largeFont" >Date of birth: </span></label>
-          <p class="font-sm font-light"><em>Only your calculated age is displayed as part of your profile.</em></p>
+          <label class="string optional required" for="user_date_of_birth"><span class="largeFont" >Date of Birth: </span></label>
+          <p class="font-sm font-light"><em>Only your calculated age is displayed as part of your profile.</em> Must be 18 or older to create an account.</p>
           <%= f.input :dob, label: false, include_blank: true,
           as: :date, start_year: Date.today.year - 120,
           end_year: Date.today.year - 1,
@@ -87,7 +83,7 @@
         <div class="form-group">
           <label class="string optional required" for="user_zipcode"><span class="largeFont" >Zip Code:</span></label>
           <p class="font-sm font-light"><em>Zip Code will be kept private, but will be used by our system to find exercise partners near you.</em></p>
-          <%= f.input :zipcode, label: false, required: true, placeholder: 'can read US zip code' %>
+          <%= f.input :zipcode, label: false, required: true %>
         </div>
 
         <div class="form-group">
@@ -110,23 +106,22 @@
         </div>
 
         <div class="form-group">
-          <label class="string optional label required" for="user_terms_of_use"><span class="largeFont">Terms of use:</span></label>
           <div class="row">
             <%= f.input :terms_of_service, as: :boolean,  label: false,  allow_nil: false %>
-            I agree to the &nbsp;<%= link_to 'Terms of Use', users_terms_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}  %>
+            I agree to the <%= link_to 'Terms of Use', users_terms_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}  %>
             <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content"></div>
               </div>
             </div>
           </div>
+          <span style="color:red"><font size=2><%= flash[:terms_of_service_error] %></font></span><br/>
         </div>
 
         <div class="form-group">
-          <label class="string optional required" for="user_recaptcha"><span class="largeFont">Recaptcha:</span></label>
-          <span style="color:red"><font size=2><%= flash[:recaptcha_error] %></font></span><br/>
           <%= recaptcha_tags site_key: '6Lf6Ja8UAAAAABXowY3tZ5UXOsSeyO61__kGKhFj'
           %>
+          <span style="color:red"><font size=2><%= flash[:recaptcha_error] %></font></span><br/>
         </div>
 
         <div class="form-group">
