@@ -47,6 +47,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         build_resource(params)
         resource.valid?
         #resource.errors.add(:base, "There was an error with the recaptcha code below. Please re-enter the code.")
+        flash.delete(:terms_of_service_error)
         if params["g-recaptcha-response"].blank?
           flash[:recaptcha_error] = "Please select reCAPTCHA box to proceed"
         end
@@ -57,6 +58,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         respond_with_navigational(resource) { render :new }
       else
         flash.delete(:recaptcha_error)
+        flash.delete(:terms_of_service_error)
         #super
       end
     end
