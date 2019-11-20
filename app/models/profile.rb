@@ -59,6 +59,14 @@ class Profile < ApplicationRecord
     self.step_status == STEP_CONFIRMED_EMAIL
   end
 
+  def display_username
+    self.user.username
+  end
+
+  def display_email
+    self.user.email
+  end
+
 =begin
   def distance
     Rails.logger.debug "DISTANCE"

@@ -41,4 +41,20 @@ RailsAdmin.config do |config|
     # history_index
     # history_show
   end
+  config.model 'Profile' do
+    list do
+      configure :display_username do
+        # any configuration
+      end
+      field :display_username do
+        label "Username"
+      end
+      field :display_email do
+        label "Email"
+      end
+      field :step_status
+      #field :avatar
+      field :created_at
+    end
+  end
 end
