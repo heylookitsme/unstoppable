@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by_id(params[:id])
     @profile = @user.profile
-    Rails.logger.info("1n show user = #{@user.inspect}")
+    Rails.logger.info("In show user = #{@user.inspect}")
   end
 
   def edit
