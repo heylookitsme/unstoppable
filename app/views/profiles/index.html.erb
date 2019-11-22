@@ -38,9 +38,9 @@
                   <br><%= link_to profile.user.username, profile_path(profile), class: 'btn btn-default'%><br>
                     <% if (current_user.profile.check_liked(profile.id)) %>
                       <p><span class="glyphicon glyphicon-heart"></span> Saved</p>
-                      <%= button_to 'Remove Save', save_unlike_user_path(profile.user.id), method: :post %>
+                      <%= button_to 'Remove Save', save_unlike_user_path(profile.id), method: :post %>
                     <% else %>
-                      <%= button_to 'Save', save_like_user_path(profile.user.id), method: :post %>
+                      <%= button_to 'Save', save_like_user_path(profile.id), method: :post %>
                     <% end %>
                   <em class="font-sm"><b>Age:</b> <%= profile.age %>, <b>Distance:</b> <%= profile.city %>, <%= profile.state_code %> </em>
                 </div>
@@ -52,7 +52,10 @@
     <div id="search-results">
 
     </div>
-    <%= paginate @profiles %>
+    <% unless @profiles.blank? %>
+      <%= paginate @profiles %>
+    <% end %>
+  </div>
   </div>
 </tbody>
 

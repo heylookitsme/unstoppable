@@ -10,13 +10,15 @@ class ProfilesController < ApplicationController
     Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
     Rails.logger.debug "Profile Controller: PARAMS = #{params.inspect}"
     unless current_user.blank?
+      @profiles = Profile.where(["id != ? and step_status = ?", current_user.profile.id, Profile::STEP_CONFIRMED_EMAIL]).order("updated_at DESC").page(params[:page])
+      @profiles_total = @profiles.size unless @profiles.blank?
       case current_user.profile.step_status
         when Profile::STEP_CONFIRMED_EMAIL
-          @profile = Profile.where(step_status: Profile::STEP_CONFIRMED_EMAIL).order("updated_at DESC").page(params[:page])
+          @profiles = Profile.where(["id != ? and step_status = ?", current_user.profile.id, Profile::STEP_CONFIRMED_EMAIL]).order("updated_at DESC").page(params[:page])
           unless !params.has_key?(:search)  || (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
             @profiles_total = @profiles.size unless @profiles.blank?
             unless params[:search].blank?
-              @search_results_profiles = Profile.search_cancer_type(params[:search])
+              @search_results_profiles = @profiles.search_cancer_type(params[:search])
             else
               @search_results_profiles = @profiles
             end
@@ -29,7 +31,6 @@ class ProfilesController < ApplicationController
               format.js { render partial: 'search-results'}
             end
           else
-            @profiles = Profile.where(step_status: Profile::STEP_CONFIRMED_EMAIL).order("updated_at DESC").page(params[:page])
             @search_results_profiles = @profiles
           end
         when Profile::STEP_EMAIL_CONFIRMATION_SENT
