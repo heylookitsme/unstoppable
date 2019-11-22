@@ -88,7 +88,7 @@
 
         <div class="form-group">
           <label class="password optional required" for="user_password"><span class="largeFont">Password:</span></label>
-          <%= f.input :password, label: false, input_html: { autocomplete: 'current-password' } %>
+          <%= f.input :password, label: false %>
           <% if @minimum_password_length %>
             <small class="form-text text-muted"><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></small>
           <% end %>
