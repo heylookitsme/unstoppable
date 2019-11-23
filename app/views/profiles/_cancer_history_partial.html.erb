@@ -1,0 +1,32 @@
+        <div class="fieldWrapper">
+          <label class="string required required"><span class="mediumFont" >What was your primary cancer diagnosis? </span></label>
+          <%= f.input :cancer_location, include_blank: "- Select one -", 
+            collection: Profile.cancer_locations_list, label: false,
+            required: true %>
+        </div>
+
+        <div class="fieldWrapper">
+          <label><span class="mediumFont" >Additional Cancer Information (e.g., stage, year diagnosed, DCIS, TNBC): </span></label>
+          <%= f.input :other_cancer_location, label: false %>
+        </div>
+
+        <div class="fieldWrapper">
+          <label><span class="mediumFont" >Which of the following best describes you? </span></label>
+          <%= f.input :treatment_status, include_blank: "- Select one -", 
+            collection: Profile.treatment_status_descriptions, label: false %>
+        </div>
+
+        <div class="fieldWrapper">
+          <label><span class="mediumFont" >Please briefly describe your cancer treatments: </span></label>
+          <%= f.input :treatment_description, label: false,  as: :text %>
+        </div>
+
+        <div class="fieldWrapper">
+          <label><span class="mediumFont" >Have you ever been part of a support group or wellness program following your cancer diagnosis?: </span></label>
+          <%= f.input :part_of_wellness_program, label: false, as: :radio_buttons %>
+        </div>
+
+        <div class="fieldWrapper">
+          <label><span class="mediumFont" >If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax): </span></label>
+          <%= f.input :which_wellness_program, label: false %>
+        </div>

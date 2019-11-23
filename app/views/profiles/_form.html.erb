@@ -21,98 +21,11 @@
         </ul>
       </div>
     <% end %>
-    <div class="fieldWrapper">
-      <%= f.input :dob, label: "Date of Birth:",
-      as: :date, start_year: Date.today.year - 90,
-      end_year: Date.today.year - 12, 
-      order: [:day, :month, :year] %>
-    </div>
 
-    <div class="fieldWrapper">
-      <%= f.input :zipcode, label: "Zipcode:" %>
-    </div>
+    <%= render 'profiles/about_me_partial', profile: @profile, f: f  %>
 
-    <div class="fieldWrapper">
-      <%= f.association :activities, as: :check_boxes,    label: "What are your favourite Activities?" %>
-    </div>
-
-    <div class="fieldWrapper">
-      <%= f.input :other_favorite_activities, label: "What are your other favorite activities?" %>
-    </div>
-
-    <div class="fieldWrapper">
-      <%= f.input :fitness_level, include_blank: "- Select one -", 
-          collection: Profile.fitness_level_descriptions, 
-          label: "How would you describe your current fitness level?"  %>
-    </div>
-
-    <div class="fieldWrapper">
-    <%= f.association :exercise_reasons, as: :check_boxes,    label: "Identify your top reasons for wanting to become more active:" %>
-
-    <div class="fieldWrapper">
-      <%= f.input :prefered_exercise_location, include_blank: "- Select one -", 
-          collection: Profile.prefered_exercise_location_descriptions, 
-          label: "Where do you prefer to be active?"  %>
-    </div>
-
-    <div class="fieldWrapper">
-      <%= f.input :prefered_exercise_time, include_blank: "- Select one -", 
-          collection: Profile.prefered_exercise_time_descriptions, 
-          label: "When do you prefer to be active?"  %>
-    </div>
-
-    <div class="fieldWrapper">
-      <%= f.input :reason_for_match, label: "What is the main reason you want to be matched with an exercise partner?" %>
-    </div>
-
-    <div class="fieldWrapper">
-      <%= f.input :personality, include_blank: "- Select one -", 
-        collection: Profile.personality_descriptions, 
-        label: "Which of the following best describes you?"  %>
-    </div>
-
-    <div class="fieldWrapper">
-      <%= f.input :work_status, include_blank: "- Select one -", 
-      collection: Profile.work_status_descriptions, 
-      label: "Which of the following best describes your work situation?"  %>
-    </div>
-
-    <div class="fieldWrapper">
-        <label for="id_self_description">About You. Tell us about yourself!</label>
-        <%= f.input :details_about_self, :as => :text, :input_html => { 'rows' => 10, 'cols' => 40 } %>
-    </div>
-
-
-    <div class="fieldWrapper">
-        <%= f.input :cancer_location, include_blank: "- Select one -", 
-          collection: Profile.cancer_locations_list, 
-          label: "Cancer Location"  %>
-      </div>
-
-      <div class="fieldWrapper">
-        <%= f.input :other_cancer_location , label: "Other cancer location:" %>
-      </div>
-
-
-      <div class="fieldWrapper">
-        <%= f.input :treatment_status, include_blank: "- Select one -", 
-          collection: Profile.treatment_status_descriptions, 
-          label: "Which of the following best describes you?"  %>
-      </div>
-
-      <div class="fieldWrapper">
-        <%= f.input :treatment_description, label: "Please briefly describe your cancer treatments:" %>
-      </div>
-
-      <div class="fieldWrapper">
-
-        <%= f.input :part_of_wellness_program, label: "If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax):", as: :radio_buttons %>
-      </div>
-
-      <div class="fieldWrapper">
-        <%= f.input :which_wellness_program, label: "Please briefly describe your cancer treatments:",  as: :text %>
-      </div>
-
+    <%= render 'profiles/cancer_history_partial', profile: @profile, f: f  %>
+      
     <div class="actions">
       <%= f.submit %>
     </div>

@@ -62,13 +62,7 @@
       <%= simple_form_for  @profile, :url => wizard_path, html: {multipart: true} do |f| %>
         <% if @profile.errors.any? %>
           <div id="error_explanation">
-            <h2><%= pluralize(@profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
-
-            <ul>
-            <% @profile.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-            </ul>
+            <h2>Please complete the required questions:</h2>
           </div>
         <% end %>
 
@@ -76,42 +70,8 @@
 
         <%= f.hidden_field :profile_id, :value => @profile.id %>
         
-        <div class="fieldWrapper">
-          <label class="string required required"><span class="mediumFont" >What was your primary cancer diagnosis? </span></label>
-          <%= f.input :cancer_location, include_blank: "- Select one -", 
-            collection: Profile.cancer_locations_list, label: false,
-            required: true %>
-        </div>
+        <%= render 'profiles/cancer_history_partial', profile: @profile, f: f  %>
 
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >Additional Cancer Information (e.g., stage, year diagnosed, DCIS, TNBC): </span></label>
-          <%= f.input :other_cancer_location, label: false %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >Which of the following best describes you? </span></label>
-          <%= f.input :treatment_status, include_blank: "- Select one -", 
-            collection: Profile.treatment_status_descriptions, label: false %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >Please briefly describe your cancer treatments: </span></label>
-          <%= f.input :treatment_description, label: false,  as: :text %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >Have you ever been part of a support group or wellness program following your cancer diagnosis?: </span></label>
-          <%= f.input :part_of_wellness_program, label: false, as: :radio_buttons %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >If yes, what program? (list the name and location if possible, for example: INOVA Life with Cancer-Breast Cancer Support Group, Fairfax): </span></label>
-          <%= f.input :which_wellness_program, label: false %>
-        </div>
-
-        <!-- div class="actions">
-          <%= f.submit %>
-        </div -->
         <div class="fieldWrapper">
             <%= link_to  "< Back", previous_wizard_path, :class => "btn btn-primary btn-lg" %>
             <%= f.button :submit, "Save and Continue", :class => "btn btn-primary btn-lg"%>

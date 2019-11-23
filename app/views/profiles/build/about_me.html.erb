@@ -60,7 +60,6 @@
   <div class="row">
     <div class="col-md-8">
       <%= simple_form_for  @profile, :url => wizard_path, html: {multipart: true} do |f| %>
-
         <% if @profile.errors.any? %>
           <div id="error_explanation">
             <h2>Please complete the required questions:</h2>
@@ -73,64 +72,7 @@
 
         <%= f.hidden_field :profile_id, :value => @profile.id %>
 
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >What are your favorite Activities? </span></label>
-          <%= f.association :activities, as: :check_boxes, label: false %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >Do you have any other favorite activities?? </span></label> 
-          <%= f.input :other_favorite_activities, label: false %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label class="string optional required" for="fitness_level"><span class="mediumFont" >How would you describe your current fitness level?</span></label>
-          <%= f.input :fitness_level, required: true, label: false, include_blank: "- Select one -", 
-              collection: Profile.fitness_level_descriptions %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >Identify your top reasons for wanting to become more active:</span></label>
-          <%= f.association :exercise_reasons, as: :check_boxes %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >Where do you prefer to be active?</span></label>
-          <%= f.input :prefered_exercise_location, label: false, include_blank: "- Select one -",
-              collection: Profile.prefered_exercise_location_descriptions %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >When do you prefer to be active?</span></label>
-          <%= f.input :prefered_exercise_time, label: false, include_blank: "- Select one -",
-              collection: Profile.prefered_exercise_time_descriptions %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >What is the main reason you want to be matched with an exercise partner?</span></label>
-          <%= f.input :reason_for_match, label: false %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >Which of the following best describes you?</span></label>
-          <%= f.input :personality, include_blank: "- Select one -", 
-            collection: Profile.personality_descriptions, label: false %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label><span class="mediumFont" >Which of the following best describes your work situation?</span></label>
-          <%= f.input :work_status, include_blank: "- Select one -", 
-          collection: Profile.work_status_descriptions, label: false %>
-        </div>
-
-        <div class="fieldWrapper">
-          <label for="id_self_description"><b>About You:</b><span class="mediumFont" >Which of the following best describes your work situation?</span></label>
-          <p>Use this space for anything else you would like to share.</p>
-          <%= f.input :details_about_self, :as => :text, :input_html => { 'rows' => 10, 'cols' => 40 }, label: false %>
-        </div>
-        <!-- div class="fieldWrapper">
-          <%= f.button :submit, "Save and Continue", :class => "btn btn-primary btn-lg"%>
-        </div -->
+        <%= render 'profiles/about_me_partial', profile: @profile, f: f  %>
 
         <button type="submit" name="next" class="btn btn-primary btn-lg">Save & Continue <span class="glyphicon glyphicon-chevron-right"></span></button>
 

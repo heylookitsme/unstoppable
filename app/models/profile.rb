@@ -257,7 +257,7 @@ class Profile < ApplicationRecord
   def check_fitness_level
     unless self.step_status.blank?
       Rails.logger.debug "STEP== #{step_status.inspect}"
-      if self.step_status == STEP_ABOUT_ME
+      if self.step_status == STEP_ABOUT_ME || self.step_status == STEP_CONFIRMED_EMAIL
         if self.fitness_level.blank?
           errors.add(:fitness_level, 'Please complete required question.')
         end
@@ -268,7 +268,7 @@ class Profile < ApplicationRecord
   def check_cancer_location
     unless self.step_status.blank?
       Rails.logger.debug "check_cancer_location STEP== #{step_status.inspect}"
-      if self.step_status == STEP_CANCER_HISTORY
+      if self.step_status == STEP_CANCER_HISTORY || self.step_status == STEP_CONFIRMED_EMAIL
         if self.cancer_location.blank?
           errors.add(:cancer_location, 'Please select one of the options for your primary cancer diagnosis')
         end
