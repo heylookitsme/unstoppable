@@ -44,6 +44,6 @@ en:
               invalid: "Please enter valid email address"
             password:
               blank: "Please enter Password"
-              too_short: "Password is too short(minimum is 8 characters)"
+              too_short: "Your password must be atleast 8 characters."
 
 

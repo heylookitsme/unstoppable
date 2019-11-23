@@ -154,7 +154,8 @@ class User < ApplicationRecord
     return if password.blank? || password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])/
 
     #errors.add :password, 'Complexity requirement not met. Please use: 1 uppercase, 1 lowercase, 1 digit and 1 special character'
-    errors.add :password, 'Complexity requirement not met. Please use: 1 uppercase, 1 lowercase and 1 digit'
+    # Your password must be at least 8 characters, contain one uppercase letter, one lowercase letter, and one number.
+    errors.add :password, 'Your password must have one uppercase letter, one lowercase, and one number.'
   end
 
 end
