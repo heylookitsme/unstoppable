@@ -73,6 +73,7 @@ Rails.application.routes.draw do
     member do
       get :confirm_email
       get :email_confirmation
+      get :email_confirmation_sent
       get :remind_confirmation
       post :resend_confirmation
       post 'save_like'

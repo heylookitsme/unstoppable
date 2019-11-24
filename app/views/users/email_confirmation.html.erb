@@ -50,8 +50,8 @@
 </div>
 
     <div class="container-fluid"  width="100%" style="text-align:center">
-      <h1>Welcome to 2Unstoppable <%= @user.username %>!</h1>
-      <p>We are so glad that you signed up and created a profile.  Before you can begin connecting with other members, please confirm your account. 
+      <h1><span class="font-pink">Welcome to 2Unstoppable <%= @user.username %>!</span></h1>
+      <p class="font-pink">We are so glad that you signed up and created a profile.  Before you can begin connecting with other members, please confirm your account. 
       </p>
       <br/>
       <p> An email has been sent to <%= @user.email %>
@@ -64,9 +64,7 @@
         <%= f.button :submit, "RESEND" %>
       <% end %>
 
-      <p> Contact info <%= link_to nil, "http://2unstoppable.org/contact-us/" %> if you have any questions</p>
-      <p><span style="font-weight:bold"> Keep moving and stay strong </span></p>
-      <p><span style="font-weight:bold"> Your 2Unstoppable Team! </span></p>
+      <%= render "shared/email_footer" %>
     </div>
   
 
