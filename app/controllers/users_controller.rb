@@ -90,6 +90,13 @@ class UsersController < ApplicationController
     #reset_session
   end
 
+  def email_confirmation_sent
+    Rails.logger.info "In User controller, email_confirmation_sent"
+    Rails.logger.info "In  email_confirmation_sent = #{params.inspect}"
+    @user = User.find_by_id(params[:user_id])
+    reset_session
+  end
+
   def remind_confirmation
     Rails.logger.info "In User controller, remind_confirmation"
     Rails.logger.info "In  remind_confirmation = #{params.inspect}"
@@ -102,7 +109,7 @@ class UsersController < ApplicationController
     @user = User.find_by_id(params[:id])
     UserMailer.registration_confirmation(@user).deliver
     flash[:success] = "Please confirm your email address to continue"
-    redirect_to email_confirmation_user_path(@user, :user_id => @user.id)
+    redirect_to email_confirmation_sent_user_path(@user, :user_id => @user.id)
     #reset_session
   end
 

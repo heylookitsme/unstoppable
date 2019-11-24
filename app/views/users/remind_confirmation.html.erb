@@ -1,6 +1,64 @@
-<h1> Please confirm your email </h1>
-<p> Please Login to your account to confirm your email </p>
-<h3> Would you like the confirmation email to be resent to your account? </h3>
-<%= simple_form_for(@user, as: :user, method: :post, url: resend_confirmation_user_path) do |f| %>
-  <%= f.button :submit, "Resend Email Confirmation" %>
-<% end %>
+<div class="container">
+<div class="row registration-steps row-no-padding">
+
+  <div class="col-md-2">
+    <div class="registration-step registration-step-complete">
+      <div class="number"><div class="circle">1</div></div>
+      Basic Info
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="registration-step registration-step-complete">
+      <div class="number"><div class="circle">2</div></div>
+      About Me
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="registration-step registration-step-complete">
+      <div class="number"><div class="circle">3</div></div>
+      Cancer History
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="registration-step  registration-step-complete">
+      <div class="number"><div class="circle">4</div></div>
+      Photo
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="registration-step registration-step-active">
+      <div class="number"><div class="circle">5</div></div>
+      Confirm Email
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <div class="registration-step ">
+      <div class="number"><div class="circle">6</div></div>
+      Browse Profiles
+    </div>
+  </div>
+
+</div>
+</div>
+
+  <div class="container-fluid"  width="100%"  style="text-align:center">
+    <h1>Hello1 <%= @user.username %>!</h1>
+    <h2>You are almost ready to start connecting with other 2Unstoppable members.  Before you can begin connecting with other members, please confirm your account. 
+    </h2>
+    <br/>
+    <p> If you cannot find the confirmation link, please click below </p>
+    <%= simple_form_for(@user, as: :user, method: :post, url: resend_confirmation_user_path) do |f| %>
+      <div>
+        <%= f.button :submit, "RESEND Email" %>
+      </div>
+    <% end %>
+    <br/>
+    <p> Contact info <%= link_to nil, "http://2unstoppable.org/contact-us/" %> if you have any questions</p>
+    <p><span style="font-weight:bold"> Keep moving and stay strong </span></p>
+    <p><span style="font-weight:bold"> Your 2Unstoppable Team! </span></p>
+  </div>

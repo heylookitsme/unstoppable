@@ -1,6 +1,4 @@
-
-
- <div class="container">
+<div class="container">
       
   <div class="row registration-steps row-no-padding">
   
@@ -50,24 +48,12 @@
 </div>
 
     <div class="container-fluid"  width="100%" style="text-align:center">
-      <h1>Welcome to 2Unstoppable <%= @user.username %>!</h1>
-      <p>We are so glad that you signed up and created a profile.  Before you can begin connecting with other members, please confirm your account. 
-      </p>
+      <h1>Hello <%= @user.username %>!</h1>
+      <h2>An email has been resent to <%= @user.email %>. Before you can begin connecting with other members, please confirm your account.
+      </h2>
       <br/>
-      <p> An email has been sent to <%= @user.email %>
-      
-      <h2>Email Confirmation</h2>
-      <hr>
-      <p>If you have not received an email, please click the RESEND button below or contact us at info@2Unstoppable.org)
-      </p>
-      <%= simple_form_for(@user, as: :user, method: :post, url: resend_confirmation_user_path) do |f| %>
-        <%= f.button :submit, "RESEND" %>
-      <% end %>
-
       <p> Contact info <%= link_to nil, "http://2unstoppable.org/contact-us/" %> if you have any questions</p>
       <p><span style="font-weight:bold"> Keep moving and stay strong </span></p>
       <p><span style="font-weight:bold"> Your 2Unstoppable Team! </span></p>
     </div>
   
-
-    
