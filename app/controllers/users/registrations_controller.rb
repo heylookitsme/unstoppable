@@ -20,7 +20,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
  def after_sign_up_path_for(resource)
   Rails.logger.debug "In after_sign_up_path_for resource#{resource.inspect}"
   #UserMailer.with(user: resource).welcome_email.deliver_later
-  UserMailer.registration_confirmation(resource).deliver
+  #UserMailer.registration_confirmation(resource).deliver
   flash[:success] = "Please confirm your email address to continue"
   #redirect_to root_url
   # Removing email confirmation from second step and move to the end step

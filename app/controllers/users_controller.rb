@@ -87,6 +87,9 @@ class UsersController < ApplicationController
     Rails.logger.info "In User controller, email_confirmation"
     Rails.logger.info "In  email_confirmation = #{params.inspect}"
     @user = User.find_by_id(params[:id])
+    @user.profile.step_status = Profile::STEP_EMAIL_CONFIRMATION_SENT
+    @user.profile.save
+    UserMailer.registration_confirmation(@user).deliver
     #reset_session
   end
 

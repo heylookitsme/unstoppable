@@ -29,9 +29,6 @@ class AttachmentController < ApplicationController
     unless @profile.step_status == Profile::STEP_CONFIRMED_EMAIL
       # Removing email confirmation from second step and move to the end step
       # render :template => 'profiles/thank_you.html.erb'
-      @user = @profile.user
-      @profile.step_status = Profile::STEP_EMAIL_CONFIRMATION_SENT
-      @profile.save
       redirect_to email_confirmation_user_path(@user)
     else
       render :template => 'profiles/show.html.erb'
