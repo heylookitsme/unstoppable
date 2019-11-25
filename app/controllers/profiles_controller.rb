@@ -78,7 +78,7 @@ class ProfilesController < ApplicationController
 
   def update
 
-    Rails.logger.debug "Profile Controller: Update #{@profile.inspect}"
+    #Rails.logger.debug "Profile Controller: Update #{@profile.inspect}"
     Rails.logger.debug "Profile Controller: Update #{params.inspect}"
    
     unless @profile.avatar.present?
