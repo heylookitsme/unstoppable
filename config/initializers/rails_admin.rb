@@ -57,4 +57,17 @@ RailsAdmin.config do |config|
       field :created_at
     end
   end
+  config.model 'User' do
+    list do
+      field :username
+      field :email
+      configure :display_step_status do
+        # any configuration
+      end
+      field :display_step_status do
+        label "Step status"
+      end
+      field :created_at
+    end
+  end
 end
