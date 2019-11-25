@@ -94,7 +94,7 @@ class UsersController < ApplicationController
   end
 
   def email_confirmation_sent
-    Rails.logger.info "In User controller, email_confirmation_sent"
+    #Rails.logger.info "In User controller, email_confirmation_sent"
     Rails.logger.info "In  email_confirmation_sent = #{params.inspect}"
     @user = User.find_by_id(params[:user_id])
     reset_session
