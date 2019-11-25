@@ -39,6 +39,11 @@ class User < ApplicationRecord
   validate :dob_minimum, :if => :no_password_change
   validate :check_username, :if => :no_password_change
 
+
+  def display_step_status
+    self.profile.blank? ? "" : self.profile.step_status
+  end
+
   # When the change password screen is used, we want to bypass the validations
   def no_password_change
     status = true
