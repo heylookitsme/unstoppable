@@ -11,10 +11,17 @@
           We are so glad that you signed-up to be part of the 2Unstoppable community.
         </span>
       </h2>
-      <p>
-        To login to the site, just follow this link: <%= confirm_email_user_url(@user.confirm_token) %>
+      <h3> One more step before you can start browsing and connecting with other members.
+      </h3>
+      <h1>
+       <%= link_to "Confirm Account",  confirm_email_user_url(@user.confirm_token), :class => "button" %>
+      </h1>
+      <p> Your login information is: </p>
+      <p> Username: <%= @user.username %>
+      <p>Forgot your password? Reset it here <%= link_to "Edit Password", edit_password_user_url(@user) %>   </p>
+
+      <p> Whether it’s finding a buddy or connecting you to <%= link_to "Resources", "http://2unstoppable.org/contact-us/" %> we are always happy to help!
       </p>
-      <p>Thanks for joining and have a great day!</p>
 
       <%= render "shared/email_footer" %>
     </div>
