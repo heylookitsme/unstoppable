@@ -3,7 +3,8 @@ class Profile < ApplicationRecord
   validates_uniqueness_of :user_id, :message => "User can only have one Profile"
   validates :user_id, presence: true
   validates :dob, :presence => true
-  validate :check_fitness_level
+  #validate :check_fitness_level
+  validate :check_reason_for_match
   validate :check_cancer_location
   validate :validate_age
   validate :check_zipcode
@@ -260,6 +261,17 @@ class Profile < ApplicationRecord
       if self.step_status == STEP_ABOUT_ME || self.step_status == STEP_CONFIRMED_EMAIL
         if self.fitness_level.blank?
           errors.add(:fitness_level, 'Please complete required question.')
+        end
+      end
+    end
+  end
+
+  def check_reason_for_match
+    unless self.step_status.blank?
+      Rails.logger.debug "STEP== #{step_status.inspect}"
+      if self.step_status == STEP_ABOUT_ME || self.step_status == STEP_CONFIRMED_EMAIL
+        if self.reason_for_match.blank?
+          errors.add(:reason_for_match, 'Please complete required question.')
         end
       end
     end
