@@ -1,12 +1,17 @@
 
-<p>Hello <%= @user.email %></p>
+<div class="container-fluid"  width="100%" style="text-align:center">
+    <h1><span class="font-pink">Hello <%= @user.email %></span></h1>
 
-<p>A username reminder has been requested for this email address.</p>
-<p>The following username(s) are associated with this email: </p>
+    <p>A username reminder has been requested for this email address.</p>
+    <p>The following username is associated with this email: </p>
 
-<p><b> <%= @user.username %> </b></p>
-<br/>
-<p> Please click the following link to log in: </p>
+    <p><b> <%= @user.username %> </b></p>
+    <br/>
+    <p> Please click the following link to log in: </p>
 
-<p>http://localhost:3000</p>
-<p> Please contact info@2Unstoppable.org with any questions. </p>
+    <h3> <%= link_to "Login", "http://uns1.herokuapp.com/", class: 'btn btn-primary' %></h3>
+    <%= render "shared/email_footer" %>
+</div>
+
+
+

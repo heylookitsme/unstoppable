@@ -1,7 +1,7 @@
 
 <div class="container-fluid"  width="100%">
     
-    <h2>Email sent to <%= @user.email %> with username</h2>
+    <h2>Email sent to <%= @user.email %> with username.</h2>
+    <h3> <%= button_to "Login", new_user_session_path, class: 'btn btn-primary' %></h3>
     <hr>
-    <p>A username reminder has been sent for the profile matching the provided email.</p>
 </div>
