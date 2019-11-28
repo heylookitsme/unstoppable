@@ -1,15 +1,27 @@
 
 
 <div class="container-fluid"  width="100%" style="text-align:center">
-  <h2><%= t('.forgot_your_username') %></h2>
+  <% if params[:stype]=="U" %>
+    <h2><%= t('.forgot_your_username') %></h2>
+  <% else %>
+    <h2><%= t('.forgot_your_password') %></h2>
+  <% end %>
   <%= form_for :user, url: send_username_path do |f| %>
-    <h4> Please enter the email you used to sign up and we will send you an email with your username.</h4>
+    <%= hidden_field_tag 'stype', params[:stype] %>
+    <% if params[:stype]=="U" %>
+      <h4> Please enter the email you used to sign up and we will send you an email with your username.</h4>
+    <% else %>
+      <h4> Enter your email in the form below and we'll send you instructions for creating a new one. </h4>
+    <% end %>
     <div class="form-group" style="text-align:left">
       <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control', hint: "Email Address" %>
     </div>
-
     <div class="form-group">
-      <%= f.submit "Send Email", class: 'btn btn-primary' %>
+      <% if params[:stype]=="U" %>
+        <%= f.submit "Send Email", class: 'btn btn-primary' %>
+      <% else %>
+        <%= f.submit "Reset Password", class: 'btn btn-primary' %>
+      <% end %>
     </div>
   <% end %>
 </div>
