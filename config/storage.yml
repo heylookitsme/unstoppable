@@ -8,7 +8,7 @@
 
 google:
   service: GCS
-  project: unstoppable-test
+  project: 2Unstoppable
   credentials: <%= ENV['GOOGLE_APPLICATION_CREDENTIALS'] %>
   bucket: unstoppable_images_123456
 google_dev:
