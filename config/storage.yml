@@ -10,12 +10,12 @@ google:
   service: GCS
   project: unstoppable-test
   credentials: <%= ENV['GOOGLE_APPLICATION_CREDENTIALS'] %>
-  bucket: unstoppable-test-123456
+  bucket: unstoppable_images_123456
 google_dev:
   service: GCS
-  project: todo-pic
+  project: 2Unstoppable
   credentials: <%= Rails.root.join("config/secrets/unstoppable-test.json") %>
-  bucket: unstoppable-test-123456
+  bucket: unstoppable_images_123456
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
