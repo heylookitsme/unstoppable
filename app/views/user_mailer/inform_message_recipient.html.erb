@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <div class="container-fluid"  width="100%" style="text-align:center">
+      <h3><span class="font-pink">Hi, <%= @recipient.username %></span></h3>
+      <h3><span>You have received a message from <%= @user.username %></span><h3>
+      <h3>
+        <span class="font-pink">
+            Click the link below to return to the site to read your message:
+        </span>
+      </h3>
+      
+      <h1>
+       <%= link_to "Login", new_user_session_url, :class => "button" %>
+      </h1>
+
+      <p> Please contact <%= link_to "Resources", "http://2unstoppable.org/contact-us/" %> with any questions. 
+      </p>
+
+      <%= render "shared/email_footer" %>
+    </div>
+  </body>
+</html>

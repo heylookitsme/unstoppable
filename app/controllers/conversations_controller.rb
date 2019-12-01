@@ -30,19 +30,22 @@ class ConversationsController < ApplicationController
 
     def new
         # <%= f.hidden_field :user_id, :value =>  @message_to_id %>
-        Rails.logger.info "In Conversaation Controller new params= #{params.inspect}"
+        Rails.logger.info "In Conversation Controller new params= #{params.inspect}"
         @recipients = User.all - [current_user]
         @message_to_id = params[:user_id]
-        Rails.logger.info "In Conversaation Controller  @message_to_id= #{@message_to_id.inspect}"
+        Rails.logger.info "In Conversation Controller  @message_to_id= #{@message_to_id.inspect}"
     end
 
     def create
-        Rails.logger.info "In Conversaation Controller create params= #{params.inspect}"
+        Rails.logger.info "In Conversation Controller create params= #{params.inspect}"
         recipient= User.find(params[:user_id])
-        Rails.logger.info "In Conversaation Controller create recipient= #{recipient.inspect}"
-        Rails.logger.info "In Conversaation Controller current_user= #{current_user.inspect}"
+        Rails.logger.info "In Conversation Controller create recipient= #{recipient.inspect}"
+        Rails.logger.info "In Conversation Controller current_user= #{current_user.inspect}"
         receipt = current_user.send_message(recipient, params[:body], params[:subject])
-        Rails.logger.info "In Conversaation Controller receipt= #{receipt.inspect}"
+        Rails.logger.info "In Conversation Controller receipt= #{receipt.inspect}"
+        ## An email is sent to the recipient
+        UserMailer.inform_message_recipient(current_user, recipient).deliver
+        ##  An email is sent to the recipient
         redirect_to conversation_path(receipt.conversation)
     end
 

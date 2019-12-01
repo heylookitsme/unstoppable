@@ -24,4 +24,10 @@ class UserMailer < ApplicationMailer
     recipients = User.all.select{|x| x.admin?}.collect{|x| x.email}.join(', ')
     mail(:to => recipients, :subject => "User: #{user.username}, Email: #{user.email} has confirmed")
   end
+
+  def inform_message_recipient(user, recipient)
+    @user = user
+    @recipient = recipient
+    mail(:to => "#{recipient.username} <#{recipient.email}>", :subject => "You've received a new message on 2Unstoppable")
+  end
 end
