@@ -101,8 +101,8 @@ class UsersController < ApplicationController
   end
 
   def remind_confirmation
-    Rails.logger.info "In User controller, remind_confirmation"
-    Rails.logger.info "In  remind_confirmation = #{params.inspect}"
+    #Rails.logger.info "In User controller, remind_confirmation"
+    #Rails.logger.info "In  remind_confirmation = #{params.inspect}"
     @user = User.find_by_id(params[:id])
   end
 
