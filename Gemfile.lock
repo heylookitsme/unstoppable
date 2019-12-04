@@ -94,6 +94,8 @@ GEM
       sixarm_ruby_unaccent (~> 1.1)
       unicode_utils (~> 1.4)
     crass (1.0.4)
+    cropper-rails (2.3.2.1)
+      railties (>= 3.1.0)
     declarative (0.0.10)
     declarative-option (0.1.0)
     devise (4.6.2)
@@ -249,6 +251,8 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.0.4)
       loofah (~> 2.2, >= 2.2.2)
+    rails-ujs (0.1.0)
+      railties (>= 3.1)
     rails_admin (2.0.0.beta)
       activemodel-serializers-xml (>= 1.0)
       builder (~> 3.1)
@@ -375,6 +379,7 @@ DEPENDENCIES
   carrierwave (~> 1.0)
   coffee-rails (~> 4.2)
   countries
+  cropper-rails
   devise
   devise-bootstrap-views (~> 1.0)
   dotenv-rails
@@ -395,6 +400,7 @@ DEPENDENCIES
   popper_js
   puma (~> 3.0)
   rails (~> 5.2)
+  rails-ujs
   rails_admin (>= 1.0.0.rc)
   rb-readline
   recaptcha

@@ -19,11 +19,18 @@ class AttachmentController < ApplicationController
       @profile.avatar.attach(params[:profile][:avatar])
       if @profile.update(profile_params)
         flash[:notices] = ["Your profile avatar was successfully updated"]
-        #@profile.step_status = STEP_PHOTO_ATTACHED_WIZARD
-        #@profile.save
       else
         flash[:notices] = ["Your profile avatar could not be updated"]
-        render 'photo'
+      end
+      unless @profile.step_status == Profile::STEP_CONFIRMED_EMAIL
+        # Removing email confirmation from second step and move to the end step
+        # render :template => 'profiles/thank_you.html.erb'
+        redirect_to email_confirmation_user_path(@user)
+      else
+        #respond_to do |format|
+          redirect_to attachment_photo_path(:profile_id => @profile.id)
+          #format.js
+        #end
       end
     end
     unless @profile.step_status == Profile::STEP_CONFIRMED_EMAIL
@@ -31,7 +38,8 @@ class AttachmentController < ApplicationController
       # render :template => 'profiles/thank_you.html.erb'
       redirect_to email_confirmation_user_path(@user)
     else
-      render :template => 'profiles/show.html.erb'
+      #render :template => 'profiles/show.html.erb'
+      #render "photo"
     end
     #redirect_back(fallback_location: request.referer)
   end
