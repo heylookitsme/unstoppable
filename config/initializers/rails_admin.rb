@@ -53,7 +53,7 @@ RailsAdmin.config do |config|
         label "Email"
       end
       field :step_status
-      #field :avatar
+      field :avatar
       field :created_at
     end
   end
