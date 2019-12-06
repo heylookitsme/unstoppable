@@ -24,6 +24,9 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
 gem 'cropper-rails'
 gem 'rails-ujs'
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.1.0'
+end
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'

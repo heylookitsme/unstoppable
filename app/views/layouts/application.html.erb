@@ -6,7 +6,6 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application','jquery', 'data-turbolinks-track' => true  %>
   </head>
 
   
@@ -39,24 +38,6 @@
                   <% end %>
                 </li>
                 <li>
-                  <%= link_to profile_path(current_user.profile), :class => "nav-item" do %>
-                    <%= content_tag :span, "View Profile  ", :class => "glyphicon glyphicon-user" %>
-                    &nbsp
-                  <% end %>
-                </li>
-                <li>
-                  <%= link_to edit_profile_path(current_user.profile), :class => "nav-item" do %>
-                    <%= content_tag :span, "Edit Profile", :class => "glyphicon glyphicon-pencil" %>
-                    &nbsp;&nbsp;
-                  <% end %>
-                </li>
-                <li>
-                  <%= link_to  attachment_photo_path(:profile_id => current_user.profile), :class => "nav-item" do %>
-                    <%= content_tag :span, "Upload Photo", :class => "glyphicon glyphicon-camera" %>
-                    &nbsp;&nbsp;
-                  <% end %>
-                </li>
-                <li>
                   <%= link_to profiles_path(:user_id => current_user.id), :class => "nav-item" do  %>
                     <%= content_tag :span, "Browse Profiles", :class => "glyphicon glyphicon-search" %>
                     &nbsp;
@@ -68,17 +49,37 @@
                     <span class="badge badge-pill badge-dark"><%= current_user.unread_messages %></span>&nbsp;
                   <% end %>
                 </li>
-                <li>
-                  <%= link_to destroy_user_session_path, method: :delete, :class => "nav-item"  do %>
-                    <%= content_tag :span, "Logout", :class => "glyphicon glyphicon-king" %>
-                  <% end %>
-                </li><li>
-                <%= link_to edit_password_user_path(current_user), method: :get, :class => "nav-item"  do %>
-                  <%= content_tag :span, "Change Password", :class => "glyphicon glyphicon-king" %>
+              <% end %>
+              <li>
+                    <% if current_user && current_user.profile && current_user.profile.email_confirmed? %>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Action buttons
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <%= link_to profile_path(current_user.profile), :class => "dropdown-item" do %>
+                          <%= content_tag :span, "View Profile  ", :class => "glyphicon glyphicon-user" %>
+                          &nbsp
+                        <% end %>
+                        <%= link_to edit_profile_path(current_user.profile), :class => "dropdown-item" do %>
+                          <%= content_tag :span, "Edit Profile", :class => "glyphicon glyphicon-pencil" %>
+                          &nbsp;&nbsp;
+                        <% end %>
+                        <%= link_to  attachment_photo_path(:profile_id => current_user.profile), :class => "dropdown-item" do %>
+                          <%= content_tag :span, "Upload Photo", :class => "glyphicon glyphicon-camera" %>
+                          &nbsp;&nbsp;
+                        <% end %>
+                        <%= link_to edit_password_user_path(current_user), method: :get, :class => "dropdown-item"  do %>
+                          <%= content_tag :span, "Change Password", :class => "glyphicon glyphicon-king" %>
+                        <% end %>
+                        <%= link_to destroy_user_session_path, method: :delete, :class => "dropdown-item"  do %>
+                          <%= content_tag :span, "Logout", :class => "glyphicon glyphicon-king" %>
+                        <% end %>
+                    </div>
                 <% end %>
               </li>
-              <% end %>
           </ul>
+        </div>
         </nav>
       </div>
     </header>
