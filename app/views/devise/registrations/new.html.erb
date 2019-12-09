@@ -114,8 +114,6 @@
 
         <div class="form-group">
           <span style="color:red"><font size=2><%= flash[:recaptcha_error] %></font></span><br/>
-          <%= Rails.application.secrets.recaptcha_site_key %>
-          <%= ENV["RECAPTCHA_SITE_KEY"] %> 
           <%= invisible_recaptcha_tags  text: 'Create Account',  class: 'btn btn-primary' %>
         </div>
 
