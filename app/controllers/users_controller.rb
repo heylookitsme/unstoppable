@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   end
 
   def save_like
-    Rails.logger.debug "In save like params =#{params.inspect}"
+    #Rails.logger.debug "In save like params =#{params.inspect}"
     #Rails.logger.debug "current_user =#{current_user.inspect}"
     Rails.logger.debug "current_user  profile =#{current_user.profile.inspect}"
     Rails.logger.debug "current_user  profile LIKES =#{current_user.profile.likes.inspect}"
