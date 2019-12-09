@@ -41,7 +41,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   
   private
     def check_captcha
-      if !verify_recaptcha secret_key: '6Lf6Ja8UAAAAADJ0KepnOzpsPfKki_uG1AwjrxvU'
+      if !verify_recaptcha
         flash.delete :recaptcha_error
         params = sign_up_params
         build_resource(params)
