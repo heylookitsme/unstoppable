@@ -69,6 +69,10 @@
                           <%= content_tag :span, "Upload Photo", :class => "glyphicon glyphicon-camera" %>
                           &nbsp;&nbsp;
                         <% end %>
+                        <%= link_to  user_path(current_user), :class => "dropdown-item" do %>
+                          <%= content_tag :span, "Account Settings", :class => "glyphicon glyphicon-star" %>
+                          &nbsp;&nbsp;
+                        <% end %>
                         <%= link_to edit_password_user_path(current_user), method: :get, :class => "dropdown-item"  do %>
                           <%= content_tag :span, "Change Password", :class => "glyphicon glyphicon-king" %>
                         <% end %>

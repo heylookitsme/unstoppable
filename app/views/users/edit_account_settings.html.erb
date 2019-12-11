@@ -1,0 +1,44 @@
+<%= simple_form_for  @user, :url => save_account_settings_user_path(@user), html: {multipart: true} do |f| %>
+    <% if @user.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+        <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="form-group">
+        <label class="string required required" for="user_username"> <span class="largeFont" >Username: </span></label>
+        <p class="font-sm font-light"><em>Your username will be your profile display name.</em></p>
+        <%= f.input :username,  label: false %>
+    </div>
+
+    <div class="form-group", class: "required">
+        <label class="email optional required" for="user_email"><span class="largeFont" >Email:</span></label>
+        <p class="font-sm font-light"><em>Email address will not be seen by other users.</em></p>
+        <%= f.input :email, label: false, required: true %>
+    </div>
+
+
+    <div class="form-group">
+        <label class="string optional required" for="user_date_of_birth"><span class="largeFont" >Date of Birth: </span></label>
+        <p class="font-sm font-light"><em>Only your calculated age is displayed as part of your profile.</em> Must be 18 or older to create an account.</p>
+        <%= f.input :dob, label: false, include_blank: true,
+        as: :date, start_year: Date.today.year - 120,
+        end_year: Date.today.year - 1,
+        order: [:day, :month, :year] %>
+    </div>
+
+    <div class="form-group">
+        <label class="string optional required" for="user_zipcode"><span class="largeFont" >Zip Code:</span></label>
+        <p class="font-sm font-light"><em>Zip Code will be kept private, but will be used by our system to find exercise partners near you.</em></p>
+        <%= f.input :zipcode, label: false, required: true %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Save Account Settings", :class => "btn btn-primary btn-lg" %>
+    </div>
+<% end %>

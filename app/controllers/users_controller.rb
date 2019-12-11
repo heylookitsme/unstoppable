@@ -21,7 +21,8 @@ class UsersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     #params.require(:user).permit(:username, :email, :admin, email_confirmed, confirm_token, reset_password_token, :password, :password_confirmation, :current_password)
-    params.require(:user).permit(:password, :password_confirmation, :current_password)
+    #params.require(:user).permit(:password, :password_confirmation, :current_password)
+    params.require(:user).permit(:password, :password_confirmation, :current_password, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :email, :username)
   end
 
   def save_like
@@ -139,4 +140,32 @@ class UsersController < ApplicationController
       format.js
     end
   end
+
+  def edit_account_settings
+    @user = current_user
+    @user.dob = @user.profile.dob
+    @user.zipcode = @user.profile.zipcode
+    
+  end
+
+  def save_account_settings
+    @user = current_user
+    @user.referred_by = @user.profile.referred_by
+    @user.dob = @user.profile.dob
+    @user.zipcode = @user.profile.zipcode
+    profile = Profile.find(@user.profile.id)
+    profile.reason_for_match = "Jj"
+    Rails.logger.info "PROFILE = #{profile.inspect}"
+    profile.zipcode = user_params[:zipcode]
+    profile.save!
+    Rails.logger.info "In save_account_settings params =#{user_params.inspect}"
+    if @user.save
+      Rails.logger.info "#user =#{@user.inspect}"
+      flash[:notices] = ["Your Account settings were successfully updated"]
+      redirect_to user_path(@user)
+    else
+      flash[:notices] = ["Your account settings could not be updated"]
+      render "edit_account_settings"
+    end
+  end  
 end

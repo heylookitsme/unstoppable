@@ -76,6 +76,8 @@ Rails.application.routes.draw do
       get :email_confirmation_sent
       get :remind_confirmation
       post :resend_confirmation
+      get :edit_account_settings
+      patch :save_account_settings
       post 'save_like'
       post 'save_unlike'
     end
