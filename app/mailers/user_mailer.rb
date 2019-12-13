@@ -16,6 +16,7 @@ class UserMailer < ApplicationMailer
 
   def forgot_username(user)
     @user = user
+    @home = root_url
     mail(:to => "#{user.username} <#{user.email}>", :subject => "Username Reminder")
   end
 

@@ -7,9 +7,8 @@
 
     <p><b> <%= @user.username %> </b></p>
     <br/>
-    <p> Please click the following link to log in: </p>
-
-    <h3> <%= link_to "Login", "http://uns1.herokuapp.com/", class: 'btn btn-primary' %></h3>
+    <p> Please click to log in: </p>
+    <%= link_to "Login", @home, class: 'btn btn-primary' %>
     <%= render "shared/email_footer" %>
 </div>
 
