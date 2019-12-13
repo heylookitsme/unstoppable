@@ -43,7 +43,7 @@ class UsersController < ApplicationController
 
   def save_unlike
     #Rails.logger.debug "In save unlike params =#{params.inspect}"
-    Rails.logger.debug "current_user =#{current_user.inspect}"
+    #Rails.logger.debug "current_user =#{current_user.inspect}"
     Rails.logger.debug "current_user  profile =#{current_user.profile.inspect}"
     Rails.logger.debug "current_user  profile UNLIKES =#{current_user.profile.likes.inspect}"
     profile = current_user.profile
