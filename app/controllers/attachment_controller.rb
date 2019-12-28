@@ -33,15 +33,6 @@ class AttachmentController < ApplicationController
         #end
       end
     end
-    unless @profile.step_status == Profile::STEP_CONFIRMED_EMAIL
-      # Removing email confirmation from second step and move to the end step
-      # render :template => 'profiles/thank_you.html.erb'
-      redirect_to email_confirmation_user_path(@user)
-    else
-      #render :template => 'profiles/show.html.erb'
-      #render "photo"
-    end
-    #redirect_back(fallback_location: request.referer)
   end
 
   def delete_avatar
