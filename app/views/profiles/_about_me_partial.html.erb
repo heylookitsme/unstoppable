@@ -5,12 +5,12 @@
         </div>
 
         <div class="fieldWrapper">
-          <label><span class="mediumFont" >Do you have any other favorite activities?? </span></label> 
+          <label><span class="mediumFont" >Do you have any other favorite activities? </span></label> 
           <%= f.input :other_favorite_activities, label: false %>
         </div>
 
         <div class="fieldWrapper">
-          <label class="string optional required" for="fitness_level"><span class="mediumFont" >How would you describe your current fitness level?</span></label>
+          <label class="string optional" for="fitness_level"><span class="mediumFont" >How would you describe your current fitness level?</span></label>
           <%= f.input :fitness_level, required: true, label: false, include_blank: "- Select one -", 
               collection: Profile.fitness_level_descriptions %>
         </div>
@@ -33,7 +33,7 @@
         </div>
 
         <div class="fieldWrapper">
-          <label><span class="mediumFont" >What is the main reason you want to be matched with an exercise partner?</span></label>
+          <label class="string required"><span class="mediumFont" >What is the main reason you want to be matched with an exercise partner?</span></label>
           <%= f.input :reason_for_match, label: false %>
         </div>
 
@@ -50,7 +50,7 @@
         </div>
 
         <div class="fieldWrapper">
-          <label for="id_self_description"><b>About You:</b><span class="mediumFont" >Which of the following best describes your work situation?</span></label>
+          <label for="id_self_description"><b>About You:</b></label>
           <p>Use this space for anything else you would like to share.</p>
           <%= f.input :details_about_self, :as => :text, :input_html => { 'rows' => 10, 'cols' => 40 }, label: false %>
         </div>
