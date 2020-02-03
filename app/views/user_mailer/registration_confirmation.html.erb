@@ -7,15 +7,14 @@
     <div class="container-fluid"  width="100%" style="text-align:center">
       <h1><span style="color:#ed698e">Welcome to 2Unstoppable</h1>
       <h2><span style="color:#ed698e">We are so glad that you signed-up to be part of the 2Unstoppable community.</span></h2>
-      <h2> One more step before you can start browsing and connecting with other members.</h2>
+      <h2> One more step before you can start browsing and connecting with other members. Please click below! </h2>
       <h1><span style="background-color:yellow"><%= link_to "Confirm Account",  confirm_email_user_url(@user.confirm_token), :class => "button" %><span></h1>
-      <h2> Your login information is:</h2>
+      <p style="font-size:150%;"> Your login information is:</p>
       <h2> <b> Username: <%= @user.username %> </b></h2>
-      <h2>Forgot your password? <span style="color:brown">Reset it here</span><span style="background-color:yellow">&nbsp;&nbsp;<%= link_to "Edit Password", edit_password_user_url(@user) %> </span>  </h2>
+      <p style="font-size:150%;">Forgot your password? <span style="color:brown">Reset it here</span><span style="background-color:yellow">&nbsp;&nbsp;<%= link_to "Edit Password", edit_password_user_url(@user) %> </span>  </p>
 
-      <h2> Whether it’s finding a buddy or connecting you to <%= link_to "Resources", "http://2unstoppable.org/contact-us/" %> we are always happy to help!
-      </h2>
-      <h2> Please email info@2unstoppable.org if you have any questions </h2>
+      <p style="font-size:150%;"> Whether it’s finding a buddy or connecting you to <%= link_to "Resources", "http://2unstoppable.org/contact-us/" %> we are always happy to help!
+      </p>
       <%= render "shared/email_footer" %>
     </div>
   </body>

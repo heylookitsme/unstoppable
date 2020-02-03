@@ -51,19 +51,14 @@
 
     <div class="container-fluid"  width="100%" style="text-align:center">
       <h1><span class="font-pink">Welcome to 2Unstoppable <%= @user.username %>!</span></h1>
-      <p class="font-pink">We are so glad that you signed up and created a profile.  Before you can begin connecting with other members, please confirm your account. 
-      </p>
-      <br/>
-      <p> An email has been sent to <%= @user.email %>
-      
-      <h2>Email Confirmation</h2>
-      <hr>
-      <p>If you have not received an email, please click the RESEND button below or contact us at info@2Unstoppable.org)
-      </p>
+      <p style="font-size:150%;"> <span class="font-pink">We are so glad that you signed up and created a profile.</span></p>
+      <p style="font-size:150%;"> Before you can begin connecting with other members, please confirm your account. </p>
+      <p style="font-size:150%;"> An email has been sent to <%= @user.email %></p>
+      <p style="font-size:150%;"> If you cannot find your confirmation email, click below. </p>
       <%= simple_form_for(@user, as: :user, method: :post, url: resend_confirmation_user_path) do |f| %>
-        <%= f.button :submit, "RESEND" %>
+        <%= f.button :submit, "Resend Email" %>
       <% end %>
-
+      <br/>
       <%= render "shared/email_footer" %>
     </div>
   

@@ -3,3 +3,12 @@ Hi <%= @user.username %>,
 Thanks for registering! To confirm your registration click the URL below.
 
 <%= confirm_email_user_url(@user.confirm_token) %>
+
+Welcome to 2Unstoppable
+We are so glad that you signed-up to be part of the 2Unstoppable community
+One more step before you can start browsing and connecting with other members
+<%= confirm_email_user_url(@user.confirm_token) %>
+Your login information is:
+Username: <%= @user.username %>
+Forgot your password? Reset it here edit_password_user_url(@user)
+Please email info@2unstoppable.org if you have any questions
