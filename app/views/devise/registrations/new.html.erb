@@ -114,7 +114,8 @@
 
         <div class="form-group">
           <span style="color:red"><font size=2><%= flash[:recaptcha_error] %></font></span><br/>
-          <%= invisible_recaptcha_tags  text: 'Create Account',  class: 'btn btn-primary' %>
+          <%= invisible_recaptcha_tags  text: 'Create Account',  class: 'btn btn-primary btn-lg' %>
+          <%= link_to "Cancel",root_path , :class => "btn btn-primary btn-lg" %>
         </div>
 
       <% end %>
