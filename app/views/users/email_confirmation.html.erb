@@ -56,10 +56,11 @@
       <p style="font-size:150%;"> An email has been sent to <%= @user.email %></p>
       <p style="font-size:150%;"> If you cannot find your confirmation email, click below. </p>
       <%= simple_form_for(@user, as: :user, method: :post, url: resend_confirmation_user_path) do |f| %>
-        <%= f.button :submit, "Resend Email" %>
+        <%= f.button :submit, "Resend Email", class: "btn btn-primary btn-lg"  %>
       <% end %>
       <br/>
       <%= render "shared/email_footer" %>
+      <%= render "shared/return_to_main" %>
     </div>
   
 

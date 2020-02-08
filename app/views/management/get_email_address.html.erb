@@ -1,35 +1,42 @@
 
 
-<div class="container-fluid"  width="100%" style="text-align:center">
-  <% if params[:stype]=="U" %>
-      <h2><%= t('.forgot_your_username') %></h2>
-    <% else %>
-      <h2><%= t('.forgot_your_password') %></h2>
-  <% end %>
-  <%= form_for :user, url: send_username_path do |f| %>
-    <%= hidden_field_tag 'stype', params[:stype] %>
-    <% if params[:stype]=="U" %>
-      <h4> Please enter the email you used to sign up and we will send you an email with your username.</h4>
-    <% else %>
-      <h4> Enter your email in the form below and we'll send you instructions for creating a new one. </h4>
-    <% end %>
-    <div class="form-group" style="text-align:left">
-      <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control', hint: "Email Address" %>
-    </div>
-    <div class="form-group">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+      <br/>
       <% if params[:stype]=="U" %>
-        <!-- %= f.submit "Send Email", class: 'btn btn-primary btn-lg' % -->
-        <span style="color:red"><font size=2><%= flash[:recaptcha_error] %></font></span><br/>
-        <%= invisible_recaptcha_tags  text: 'Send Email',  class: 'btn btn-primary btn-lg' %>
-        <%= link_to  "Cancel",root_path, :class => "btn btn-primary btn-lg" %>
-      <% else %>
-        <!-- %= f.submit "Reset Password", class: 'btn btn-primary  btn-lg' % -->
-        <span style="color:red"><font size=2><%= flash[:recaptcha_error] %></font></span><br/>
-        <%= invisible_recaptcha_tags  text: 'Send Email',  class: 'btn btn-primary btn-lg' %>
-        <%= link_to "Cancel",root_path , :class => "btn btn-primary btn-lg" %>
+          <h2><%= t('.forgot_your_username') %></h2>
+        <% else %>
+          <h2><%= t('.forgot_your_password') %></h2>
       <% end %>
-      <span style="color:red"><font size=2><%= flash[:non_existent_user_error] %></font></span><br/>
+      <hr/>
+      <%= simple_form_for :user, url: send_username_path do |f| %>
+        <%= hidden_field_tag 'stype', params[:stype] %>
+        <% if params[:stype]=="U" %>
+          <h5> Please enter the email you used to sign up and we will send you an email with your username.</h5>
+        <% else %>
+          <h5> Please enter the email you used to sign up and we will send you instructions on how to reset your password. </h5>
+        <% end %>
+        <br/>
+        <div class="form-group" style="text-align:left">
+          <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control', hint: "Email Address", maxlength: true, maxlength:254, size: true, size: 50 %>
+        </div>
+        <p> <span style="color:red"><font size=2><%= flash[:non_existent_user_error] %></font></span><p>
+        <div class="form-group">
+          <% if params[:stype]=="U" %>
+            <!-- %= f.submit "Send Email", class: 'btn btn-primary btn-lg' % -->
+            <span style="color:red"><font size=2><%= flash[:recaptcha_error] %></font></span><br/>
+            <%= invisible_recaptcha_tags  text: 'Send Email',  class: 'btn btn-primary btn-lg' %>
+            <%= link_to  "Cancel",root_path, :class => "btn btn-primary btn-lg" %>
+          <% else %>
+            <!-- %= f.submit "Reset Password", class: 'btn btn-primary  btn-lg' % -->
+            <span style="color:red"><font size=2><%= flash[:recaptcha_error] %></font></span><br/>
+            <%= invisible_recaptcha_tags  text: 'Send Email',  class: 'btn btn-primary btn-lg' %>
+            <%= link_to "Cancel",root_path , :class => "btn btn-primary btn-lg" %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+  </div>
 </div>
 

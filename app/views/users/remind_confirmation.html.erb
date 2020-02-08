@@ -47,16 +47,17 @@
 </div>
 
   <div class="container-fluid"  width="100%"  style="text-align:center">
-    <h1>Hello1 <%= @user.username %>!</h1>
+    <h1><span style="color:#ed698e">Hello <%= @user.username %>!</span></h1>
     <h2>You are almost ready to start connecting with other 2Unstoppable members.  Before you can begin connecting with other members, please confirm your account. 
     </h2>
     <br/>
-    <p> If you cannot find the confirmation link, please click below </p>
+    <h3> If you cannot find the email, please click below. </h3>
     <%= simple_form_for(@user, as: :user, method: :post, url: resend_confirmation_user_path) do |f| %>
       <div>
-        <%= f.button :submit, "RESEND Email" %>
+        <%= f.button :submit, "RESEND Email", class: "btn btn-primary btn-lg" %>
       </div>
     <% end %>
     <br/>
     <%= render "shared/email_footer" %>
+    <%= render "shared/return_to_main" %>
   </div>

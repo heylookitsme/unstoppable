@@ -11,8 +11,7 @@
       <h1><span style="background-color:yellow"><%= link_to "Confirm Account",  confirm_email_user_url(@user.confirm_token), :class => "button" %><span></h1>
       <p style="font-size:150%;"> Your login information is:</p>
       <h2> <b> Username: <%= @user.username %> </b></h2>
-      <p style="font-size:150%;">Forgot your password? <span style="color:brown">Reset it here</span><span style="background-color:yellow">&nbsp;&nbsp;<%= link_to "Edit Password", edit_password_user_url(@user) %> </span>  </p>
-
+      <!-- p style="font-size:150%;">Forgot your password? <span style="color:brown">Reset it here</span><span style="background-color:yellow">&nbsp;&nbsp;<%= link_to t(".forgot_your_password"), get_email_address_url(:stype => "P") %> </span>  </p -->
       <p style="font-size:150%;"> Whether it’s finding a buddy or connecting you to <%= link_to "Resources", "http://2unstoppable.org/contact-us/" %> we are always happy to help!
       </p>
       <%= render "shared/email_footer" %>

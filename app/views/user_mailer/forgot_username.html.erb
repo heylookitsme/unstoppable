@@ -1,14 +1,11 @@
 
 <div class="container-fluid"  width="100%" style="text-align:center">
-    <h1><span class="font-pink">Hello <%= @user.email %></span></h1>
+    <h1><span style="color:#ed698e">Hello <%= @user.email %></span></h1>
 
-    <p>A username reminder has been requested for this email address.</p>
-    <p>The following username is associated with this email: </p>
-
-    <p><b> <%= @user.username %> </b></p>
-    <br/>
-    <p> Please click to log in: </p>
-    <%= link_to "Login", @home, class: 'btn btn-primary' %>
+    <h2>The following username is associated with this email: </h2>
+    <h2><b> <span style="color:#9781ae;font-weight:bolder"><%= @user.username %></span> </b></h2>
+    <h2> <span style="color:#9781ae">Click on the link below to Log in: </span></h2>
+    <h2> <span style="color:#9781ae;font-weight:bolder"><%= link_to "Login", @home, class: 'btn btn-primary' %></span> </h2>
     <%= render "shared/email_footer" %>
 </div>
 
