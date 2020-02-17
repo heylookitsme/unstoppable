@@ -7,7 +7,7 @@ class ProfilesController < ApplicationController
 
 
   def index
-    Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
+    #Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
     Rails.logger.debug "Profile Controller: PARAMS = #{params.inspect}"
     unless current_user.blank? or current_user.profile.blank?
       @profiles = Profile.where(["id != ? and step_status = ?", current_user.profile.id, Profile::STEP_CONFIRMED_EMAIL]).order("updated_at DESC").page(params[:page])
