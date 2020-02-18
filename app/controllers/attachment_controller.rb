@@ -28,7 +28,8 @@ class AttachmentController < ApplicationController
         redirect_to email_confirmation_user_path(@user)
       else
         #respond_to do |format|
-          redirect_to attachment_photo_path(:profile_id => @profile.id)
+          #redirect_to attachment_photo_path(:profile_id => @profile.id)
+          redirect_to profile_path(@profile)
           #format.js
         #end
       end
@@ -38,15 +39,16 @@ class AttachmentController < ApplicationController
   def delete_avatar
     #@avatar = ActiveStorage::Attachment.find(params[:id])
     @avatar = @profile.avatar
-    #@profile = @avatar.record
-    if @avatar.purge
+    @avatar.purge
+    unless @profile.step_status == Profile::STEP_CONFIRMED_EMAIL
       @profile.step_status = Profile::STEP_CANCER_HISTORY
       @profile.save
       flash[:notices] = ["Your profile avatar was successfully removed"]
       render 'photo'
     else
-      flash[:notices] = ["Your profile avatar could not be removed"]
-      render 'photo'
+      @profile.save
+      flash[:notices] = ["Your profile avatar was successfully removed"]
+      redirect_to profile_path(@profile)
     end
     #redirect_back(fallback_location: request.referer)
   end
