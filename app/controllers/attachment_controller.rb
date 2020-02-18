@@ -7,7 +7,7 @@ class AttachmentController < ApplicationController
   
 
   def photo
-    Rails.logger.debug("attchment controller photo action params = #{params.inspect}")
+    #Rails.logger.debug("attchment controller photo action params = #{params.inspect}")
   end
 
   def photosave
