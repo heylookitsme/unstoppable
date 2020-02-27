@@ -99,7 +99,7 @@ class User < ApplicationRecord
   end
 
   def mailboxer_email(object)
-    nil
+    self.email
   end
 
   private
