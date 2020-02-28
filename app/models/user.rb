@@ -98,6 +98,7 @@ class User < ApplicationRecord
     self.username
   end
 
+  # Used by Mailboxer
   def mailboxer_email(object)
     self.email
   end
