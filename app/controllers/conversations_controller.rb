@@ -37,7 +37,7 @@ class ConversationsController < ApplicationController
     end
 
     def create
-        Rails.logger.info "In Conversation Controller create params= #{params.inspect}"
+        #Rails.logger.info "In Conversation Controller create params= #{params.inspect}"
         recipient= User.find(params[:user_id])
         Rails.logger.info "In Conversation Controller create recipient= #{recipient.inspect}"
         Rails.logger.info "In Conversation Controller current_user= #{current_user.inspect}"
