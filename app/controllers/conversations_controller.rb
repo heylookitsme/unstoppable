@@ -44,7 +44,7 @@ class ConversationsController < ApplicationController
         receipt = current_user.send_message(recipient, params[:body], params[:subject])
         Rails.logger.info "In Conversation Controller receipt= #{receipt.inspect}"
         ## An email is sent to the recipient
-        UserMailer.inform_message_recipient(current_user, recipient).deliver
+        #UserMailer.inform_message_recipient(current_user, recipient).deliver
         ##  An email is sent to the recipient
         redirect_to conversation_path(receipt.conversation)
     end
