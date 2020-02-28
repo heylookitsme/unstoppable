@@ -67,7 +67,7 @@ Rails.application.configure do
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  config.action_mailer.raise_delivery_errors = false
+ config.action_mailer.raise_delivery_errors = false
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -97,10 +97,10 @@ Rails.application.configure do
     address:              'smtp.sendgrid.net',
     port:                 587,
     domain:               'gmail.com',
-    user_name:            'shardax2000@gmail.com', #,'shardax2000@gmail.com', #ENV["GMAIL_USERNAME"],
-    password:             '$dash123', #ENV["GMAIL_PASSWORD"],
-    authentication:       'plain',
-    #authentication:       'login',
+    user_name:            'shardax', #,'shardax2000@gmail.com', #ENV["GMAIL_USERNAME"],
+    password:             '$dash1234', #ENV["GMAIL_PASSWORD"],
+    #authentication:       'plain',
+    authentication:       'login',
     enable_starttls_auto: true }
 
   config.action_mailer.default_url_options = { host: 'http://uns1.herokuapp.com' }
