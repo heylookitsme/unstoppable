@@ -10,13 +10,13 @@
             <%= submit_tag "Search", id:"search-btn" %> &nbsp;&nbsp;
           </div>
           <div class="fieldWrapper">
-            <%= text_field_tag :min_age, params[:min_age] || Profile::MIN_AGE, :size => "5" %> <b>Min Age&nbsp;&nbsp;</b>
+            <b>Ages:</b> <%= text_field_tag :min_age, params[:min_age] || Profile::MIN_AGE, :size => "5" %>
           </div>
           <div class="fieldWrapper">
-            <%= text_field_tag :max_age, params[:max_age] || Profile::MAX_AGE, :size => "5"  %> <b>Max Age &nbsp;&nbsp;</b>
+            <b>&nbsp;to&nbsp;</b> <%= text_field_tag :max_age, params[:max_age] || Profile::MAX_AGE, :size => "5"  %>
           </div>
           <div class="fieldWrapper">
-            <%= text_field_tag :distance, params[:distance] , :size => "10" %> <b>Distance</b>
+          <b>&nbsp;Within:&nbsp;</b><%= text_field_tag :distance, params[:distance] , :size => "10" %> <b>mi</b>
           </div>
           <div class="fieldWrapper">
 
@@ -28,7 +28,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="clearfix">
-              <% @profiles.each do |profile| %>
+              <% @search_results_profiles.each do |profile| %>
                 <div class="bordered-container profile-image-container text-center">
                   <% if profile.avatar.attached? %>
                     <%= image_tag profile.avatar.variant(resize: "160x200"), :class => "profile-image-small"%>
@@ -52,9 +52,9 @@
     <div id="search-results">
 
     </div>
-    <% unless @profiles.blank? %>
-      <%= paginate @profiles %>
-    <% end %>
+    <!-- % unless @profiles.blank? % -->
+      <!-- %= paginate @profiles % -->
+    <!-- % end % -->
   </div>
   </div>
 </tbody>

@@ -4,10 +4,11 @@ class ProfilesController < ApplicationController
 
   before_action :set_profile #, except: [:index, :search]
   #protect_from_forgery with: :null_session
+  respond_to :js
 
 
   def index
-    #Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
+    Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
     Rails.logger.debug "Profile Controller: PARAMS = #{params.inspect}"
     unless current_user.blank? or current_user.profile.blank?
       @profiles = Profile.where(["id != ? and step_status = ?", current_user.profile.id, Profile::STEP_CONFIRMED_EMAIL]).order("updated_at DESC").page(params[:page])
@@ -18,20 +19,25 @@ class ProfilesController < ApplicationController
           unless !params.has_key?(:search)  || (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
             @profiles_total = @profiles.size unless @profiles.blank?
             unless params[:search].blank?
+              # Search the keyword using Postgresql search scope
               @search_results_profiles = @profiles.search_cancer_type(params[:search])
             else
               @search_results_profiles = @profiles
             end
             unless @search_results_profiles.blank?
-              @search_results_profiles = process_search
+              # Filter the search results based on Min,Max and Distance
+              @search_results_profiles = filter_search_results
             end
-            @search_results_total = 0
-            @search_results_total = @search_results_profiles.size unless @search_results_profiles.blank?
-            respond_to do |format|
-              format.js { render partial: 'search-results'}
-            end
+            @search_results_total =  @search_results_profiles.blank? ? 0:@search_results_profiles.size
           else
+             # TODO Temporarily adding code as format.js is not working
             @search_results_profiles = @profiles
+            @search_results_total =  @profiles_total
+          end
+          respond_to do |format|
+            format.js { render partial: 'search-results'}
+            format.html
+            format.json
           end
         when Profile::STEP_EMAIL_CONFIRMATION_SENT
           redirect_to remind_confirmation_user_path(current_user)
@@ -123,7 +129,7 @@ class ProfilesController < ApplicationController
 
   private
 
-  def process_search
+  def filter_search_results
     unless params["min_age"].blank? && params["max_age"].blank?
       @min_age = params["min_age"].blank? ? Profile::MIN_AGE : params["min_age"].to_i
       @max_age = params["max_age"].blank? ? Profile::MAX_AGE : params["max_age"].to_i
