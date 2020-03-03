@@ -66,6 +66,8 @@
           </div>
         <% end %>
 
+        <%= f.error_notification %>
+
         <%= f.hidden_field :step_status, :value => "Cancer History" %>
 
         <%= f.hidden_field :profile_id, :value => @profile.id %>
