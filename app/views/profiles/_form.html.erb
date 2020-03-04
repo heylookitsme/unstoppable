@@ -10,17 +10,7 @@
   <%= simple_form_for  @profile, :url => profile_path, html: {multipart: true} do |f| %>
     <%= stylesheet_link_tag "application" %>
     <%= stylesheet_link_tag "registration" %>
-    <% if @profile.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(profile.errors.count, "error") %> prohibited this profile from being saved:</h2>
-
-        <ul>
-        <% @profile.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
+    <%= f.error_notification %>
 
     <%= render 'profiles/about_me_partial', profile: @profile, f: f  %>
 
