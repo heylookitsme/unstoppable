@@ -27,6 +27,7 @@ gem 'rails-ujs'
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.1.0'
 end
+gem 'jquery-turbolinks'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
@@ -75,6 +76,7 @@ gem 'popper_js'
 gem 'email_verifier'
 gem 'pg_search'
 gem 'figaro'
+gem 'chosen-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

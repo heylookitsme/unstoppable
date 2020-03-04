@@ -11,6 +11,9 @@
 // about supported directives.
 //
 //= require jquery3
+//= require jquery.turbolinks
+//= require chosen-jquery
+//= require messages
 //= require popper
 //= require turbolinks
 //= require tether

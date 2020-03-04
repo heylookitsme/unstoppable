@@ -26,7 +26,7 @@
                 </li>
                 <li>
                   <% if current_user.profile.avatar.attached? %>
-                    <%= image_tag current_user.profile.avatar.variant(resize: "30x30") %>
+                    <%= avatar_for(current_user, 50) %>
                   <% end %>&nbsp;
                 </li>
                 <li>
@@ -39,7 +39,7 @@
                 </li>
                 <li>
                   <%= link_to profiles_path(:user_id => current_user.id), :class => "nav-item" do  %>
-                    <%= content_tag :span, "Browse Profiles", :class => "glyphicon glyphicon-search" %>
+                    <%= content_tag :span, "Browse", :class => "glyphicon glyphicon-search" %>
                     &nbsp;
                   <% end %>
                 </li>
@@ -47,6 +47,12 @@
                   <%= link_to conversations_path(:user_id => current_user.id), :class => "nav-item" do  %>
                     <span class="glyphicon glyphicon-envelope">Messages</span>
                     <span class="badge badge-pill badge-dark"><%= current_user.unread_messages %></span>&nbsp;
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to profiles_path(:user_id => current_user.id), :class => "nav-item" do  %>
+                    <%= content_tag :span, "Favorites", :class => "glyphicon glyphicon-search" %>
+                    &nbsp;
                   <% end %>
                 </li>
               <% end %>
@@ -58,7 +64,7 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <%= link_to profile_path(current_user.profile), :class => "dropdown-item" do %>
-                          <%= content_tag :span, "View Profile  ", :class => "glyphicon glyphicon-user" %>
+                          <%= content_tag :span, "My Profile  ", :class => "glyphicon glyphicon-user" %>
                           &nbsp
                         <% end %>
                         <%= link_to edit_profile_path(current_user.profile), :class => "dropdown-item" do %>
