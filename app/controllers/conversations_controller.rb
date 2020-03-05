@@ -8,8 +8,14 @@ class ConversationsController < ApplicationController
         #@conversations = current_user.mailbox.conversations #
         @conversations = current_user.mailbox.inbox #
         Rails.logger.debug("Conversations Inbox = #{@conversations.inspect}")
+        @recipients = {}
         @conversations.each do |s|
-           # @recipients[s.id] = s.messages.first.recipients.first
+            s.messages.last.recipients.each do |r|
+                unless r.id == current_user.id
+                    @recipients[s.id] = r
+                end
+            end
+            Rails.logger.debug("Conversations s = #{s.id} @recipeints = #{@recipients[s.id].inspect}")
         end
     end
     def show
@@ -65,7 +71,7 @@ class ConversationsController < ApplicationController
         @conversations = current_user.mailbox.sentbox
         @recipients = {}
         @conversations.each do |s|
-            @recipients[s.id] = s.messages.first.recipients.first
+            @recipients[s.id] = s.messages.last.recipients.first
         end
 
     end
@@ -75,7 +81,7 @@ class ConversationsController < ApplicationController
         @conversations = current_user.mailbox.trash
         @recipients = {}
         @conversations.each do |s|
-            @recipients[s.id] = s.messages.first.recipients.first
+            @recipients[s.id] = s.messages.last.recipients.first
         end
 
     end

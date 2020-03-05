@@ -32,7 +32,7 @@
                 <tr>
                 <td><%= check_box_tag "conversation_ids[]", conversation.id, false, class: 'selectable' %></td>
                 <td><%= conversation.messages.last.sender.username %> &nbsp;&nbsp;<%= avatar_for(conversation.messages.last.sender, 40) %> </td>
-                <td><%= link_to conversation.subject, conversation_path(conversation, :recipients => conversation.messages.last.sender.id) %> - <%= conversation.messages.last.body %> </td>
+                <td><%= link_to conversation.subject, conversation_path(conversation, :recipients => @recipients[conversation.id]) %> - <%= conversation.messages.last.body %> </td>
                 <td><%= conversation.updated_at %></td>
                 </tr>
             <% end %> 
