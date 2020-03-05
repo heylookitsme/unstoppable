@@ -8,6 +8,9 @@ class ConversationsController < ApplicationController
         #@conversations = current_user.mailbox.conversations #
         @conversations = current_user.mailbox.inbox #
         Rails.logger.debug("Conversations Inbox = #{@conversations.inspect}")
+        @conversations.each do |s|
+           # @recipients[s.id] = s.messages.first.recipients.first
+        end
     end
     def show
         # <span class="badge"><%= current_user.mailbox.inbox({:read => false}).count %></span >
@@ -19,8 +22,13 @@ class ConversationsController < ApplicationController
         #@receipts = mailbox.receipts_for(conversation).not_trash
         #@receipts.mark_as_read
 
+        @recipient_users = []
+        # @recipients is the list of ids
         unless params["recipients"].blank?
             @recipients = params["recipients"]
+            # Need to change to loop. Currently @recipients is single element, not an array of users
+            @recipient_users << User.find(@recipients.to_i)
+            Rails.logger.debug("In show  @recipient_users = #{@recipient_users.inspect}")
         end
         @from_tab = ""
         unless params["from_tab"].blank?
@@ -33,6 +41,9 @@ class ConversationsController < ApplicationController
         Rails.logger.info "In Conversation Controller new params= #{params.inspect}"
         @recipients = User.all - [current_user]
         @message_to_id = params[:user_id]
+        unless @message_to_id.blank?
+            @receiver = User.find(@message_to_id)
+        end
         Rails.logger.info "In Conversation Controller  @message_to_id= #{@message_to_id.inspect}"
     end
 
@@ -54,7 +65,7 @@ class ConversationsController < ApplicationController
         @conversations = current_user.mailbox.sentbox
         @recipients = {}
         @conversations.each do |s|
-            @recipients[s.id] = s.messages.first.recipients.first.username
+            @recipients[s.id] = s.messages.first.recipients.first
         end
 
     end
@@ -64,7 +75,7 @@ class ConversationsController < ApplicationController
         @conversations = current_user.mailbox.trash
         @recipients = {}
         @conversations.each do |s|
-            @recipients[s.id] = s.messages.first.recipients.first.username
+            @recipients[s.id] = s.messages.first.recipients.first
         end
 
     end
@@ -117,5 +128,4 @@ class ConversationsController < ApplicationController
             end
         end
     end
-
 end

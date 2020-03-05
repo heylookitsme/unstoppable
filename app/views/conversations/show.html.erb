@@ -1,8 +1,11 @@
 
 <div class="container">
     <div id="postman">
-        <h2>Conversation with <%= @recipients %> </h2>
-        <h3>Subject: <%= @conversation.subject %></h3>
+        <br/>
+        <% unless  @recipient_users.blank? %>
+            <h2>Conversation with  <%= @recipient_users.first.username %> &nbsp;&nbsp;<%= avatar_for(@recipient_users.first, 50) %> </h2>
+        <% end %>
+        <h4>Subject: <%= @conversation.subject %></h4>
         <% @receipts.each do |r| %>
             <div class="bordered-container message-container">
                 <div class="pm_message">
@@ -39,6 +42,7 @@
         <h2>Reply</h2>
         <%= form_tag conversation_messages_path(@conversation), method: :post do %>
             <div id="pm_reply">
+                <%= hidden_field_tag 'recipients', @recipients %>
                 <textarea name="body" id="id_body" cols="55" rows="12">
                 </textarea>
             </div>

@@ -6,7 +6,13 @@ class MessagesController < ApplicationController
         Rails.logger.debug "In Message Controller conversation = #{@conversation.inspect}"
         Rails.logger.debug "In Message Controller messages = #{@conversation.messages.inspect}"
         Rails.logger.debug "In Message Controller receipt = #{receipt.inspect}"
-        redirect_to conversation_path(receipt.conversation)
+        Rails.logger.debug "In Message Controller params = #{params.inspect}"
+        @recipients = nil
+        unless params["recipients"].blank?
+            @recipients = params["recipients"]
+        end
+        Rails.logger.debug "In Message Controller params = #{@recipeints.inspect}"
+        redirect_to conversation_path(receipt.conversation, recipients: params["recipients"])
         #redirect_to conversation_path(receipt.conversation)
     end
 

@@ -20,7 +20,6 @@
                 <tr>
                     <th data-sort-ignore="true"><input type="checkbox" id="selectAll"></input></th>
                     <th><a href="?o=f">Receipient</a></th>
-
                     <th><a href="?o=s">Subject</a></th>
                     <th><a href="?o=d">Sent</a></th>
                 </tr>
@@ -29,7 +28,9 @@
                 <% @conversations.each do |conversation| %>
                     <tr>
                         <td><%= check_box_tag "conversation_ids[]", conversation.id, false, class: 'selectable' %></td>
-                        <td><%= @recipients[conversation.id] %> </td>
+                        <td><%= @recipients[conversation.id].username %> 
+                            &nbsp;&nbsp;<%= avatar_for(@recipients[conversation.id], 40) %>
+                        </td>
                         <td><%= link_to conversation.subject, conversation_path(conversation, :recipients => @recipients[conversation.id], :from_tab => "sentbox") %> - <%= conversation.messages.last.body %> </td>
                         <td><%= conversation.updated_at %></td>
                     </tr>

@@ -61,6 +61,16 @@ class UsersController < ApplicationController
     redirect_to profiles_path
   end
 
+  def favorites
+    profile = current_user.profile
+    favorites = []
+    unless profile.lists.empty?
+      profile.likes.each do |l|
+        favorites << Profile.find(l.like_id)
+      end
+    end
+  end
+
   def confirm_email
     #Rails.logger.info "In User controller, confirm_email"
     #Rails.logger.info "In  confirm_email = #{params.inspect}"

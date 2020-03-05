@@ -1,6 +1,11 @@
 <div class="container">
+    <br/>
     <div id="postman">
-        <h1>Send a message</h1>
+        <% unless @message_to_id.blank? %>
+            <h2>Conversation with <%= @receiver.username %> <%= avatar_for(@receiver, 50) %></h2>
+        <% else %>
+            <h2>Send New Message</h2>
+        <% end %>
         <%= form_tag conversations_path, method: :post do |f| %>
             <div class="row">
                 <div class="col-md-8">
