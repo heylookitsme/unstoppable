@@ -50,14 +50,14 @@
                   <% end %>
                 </li>
                 <li>
-                  <%= link_to profiles_path(:user_id => current_user.id), :class => "nav-item" do  %>
+                  <%= link_to profiles_path(:user_id => current_user.id, :favorites => true), :class => "nav-item" do  %>
                     <%= content_tag :span, "Favorites", :class => "glyphicon glyphicon-search" %>
                     &nbsp;
                   <% end %>
                 </li>
               <% end %>
               <li>
-                    <% if current_user && current_user.profile && current_user.profile.email_confirmed? %>
+                <% if current_user && current_user.profile && current_user.profile.email_confirmed? %>
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           Action buttons

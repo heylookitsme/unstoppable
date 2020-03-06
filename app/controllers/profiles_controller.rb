@@ -10,44 +10,57 @@ class ProfilesController < ApplicationController
   def index
     #Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
     Rails.logger.debug "Profile Controller: PARAMS = #{params.inspect}"
-    unless current_user.blank? or current_user.profile.blank?
+    if current_user.blank? or current_user.profile.blank?
+      return
+    end
+    unless params[:favorites] == "true"
       @profiles = Profile.where(["id != ? and step_status = ?", current_user.profile.id, Profile::STEP_CONFIRMED_EMAIL]).order("updated_at DESC").page(params[:page])
-      @profiles_total = @profiles.size unless @profiles.blank?
-      case current_user.profile.step_status
-        when Profile::STEP_CONFIRMED_EMAIL
-          @profiles = Profile.where(["id != ? and step_status = ?", current_user.profile.id, Profile::STEP_CONFIRMED_EMAIL]).order("updated_at DESC").page(params[:page])
-          unless !params.has_key?(:search)  || (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
-            @profiles_total = @profiles.size unless @profiles.blank?
-            unless params[:search].blank?
-              # Search the keyword using Postgresql search scope
-              @search_results_profiles = @profiles.search_cancer_type(params[:search])
-            else
-              @search_results_profiles = @profiles
-            end
-            unless @search_results_profiles.blank?
-              # Filter the search results based on Min,Max and Distance
-              @search_results_profiles = filter_search_results
-            end
-            @search_results_total =  @search_results_profiles.blank? ? 0:@search_results_profiles.size
-          else
-             # TODO Temporarily adding code as format.js is not working
-            @search_results_profiles = @profiles
-            @search_results_total =  @profiles_total
-          end
-          respond_to do |format|
-            format.js { render partial: 'search-results'}
-            format.html
-            format.json
-          end
-        when Profile::STEP_EMAIL_CONFIRMATION_SENT
-          redirect_to remind_confirmation_user_path(current_user)
-        when Profile::STEP_CANCER_HISTORY
-          redirect_to attachment_photo_path(:profile_id => current_user.profile.id)
-        when Profile::STEP_ABOUT_ME
-          redirect_to profile_build_path(:cancer_history, :profile_id => current_user.profile.id)
-        when Profile::STEP_BASIC_INFO
-          redirect_to profile_build_path(:about_me, :profile_id => current_user.profile.id)
+    else
+      # TODO Method
+      favorites = []
+      unless current_user.profile.likes.empty?
+        current_user.profile.likes.each do |l|
+          favorites << Profile.find(l.like_id)
+        end
       end
+      @profiles = favorites
+    end
+    
+    @profiles_total = @profiles.size unless @profiles.blank?
+    case current_user.profile.step_status
+      when Profile::STEP_CONFIRMED_EMAIL
+        #@profiles = Profile.where(["id != ? and step_status = ?", current_user.profile.id, Profile::STEP_CONFIRMED_EMAIL]).order("updated_at DESC").page(params[:page])
+        unless !params.has_key?(:search)  || (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
+          #@profiles_total = @profiles.size unless @profiles.blank?
+          unless params[:search].blank?
+            # Search the keyword using Postgresql search scope
+            @search_results_profiles = @profiles.search_cancer_type(params[:search])
+          else
+            @search_results_profiles = @profiles
+          end
+          unless @search_results_profiles.blank?
+            # Filter the search results based on Min,Max and Distance
+            @search_results_profiles = filter_search_results
+          end
+          @search_results_total =  @search_results_profiles.blank? ? 0:@search_results_profiles.size
+        else
+            # TODO Temporarily adding code as format.js is not working
+          @search_results_profiles = @profiles
+          @search_results_total =  @profiles_total
+        end
+        respond_to do |format|
+          format.js { render partial: 'search-results'}
+          format.html
+          format.json
+        end
+      when Profile::STEP_EMAIL_CONFIRMATION_SENT
+        redirect_to remind_confirmation_user_path(current_user)
+      when Profile::STEP_CANCER_HISTORY
+        redirect_to attachment_photo_path(:profile_id => current_user.profile.id)
+      when Profile::STEP_ABOUT_ME
+        redirect_to profile_build_path(:cancer_history, :profile_id => current_user.profile.id)
+      when Profile::STEP_BASIC_INFO
+        redirect_to profile_build_path(:about_me, :profile_id => current_user.profile.id)
     end
     # Optional views
     unless params[:viewstyle].blank?
