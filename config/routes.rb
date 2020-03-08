@@ -69,6 +69,8 @@ Rails.application.routes.draw do
     resource :profile, only: [:show, :edit, :update]
     patch 'update_password', on: :collection
     get 'edit_password', on: :member
+    #post 'save_like'
+    #post 'save_unlike'
     #get 'forward_username', on: :member
     member do
       get :confirm_email
@@ -78,8 +80,6 @@ Rails.application.routes.draw do
       post :resend_confirmation
       get :edit_account_settings
       patch :save_account_settings
-      post 'save_like'
-      post 'save_unlike'
     end
   end
 
@@ -101,7 +101,8 @@ Rails.application.routes.draw do
 
     resources :build, controller: 'profiles/build'
     # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
+    post 'save_like'
+    post 'save_unlike'
   end
   
   root to: "profiles#index"

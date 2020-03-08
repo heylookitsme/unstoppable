@@ -25,42 +25,6 @@ class UsersController < ApplicationController
     params.require(:user).permit(:password, :password_confirmation, :current_password, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :email, :username)
   end
 
-  def save_like
-    #Rails.logger.debug "In save like params =#{params.inspect}"
-    #Rails.logger.debug "current_user =#{current_user.inspect}"
-    Rails.logger.debug "current_user  profile =#{current_user.profile.inspect}"
-    Rails.logger.debug "current_user  profile LIKES =#{current_user.profile.likes.inspect}"
-    unless(current_user.profile.likes.exists?(id: params[:id]))
-      l = Like.new
-      #l.id = current_user.profile.id
-      l.like_id = params[:id]
-      Rails.logger.debug "like objet =#{l.inspect}"
-      current_user.profile.likes << l
-      current_user.profile.save
-      redirect_to profiles_path
-    end
-  end
-
-  def save_unlike
-    #Rails.logger.debug "In save unlike params =#{params.inspect}"
-    #Rails.logger.debug "current_user =#{current_user.inspect}"
-    Rails.logger.debug "current_user  profile =#{current_user.profile.inspect}"
-    Rails.logger.debug "current_user  profile UNLIKES =#{current_user.profile.likes.inspect}"
-    profile = current_user.profile
-    profile.likes.each do |l|
-      Rails.logger.debug "Like object #{l.inspect}"
-      Rails.logger.debug "Like object #{l.like_id.inspect}"
-      Rails.logger.debug "Like object #{params[:id].inspect}"
-      if(l.like_id == params[:id].to_i)
-        Rails.logger.debug "Like object EQUAL"
-        profile.likes.delete(l)
-        Rails.logger.debug "After removal #{profile.likes.inspect}"
-      end
-    end
-    profile.save
-    redirect_to profiles_path
-  end
-
   def favorites
     profile = current_user.profile
     favorites = []
@@ -69,6 +33,7 @@ class UsersController < ApplicationController
         favorites << Profile.find(l.like_id)
       end
     end
+    favorites
   end
 
   def confirm_email

@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 
 <tbody>
   <div class="container">
@@ -37,10 +37,14 @@
                   <% end %>
                   <br><%= link_to profile.user.username, profile_path(profile), class: 'btn btn-default'%><br>
                     <% if (current_user.profile.check_liked(profile.id)) %>
-                      <p><span class="glyphicon glyphicon-heart"></span> Saved</p>
-                      <%= button_to 'Remove Save', save_unlike_user_path(profile.id), method: :post %>
+                      <!-- %= button_to 'Remove Save', profile_save_unlike_path(:profile_id => current_user.profile.id, :like_id => profile.id), method: :post % -->
+                      <%= button_to(profile_save_unlike_path(:profile_id => current_user.profile.id, :like_id => profile.id), method: "post") do %>
+                        <i class="fa fa-heart" title="Favorite" style="font-size:24px;color:red"></i>
+                      <% end %>
                     <% else %>
-                      <%= button_to 'Save', save_like_user_path(profile.id), method: :post %>
+                      <%= button_to(profile_save_like_path(:profile_id => current_user.profile.id, :like_id => profile.id), method: "post") do %>
+                        <i class="fa fa-heart-o" title="Favorite" style="font-size:24px;"></i>
+                      <% end %>
                     <% end %>
                   <em class="font-sm"><b>Age:</b> <%= profile.age %>, <b>Distance:</b> <%= profile.city %>, <%= profile.state_code %> </em>
                 </div>
