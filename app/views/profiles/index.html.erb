@@ -31,13 +31,12 @@
               <% @search_results_profiles.each do |profile| %>
                 <div class="bordered-container profile-image-container text-center">
                   <% if profile.avatar.attached? %>
-                    <%= image_tag profile.avatar.variant(resize: "160x200"), :class => "profile-image-small"%>
+                    <%= link_to (image_tag profile.avatar.variant(resize: "160x200"), :class => "profile-image-small"), profile_path(profile) %>
                   <% else %>
-                      <%= image_tag("profile-default.jpg") %>
+                    <%=  link_to (image_tag("profile-default.jpg")), profile_path(profile) %>
                   <% end %>
                   <br><%= link_to profile.user.username, profile_path(profile), class: 'btn btn-default'%><br>
                     <% if (current_user.profile.check_liked(profile.id)) %>
-                      <!-- %= button_to 'Remove Save', profile_save_unlike_path(:profile_id => current_user.profile.id, :like_id => profile.id), method: :post % -->
                       <%= button_to(profile_save_unlike_path(:profile_id => current_user.profile.id, :like_id => profile.id), method: "post") do %>
                         <i class="fa fa-heart" title="Favorite" style="font-size:24px;color:red"></i>
                       <% end %>
