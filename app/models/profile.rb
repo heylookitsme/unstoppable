@@ -115,6 +115,7 @@ class Profile < ApplicationRecord
         self[:state] = zipcode_details[:state_name]
         self[:state_code] = zipcode_details[:state_code]
         self[:country] = "USA"
+        self[:time_zone] = zipcode_details[:time_zone].name
         result = Geocoder.search(self.address)
       rescue Geocoder::OverQueryLimitError
         sleep 2
