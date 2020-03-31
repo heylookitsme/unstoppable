@@ -4,7 +4,7 @@ class ConversationsController < ApplicationController
     before_action :authenticate_user!
 
     def index
-        #Rails.logger.debug("params = #{params.inspect}")
+        Rails.logger.debug("params = #{params.inspect}")
         #@conversations = current_user.mailbox.conversations #
         @conversations = current_user.mailbox.inbox #
         Rails.logger.debug("Conversations Inbox = #{@conversations.inspect}")
