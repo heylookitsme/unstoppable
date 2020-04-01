@@ -34,7 +34,7 @@
                 <% unless conversation.messages.last.sender.blank? %>
                     <td><%= conversation.messages.last.sender.username %> &nbsp;&nbsp;<%= avatar_for(conversation.messages.last.sender, 40) %> </td>
                 <% else %>
-                    <td> &nbsp; </td>
+                    <td> <%= conversation.messages.last %> &nbsp; </td>
                 <% end %>
                 <td><%= link_to conversation.subject, conversation_path(conversation, :recipients => conversation.messages.last.sender) %> - <%= conversation.messages.last.body %> </td>
                 <td><%= conversation.updated_at %></td>
