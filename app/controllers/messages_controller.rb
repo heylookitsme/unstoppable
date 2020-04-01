@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
 
     def create
         receipt = current_user.reply_to_conversation(@conversation, params[:body])
-        Rails.logger.debug "In Message Controller conversation = #{@conversation.inspect}"
+        #Rails.logger.debug "In Message Controller conversation = #{@conversation.inspect}"
         Rails.logger.debug "In Message Controller messages = #{@conversation.messages.inspect}"
         Rails.logger.debug "In Message Controller receipt = #{receipt.inspect}"
         Rails.logger.debug "In Message Controller params = #{params.inspect}"
