@@ -4,7 +4,7 @@ class ProfilesController < ApplicationController
 
   before_action :set_profile #, except: [:index, :search]
   #protect_from_forgery with: :null_session
-  respond_to :js
+  respond_to :json, :html, :js
 
 
   def index
