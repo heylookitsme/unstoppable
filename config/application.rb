@@ -18,5 +18,17 @@ module Unstoppable
 
     Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
 
+
+    Rails.application.config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins  'http://localhost:3000'
+        resource '/sign_in',
+        methods: [:post],
+        headers: :any,
+        credentials: true
+        resource '*', headers: :any, methods: [:get, :post, :options], credentials: true
+      end
+    end
+
   end
 end

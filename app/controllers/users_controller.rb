@@ -1,15 +1,18 @@
 class UsersController < ApplicationController
   protect_from_forgery with: :null_session
-  before_action :authenticate_user!, :except => [:show, :confirm_email, :terms]
+  before_action :authenticate_user!, :except => [:confirm_email, :terms]
   #layout "sidebar"
+  respond_to :json, :html
 
   def index
     @users = User.all
+    respond_with(@users)
   end
 
   def show
     @user = User.find_by_id(params[:id])
     @profile = @user.profile
+    respond_with(@user)
   end
 
   def edit
