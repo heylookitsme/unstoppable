@@ -91,6 +91,11 @@ class Profile < ApplicationRecord
     [self.city, self.state, self.country].compact.join(', ')
   end
     
+  # The list of all profiles visible to the user on the "Browse Profiles" entry page
+  def browse_profiles_list
+    @profiles = Profile.where(["id != ? and step_status = ?", self.id, Profile::STEP_CONFIRMED_EMAIL]).order("updated_at DESC")
+  end
+
 
   def self.get_list(profile_list, culat, culong)
     all_profiles = []

@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
   before_action :authenticate_user!
-  
+
   def index
     if current_user.profile.step_status == Profile::STEP_CONFIRMED_EMAIL
       Rails.logger.debug "WELCOME"
@@ -18,5 +18,9 @@ class WelcomeController < ApplicationController
           redirect_to profile_build_path(:about_me, :profile_id => current_user.profile.id)
       end
     end
+  end
+
+  def appjson
+
   end
 end

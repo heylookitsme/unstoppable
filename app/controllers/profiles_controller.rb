@@ -14,16 +14,13 @@ class ProfilesController < ApplicationController
       return
     end
     unless params[:favorites] == "true"
-      @profiles = Profile.where(["id != ? and step_status = ?", current_user.profile.id, Profile::STEP_CONFIRMED_EMAIL]).order("updated_at DESC").page(params[:page])
+      @profiles = current_user.profile.browse_profiles_list.page(params[:page])
     else
       @profiles = helpers.get_current_user_favorite_profiles
     end
-    
     @profiles_total = @profiles.size unless @profiles.blank?
     
-    #@profiles = Profile.where(["id != ? and step_status = ?", current_user.profile.id, Profile::STEP_CONFIRMED_EMAIL]).order("updated_at DESC").page(params[:page])
     unless !params.has_key?(:search)  || (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
-      #@profiles_total = @profiles.size unless @profiles.blank?
       unless params[:search].blank?
         # Search the keyword using Postgresql search scope
         @search_results_profiles = @profiles.search_cancer_type(params[:search])
