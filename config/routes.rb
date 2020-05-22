@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'welcome/index'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   get 'attachment/photo'
@@ -8,25 +9,9 @@ Rails.application.routes.draw do
 
   get 'greetings/hello'
 
-  get 'profiles/show'
-
-  get 'profiles/edit'
-
-  get 'profiles/update'
-
-  get 'profiles/thank_you'
-
   get 'conversations/sentbox'
 
   get 'conversations/trash'
-
-  #get 'profile/show'
-
-  #get 'profile/edit'
-
-  #get 'profile/update'
-
-  #get 'profile/upload_photo'
 
   get 'users/index'
 
@@ -92,19 +77,22 @@ Rails.application.routes.draw do
   end
 
   resources :profiles do
-
     collection do
-  
       get :search
-  
     end
-
+    member do
+      get :show
+      get :edit
+      get :update
+      get :thank_you
+    end
     resources :build, controller: 'profiles/build'
-    # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
     post 'save_like'
     post 'save_unlike'
   end
   
-  root to: "profiles#index"
+  get 'welcome/appjson'
+
+  root to: "welcome#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

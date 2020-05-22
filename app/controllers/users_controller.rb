@@ -28,17 +28,6 @@ class UsersController < ApplicationController
     params.require(:user).permit(:password, :password_confirmation, :current_password, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :email, :username)
   end
 
-  def favorites
-    profile = current_user.profile
-    favorites = []
-    unless profile.lists.empty?
-      profile.likes.each do |l|
-        favorites << Profile.find(l.like_id)
-      end
-    end
-    favorites
-  end
-
   def confirm_email
     #Rails.logger.info "In User controller, confirm_email"
     #Rails.logger.info "In  confirm_email = #{params.inspect}"
@@ -63,7 +52,7 @@ class UsersController < ApplicationController
   end
 
   def email_confirmation
-   #Rails.logger.info "In User controller, email_confirmation"
+     #Rails.logger.info "In User controller, email_confirmation"
     #Rails.logger.info "In  email_confirmation = #{params.inspect}"
     @user = User.find_by_id(params[:id])
     @user.profile.step_status = Profile::STEP_EMAIL_CONFIRMATION_SENT
