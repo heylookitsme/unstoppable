@@ -3,10 +3,8 @@ class WelcomeController < ApplicationController
 
   def index
     if current_user.profile.step_status == Profile::STEP_CONFIRMED_EMAIL
-      Rails.logger.debug "WELCOME"
       redirect_to profiles_path
     else
-      Rails.logger.debug "WELCOME2"
       case current_user.profile.step_status
         when Profile::STEP_EMAIL_CONFIRMATION_SENT
           redirect_to remind_confirmation_user_path(current_user)
@@ -21,6 +19,6 @@ class WelcomeController < ApplicationController
   end
 
   def appjson
-
+    Rails.logger.debug("In Welcome controller, appjson action. Current user = #{current_user.inspect}")
   end
 end

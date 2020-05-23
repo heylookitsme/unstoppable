@@ -31,28 +31,6 @@ class ApplicationController < ActionController::Base
     User.current = user
   end
 
-  def after_sign_in_path_for(resource_or_scope)
-    User.current = resource_or_scope
-    Rails.logger.debug("In application controller User.current = #{User.current.inspect}")
-    Rails.logger.debug("In application controller current user = #{current_user.inspect}")
-    session[:user_id] = resource_or_scope.id
-    #user_path(resource_or_scope)
-
-    #### Jun 18, 2019
-    #if resource_or_scope.admin?
-    #  rails_admin_path
-    #else
-      profiles_path
-    #end
-
-    ####
-    #if resource_or_scope.is_a?(User)
-    #  super
-   #else
-      #Rails.logger.debug("User12345")
-      #users_path
-    #end
-  end
   def after_sign_out_path_for(resource_or_scope)
     #request.referrer
     new_user_session_path
