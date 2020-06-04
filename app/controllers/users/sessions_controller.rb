@@ -19,18 +19,21 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    Rails.logger.debug "SIGN IN"
-    Rails.logger.debug "request = #{request.referrer.inspect}"
+    Rails.logger.debug "Session Controller, create SIGN IN"
+    Rails.logger.debug "Session Controller, create request = #{request.referrer.inspect}"
    
     self.resource = warden.authenticate!(auth_options)
     #set_flash_message(:notice, :signed_in) if is_flashing_format?
     sign_in(resource_name, resource)
     yield resource if block_given?
+    User.current = resource
+    session[:user_id] = resource.id
+    Rails.logger.debug "Session Controller, create user = #{resource.inspect}"
     # TODO move URL to config file. Also change logic of line below.
     if request.referrer.starts_with?("http://localhost:3000/login")
-      render :json=> {:success=>true,  :username=>resource.username, :email=>resource.email}
+      redirect_to welcome_appjson_path(:format => :json)
     else
-      respond_with resource, location: after_sign_in_path_for(resource)
+      respond_with resource, location: welcome_index_path
     end
   end
 

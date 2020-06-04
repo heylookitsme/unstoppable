@@ -7,5 +7,6 @@ email = {email: profile.user.email}
 json.merge! email
 age = {age: profile.age}
 json.merge! age
-json.avatar_url url_for(profile.avatar) if profile.avatar.attached?
+avatar_url = url_for(profile.avatar) if profile.avatar.attached?
+json.merge! avatar_url
 json.url profile_url(profile, format: :json)

@@ -1,5 +1,5 @@
 # Current user information
-name = {name: current_user.username}	
+name = {username: current_user.username}
 json.merge! name
 
 # Current User Profile information
