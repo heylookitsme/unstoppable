@@ -37,10 +37,17 @@ class ProfilesController < ApplicationController
       @search_results_profiles = @profiles
       @search_results_total =  @profiles_total
     end
-    respond_to do |format|
-      format.js { render partial: 'search-results'}
-      format.html
-      format.json
+    #respond_to do |format|
+      #format.js { render partial: 'search-results'}
+      #format.html
+      #format.json
+    #end
+
+    if request.xhr?
+      Rails.logger.debug("Forwarding requesting XHR")
+      render :json => @search_results_profiles.to_json
+    else
+      render :index
     end
       
     # Optional views
