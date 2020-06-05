@@ -47,6 +47,7 @@ class ProfilesController < ApplicationController
       Rails.logger.debug("Forwarding requesting XHR")
       render :json => @search_results_profiles.to_json
     else
+      Rails.logger.debug("HOHOHAHOHOHUM")
       render :index
     end
       
