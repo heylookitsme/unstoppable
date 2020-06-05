@@ -37,6 +37,7 @@ class ProfilesController < ApplicationController
       @search_results_profiles = @profiles
       @search_results_total =  @profiles_total
     end
+    Rails.logger.debug "HOHOHAHOHOHUM @sesearch_results_profiles = #{@search_results_profiles.inspect}"
     respond_to do |format|
       #format.js { render partial: 'search-results'}
       format.html
