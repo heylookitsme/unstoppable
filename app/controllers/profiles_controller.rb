@@ -36,6 +36,7 @@ class ProfilesController < ApplicationController
         @profile_total =  @profiles.blank? ? 0:@profiles.size
       end
     end
+    Rails.logger.debug "Profile Controller: @profile_total user= #{@profile_total}"
     respond_to do |format|
       #format.js { render partial: 'search-results'}
       format.html
