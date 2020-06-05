@@ -25,17 +25,20 @@ class ProfilesController < ApplicationController
       unless params[:search].blank?
         # Search the keyword using Postgresql search scope
         @profiles = @profiles.search_cancer_type(params[:search])
+        Rails.logger.debug "Profile Controller 111: @profiles= #{@profiles}"
       end
       unless @profiles.blank?
         # Filter the search results based on Min,Max and Distance
         @min_age = (min=params[:min_age].to_i) == 0?  Profile::MIN_AGE : min
         @max_age = (max=params[:max_age].to_i) == 0?  Profile::MAX_AGE : max
         @profiles = filter_search_results
+        Rails.logger.debug "Profile Controller 2222: @profiles= #{@profiles}"
         @profile_total =  @profiles.blank? ? 0:@profiles.size
       else
         @profile_total =  @profiles.blank? ? 0:@profiles.size
       end
     end
+    Rails.logger.debug "Profile Controller 333: @profiles= #{@profiles}"
     Rails.logger.debug "Profile Controller: @profile_total user= #{@profile_total}"
     respond_to do |format|
       #format.js { render partial: 'search-results'}
