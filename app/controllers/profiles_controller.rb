@@ -18,37 +18,30 @@ class ProfilesController < ApplicationController
     else
       @profiles = helpers.get_current_user_favorite_profiles
     end
-    @profiles_total = @profiles.size unless @profiles.blank?
-    
-    unless !params.has_key?(:search)  || (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
+    @all_profiles_total = @profiles.size unless @profiles.blank?
+    @profiles_total = @all_profiles_total
+   
+    unless !params.has_key?(:search)  #|| (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
       unless params[:search].blank?
         # Search the keyword using Postgresql search scope
-        @search_results_profiles = @profiles.search_cancer_type(params[:search])
-      else
-        @search_results_profiles = @profiles
+        @profiles = @profiles.search_cancer_type(params[:search])
       end
-      unless @search_results_profiles.blank?
+      unless @profiles.blank?
         # Filter the search results based on Min,Max and Distance
-        @search_results_profiles = filter_search_results
+        @min_age = (min=params[:min_age].to_i) == 0?  Profile::MIN_AGE : min
+        @max_age = (max=params[:max_age].to_i) == 0?  Profile::MAX_AGE : max
+        @profiles = filter_search_results
+        @profile_total =  @profiles.blank? ? 0:@profiles.size
+      else
+        @profile_total =  @profiles.blank? ? 0:@profiles.size
       end
-      @search_results_total =  @search_results_profiles.blank? ? 0:@search_results_profiles.size
-    else
-        # TODO Temporarily adding code as format.js is not working
-      @search_results_profiles = @profiles
-      @search_results_total =  @profiles_total
     end
-    #respond_to do |format|
+    respond_to do |format|
       #format.js { render partial: 'search-results'}
-      #format.html
-      #format.json
-    #end
-
-    if request.xhr?
-      Rails.logger.debug("Forwarding requesting XHR")
-      render :json => @search_results_profiles.to_json
-    else
-      render :index
+      format.html
+      format.json
     end
+
       
     # Optional views
 =begin
@@ -170,29 +163,22 @@ class ProfilesController < ApplicationController
   private
 
   def filter_search_results
-    unless params["min_age"].blank? && params["max_age"].blank?
-      @min_age = params["min_age"].blank? ? Profile::MIN_AGE : params["min_age"].to_i
-      @max_age = params["max_age"].blank? ? Profile::MAX_AGE : params["max_age"].to_i
-      # if the user has given a string input instead of a number
-      @max_age = Profile::MAX_AGE if @max_age == 0
-      @min_age = Profile::MIN_AGE if @min_age == 0
-      @search_results_profiles = @search_results_profiles.select{|x| x.age.to_i >= @min_age && x.age.to_i <= @max_age}
-    end
+    @profiles = @profiles.select{|x| x.age.to_i >= @min_age && x.age.to_i <= @max_age}
     unless params["distance"].blank?
-      @distance = params["distance"].blank? ? 2000:params["distance"].to_i
+      @distance = params["distance"].to_i
       culat = current_user.profile.latitude
       culong = current_user.profile.longitude
-      @search_results_profiles.each do |profile|
+      @profiles.each do |profile|
         if !culat.nil? && !culong.nil? && !profile.latitude.nil? && !profile.longitude.nil?
             d =  Geocoder::Calculations.distance_between([culat, culong], [profile.latitude, profile.longitude])
             profile.distance = d.round
         end
       end
       if @distance > 0
-        @search_results_profiles = @search_results_profiles.select{|x| x.distance <= @distance}
+        @profiles = @profiles.select{|x| x.distance <= @distance}
       end
     end
-    @search_results_profiles
+    @profiles
   end
 
   def profile_params
