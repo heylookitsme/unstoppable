@@ -8,7 +8,7 @@ class ProfilesController < ApplicationController
 
 
   def index
-    Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
+#    Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
     Rails.logger.debug "Profile Controller: PARAMS = #{params.inspect}"
     if current_user.blank? or current_user.profile.blank?
       return
