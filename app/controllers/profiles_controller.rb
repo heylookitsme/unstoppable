@@ -137,7 +137,7 @@ class ProfilesController < ApplicationController
       l = Like.new
       #l.id = current_user.profile.id
       l.like_id = params[:like_id]
-      l.profile_id = params[:profile_id]
+      l.profile_id = current_user.profile.id
       Rails.logger.debug "like objet =#{l.inspect}"
       current_user.profile.likes << l
       current_user.profile.save

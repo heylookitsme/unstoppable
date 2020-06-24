@@ -85,10 +85,10 @@ Rails.application.routes.draw do
       get :edit
       get :update
       get :thank_you
+      post 'save_like'
+      post 'save_unlike'
     end
     resources :build, controller: 'profiles/build'
-    post 'save_like'
-    post 'save_unlike'
   end
   
   get 'welcome/appjson'
