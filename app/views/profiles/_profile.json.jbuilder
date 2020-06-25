@@ -7,6 +7,10 @@ email = {email: profile.user.email}
 json.merge! email
 age = {age: profile.age}
 json.merge! age
-#avatar_url = url_for(profile.avatar) if profile.avatar.attached?
-#json.merge! avatar_url
+if profile.avatar.attached?
+  avatar = {photo: rails_blob_path(profile.avatar)}
+  json.merge! avatar
+else
+  json
+end
 json.url profile_url(profile, format: :json)
