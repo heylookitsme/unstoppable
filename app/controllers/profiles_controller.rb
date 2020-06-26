@@ -2,7 +2,7 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!
   #layout "sidebar_non_admin"
 
-  before_action :set_profile #, except: [:index, :search]
+  before_action :set_profile, except: [:show] #, except: [:index, :search]
   #protect_from_forgery with: :null_session
   respond_to :json, :html, :js
 
@@ -63,7 +63,13 @@ class ProfilesController < ApplicationController
 
   
   def show
-  
+    Rails.logger.debug "Profile Controller:, action: show, PARAMS = #{params.inspect}"
+    Rails.logger.debug "Profile Controller: action:show, current_user = #{current_user.inspect}"
+    # Profile to be displayed can be selected in two ways:
+    # 1) View current user profile
+    # 2) One of the profiles in Browse Profile is viewed.
+    @view_profile = Profile.find(params[:id])
+    @view_profile.user 
   end
 
   def thank_you
@@ -94,7 +100,7 @@ class ProfilesController < ApplicationController
     previous_step = @profile.step_status
     if @profile.update(profile_params)
       flash[:notices] = ["Your profile was successfully updated"]
-      render 'show'
+      redirect_to profile_path
     else
       flash[:notices] = ["Your profile could not be updated"]
       render 'edit'
@@ -211,7 +217,6 @@ class ProfilesController < ApplicationController
     unless params[:id].blank?
       @profile = Profile.find(params[:id])
       @user = @profile.user
-      Rails.logger.debug("SARADA = #{@profile.inspect}")
     else
       unless params[:user_id].blank?
         @user = User.find(params[:user_id])
