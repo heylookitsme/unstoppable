@@ -3,10 +3,26 @@ json.extract! profile, :id, :dob, :zipcode, :fitness_level, :cancer_location, :p
 	:created_at, :updated_at
 name = {name: profile.user.username}	
 json.merge! name
+
 email = {email: profile.user.email}	
 json.merge! email
+
 age = {age: profile.age}
 json.merge! age
+
+activities = profile.activities.blank? ? []: profile.activities.collect{|x| x.id}
+activities_json =  {activities: activities}
+json.merge!  activities_json
+
+exercise_reasons = profile.exercise_reasons.blank? ? []: profile.exercise_reasons.collect{|x| x.id}
+exercise_reasons_json =  {exercise_reasons: exercise_reasons}
+json.merge!  exercise_reasons_json
+
+
+likes = profile.likes.blank? ? []: profile.likes.collect{|x| x.like_id}
+likes_json =  {likes: likes}
+json.merge!  likes_json
+
 if profile.avatar.attached?
   avatar = {photo: rails_blob_path(profile.avatar)}
   json.merge! avatar
