@@ -30,7 +30,7 @@ class UsersController < ApplicationController
 
   def confirm_email
     #Rails.logger.info "In User controller, confirm_email"
-    #Rails.logger.info "In  confirm_email = #{params.inspect}"
+    Rails.logger.info "In  confirm_email = #{params.inspect}"
     user = User.find_by_confirm_token(params[:id])
     Rails.logger.info "In confirm_email user =#{user.inspect}"
     if user
