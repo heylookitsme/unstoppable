@@ -3,12 +3,13 @@ class ProfilesController < ApplicationController
   #layout "sidebar_non_admin"
 
   before_action :set_profile, except: [:show] #, except: [:index, :search]
+  
   #protect_from_forgery with: :null_session
   respond_to :json, :html, :js
 
 
   def index
-    Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
+    #Rails.logger.debug "Profile Controller: INDEX user= #{User.current.inspect}"
     Rails.logger.debug "Profile Controller: PARAMS = #{params.inspect}"
     if current_user.blank? or current_user.profile.blank?
       return
@@ -25,40 +26,22 @@ class ProfilesController < ApplicationController
       unless params[:search].blank?
         # Search the keyword using Postgresql search scope
         @profiles = @profiles.search_cancer_type(params[:search])
-        Rails.logger.debug "Profile Controller 111: @profiles= #{@profiles}"
       end
       unless @profiles.blank?
         # Filter the search results based on Min,Max and Distance
         @min_age = (min=params[:min_age].to_i) == 0?  Profile::MIN_AGE : min
         @max_age = (max=params[:max_age].to_i) == 0?  Profile::MAX_AGE : max
         @profiles = filter_search_results
-        Rails.logger.debug "Profile Controller 2222: @profiles= #{@profiles}"
         @profile_total =  @profiles.blank? ? 0:@profiles.size
       else
         @profile_total =  @profiles.blank? ? 0:@profiles.size
       end
     end
-    Rails.logger.debug "Profile Controller 3333: @profiles= #{@profiles}"
-    Rails.logger.debug "Profile Controller: @profile_total user= #{@profile_total}"
     respond_to do |format|
       #format.js { render partial: 'search-results'}
       format.html
       format.json
     end
-
-
-      
-    # Optional views
-=begin
-    unless params[:viewstyle].blank?
-      Rails.logger.info "ViewType = #{params[:viewstyle].inspect}"
-      if params[:viewstyle] == "listview"
-        render "listview"
-      else params[:viewstyle] == "mapview"
-
-      end
-    end
-=end
   end
 
   
@@ -69,7 +52,6 @@ class ProfilesController < ApplicationController
     # 1) View current user profile
     # 2) One of the profiles in Browse Profile is viewed.
     @view_profile = Profile.find(params[:id])
-    @view_profile.user 
   end
 
   def thank_you
@@ -91,80 +73,61 @@ class ProfilesController < ApplicationController
 
   def update
 
-    Rails.logger.debug "Profile Controller: Update #{@profile.inspect}"
+    #Rails.logger.debug "Profile Controller: Update #{@profile.inspect}"
     Rails.logger.debug "Profile Controller: Update #{params.inspect}"
-   
+    #Rails.logger.debug "Profile Controller: Update #{params["profile"]["liked_profiles"].inspect}"
     unless @profile.avatar.present?
       @profile.remove_avatar!
     end
-    previous_step = @profile.step_status
+    liked_profiles = params["profile"]["liked_profiles"]
+    unless liked_profiles.blank?
+      liked_profiles = params["profile"]["liked_profiles"]
+      @profile.likes = []
+      liked_profiles.each do |l|
+        liked_profile = Like.new
+        liked_profile.like_id = l
+        liked_profile.profile_id = @profile.id
+        @profile.likes << liked_profile
+      end
+    end
     if @profile.update(profile_params)
       flash[:notices] = ["Your profile was successfully updated"]
-      redirect_to profile_path
+      @view_profile = @profile
+      respond_to do |format|
+        #format.js { render partial: 'search-results'}
+        format.html {redirect_to profile_path}
+        format.json { render :json => @profile }
+      end
     else
       flash[:notices] = ["Your profile could not be updated"]
       render 'edit'
     end
+   
   end
-
-  # GET profiles/search
-
-=begin This is the SOLR search
-  def search
-    Rails.logger.debug 'In search'
-    user = current_user
-    min_age = params["min_age"].blank? ? 0:params["min_age"].to_i
-    max_age = params["max_age"].blank? ? 200:params["max_age"].to_i
-    distance = params["distance"].blank? ? 2000:params["distance"].to_i
-    
-    @profiles = Profile.search do
-      with(:age, min_age..max_age)
-      with(:distance, 0..distance)
-      #with(:zipcode).in_radius(current_user.profile.latitude, current_user.profile.longitude, 100)
-      keywords params[:query]
-    end.results
-
-    if distance > 0
-      @profiles = @profiles.select{|x| x.distance && x.distance <= distance}
-    end
-    
-    respond_to do |format|
-      format.html { render :action => "index" }
-    end
-  end
-=end
-
+  
+  #############################
+   # This action is only used by the Rails server App. TODO: Remove
+  #############################
   def save_like
-    Rails.logger.debug "In save like params =#{params.inspect}"
-    Rails.logger.debug "current_user =#{current_user.inspect}"
-    Rails.logger.debug "current_user  profile =#{current_user.profile.inspect}"
-    Rails.logger.debug "current_user  profile LIKES =#{current_user.profile.likes.inspect}"
     unless(current_user.profile.likes.exists?(id: params[:like_id]))
       l = Like.new
-      #l.id = current_user.profile.id
       l.like_id = params[:like_id]
       l.profile_id = current_user.profile.id
-      Rails.logger.debug "like objet =#{l.inspect}"
       current_user.profile.likes << l
       current_user.profile.save
       redirect_to profiles_path
     end
   end
 
+  ###########################
+  #This action is only used by the Rails server App. TODO: Remove
+  ############################
   def save_unlike
-    #Rails.logger.debug "In save unlike params =#{params.inspect}"
-    #Rails.logger.debug "current_user =#{current_user.inspect}"
-    Rails.logger.debug "current_user  profile =#{current_user.profile.inspect}"
-    Rails.logger.debug "current_user  profile UNLIKES =#{current_user.profile.likes.inspect}"
+  
     profile = current_user.profile
     profile.likes.each do |l|
-      Rails.logger.debug "Like object #{l.inspect}"
-      Rails.logger.debug "Like object #{l.like_id.inspect}"
-      Rails.logger.debug "Like object #{params[:id].inspect}"
       if(l.like_id == params[:like_id].to_i)
-        Rails.logger.debug "Like object EQUAL"
         profile.likes.delete(l)
-        Rails.logger.debug "After removal #{profile.likes.inspect}"
       end
     end
     profile.save
@@ -205,6 +168,7 @@ class ProfilesController < ApplicationController
       :part_of_wellness_program,
       :which_wellness_program,
       {:exercise_reason_ids => []},
+      {:liked_profiles => []},
       :avatar,
       :referred_by,
       :id
@@ -212,12 +176,13 @@ class ProfilesController < ApplicationController
   end
 
   def set_profile
-    Rails.logger.debug("IN SET_USER")
+    Rails.logger.debug("IN SET_PROFILE")
     Rails.logger.debug("params = #{params.inspect}")
     unless params[:id].blank?
       @profile = Profile.find(params[:id])
       @user = @profile.user
     else
+      # This path is only used when another user is sent a message
       unless params[:user_id].blank?
         @user = User.find(params[:user_id])
         @profile = @user.profile

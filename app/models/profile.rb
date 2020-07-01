@@ -14,6 +14,7 @@ class Profile < ApplicationRecord
   has_one_attached :avatar
   attribute :age
   attribute :distance, default: 0
+  attribute :liked_profiles, default:[]
   # Attribute for determining if approved email needs to be sent
   attribute :send_approved_email, :default => false
   geocoded_by :address

@@ -20,7 +20,7 @@ json.merge!  exercise_reasons_json
 
 
 likes = profile.likes.blank? ? []: profile.likes.collect{|x| x.like_id}
-likes_json =  {likes: likes}
+likes_json =  {liked_profiles: likes}
 json.merge!  likes_json
 
 if profile.avatar.attached?
