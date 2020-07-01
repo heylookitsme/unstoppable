@@ -80,9 +80,9 @@ class ProfilesController < ApplicationController
       @profile.remove_avatar!
     end
     liked_profiles = params["profile"]["liked_profiles"]
+    @profile.likes = []
     unless liked_profiles.blank?
       liked_profiles = params["profile"]["liked_profiles"]
-      @profile.likes = []
       liked_profiles.each do |l|
         liked_profile = Like.new
         liked_profile.like_id = l
