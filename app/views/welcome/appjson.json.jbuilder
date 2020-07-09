@@ -16,3 +16,19 @@ end
 profiles_list = current_user.profile.browse_profiles_list
 profiles_list_json = {profiles_list: profiles_list}
 json.merge! profiles_list_json
+
+# All Exercise reasons
+all_exercise_reasons_json = []
+ExerciseReason.all.each do |e|
+   all_exercise_reasons_json << {id: e.id, name: e.name}
+end
+exercise_json = {all_exercise_reasons: all_exercise_reasons_json}
+json.merge! exercise_json
+
+# All Activities
+all_activities_json = []
+Activity.all.each do |a|
+  all_activities_json << {id: a.id, name: a.name}
+end
+activity_json = {all_activities: all_activities_json}
+json.merge! activity_json
