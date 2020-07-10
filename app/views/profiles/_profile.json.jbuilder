@@ -11,11 +11,11 @@ age = {age: profile.age}
 json.merge! age
 
 activities = profile.activities.blank? ? []: profile.activities.collect{|x| x.id}
-activities_json =  {activities: activities}
+activities_json =  {activity_ids: activities}
 json.merge!  activities_json
 
 exercise_reasons = profile.exercise_reasons.blank? ? []: profile.exercise_reasons.collect{|x| x.id}
-exercise_reasons_json =  {exercise_reasons: exercise_reasons}
+exercise_reasons_json =  {exercise_reason_ids: exercise_reasons}
 json.merge!  exercise_reasons_json
 
 
