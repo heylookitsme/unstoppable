@@ -1,22 +1,12 @@
+# Current User Profile information
+json.profile current_user.profile, partial: 'profiles/profile', as: :profile
+
 # Current user information
 name = {username: current_user.username}
 json.merge! name
 
 email = {email: current_user.email}
 json.merge! email
-
-# Current User Profile information
-profile = {profile: current_user.profile}	
-activities = current_user.profile.activities.blank? ? []: current_user.profile.activities.collect{|x| x.id}
-activities_json =  {activity_ids: activities}
-profile.merge!  activities_json
-
-exercise_reasons = current_user.profile.exercise_reasons.blank? ? []: current_user.profile.exercise_reasons.collect{|x| x.id}
-exercise_reasons_json =  {exercise_reason_ids: exercise_reasons}
-profile.merge!  exercise_reasons_json
-
-# After merging the activites and exercise reasons
-json.merge! profile
 
 # Avatar
 if current_user.profile.avatar.attached?
