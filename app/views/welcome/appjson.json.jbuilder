@@ -8,6 +8,9 @@ json.merge! name
 email = {email: current_user.email}
 json.merge! email
 
+id = {current_user_id: current_user.id}
+json.merge! id
+
 # Avatar
 if current_user.profile.avatar.attached?
   avatar = {photo: rails_blob_path(current_user.profile.avatar)}
