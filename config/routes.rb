@@ -54,9 +54,6 @@ Rails.application.routes.draw do
     resource :profile, only: [:show, :edit, :update]
     patch 'update_password', on: :collection
     get 'edit_password', on: :member
-    #post 'save_like'
-    #post 'save_unlike'
-    #get 'forward_username', on: :member
     member do
       get :confirm_email
       get :email_confirmation
@@ -90,6 +87,13 @@ Rails.application.routes.draw do
     end
     resources :build, controller: 'profiles/build'
   end
+
+  patch 'account_settings/change_username'
+  patch 'account_settings/change_email'
+  patch 'account_settings/change_dob'
+  patch 'account_settings/change_zipcode'
+
+
   
   get 'welcome/appjson'
 
