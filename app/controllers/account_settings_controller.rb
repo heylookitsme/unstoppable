@@ -63,4 +63,28 @@ class AccountSettingsController < ApplicationController
 
   def change_zipcode
   end
+  def change_dob
+    Rails.logger.debug "In AccountSettingsController, change_dob, params = #{params.inspect}"
+    user = User.find(params[:id])
+    Rails.logger.debug "In AccountSettingsController, change_dob, user = #{user.inspect}"
+    #  "dob(1i)", "dob(2i)","dob(3i)"
+    profile = user.profile
+    new_dob = Date.new(params['dob(1i)'].to_i,params['dob(2i)'].to_i,params['dob(3i)'].to_i)
+    profile.dob = new_dob
+    profile.save!
+    # The DOB has a validation for a minimum age of 18,  and if that fails
+    if profile.invalid? && profile.errors[:dob].any?
+      Rails.logger.debug " #{profile.invalid?} #{profile.errors[:email]}"
+      render :json => {status:  "error", message: profile.errors[:dob].to_s}
+    else
+      if(profile.update_attribute(:dob, new_dob))
+        profile.age = ((Time.zone.now - profile.dob.to_time) / 1.year.seconds).floor
+        user.dob = profile.dob
+        Rails.logger.debug  "In AccountSettingsController, change_dob, saved user with new dob = #{user.inspect}"
+        render json: user.to_json, status: 200
+      else
+        render  json: {status: "error", message:  profile.errors[:dob].to_json}
+      end
+    end
+  end
 end
