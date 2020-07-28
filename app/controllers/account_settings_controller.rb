@@ -40,6 +40,22 @@ class AccountSettingsController < ApplicationController
     end
   end
 
+  def valid_email
+    Rails.logger.debug "In AccountSettingsController, valid_email, params = #{params.inspect}"
+    user = User.find(params[:id])
+    Rails.logger.debug "In AccountSettingsController, valid_email, user = #{user.inspect}"
+
+    user_with_email = User.find_by_username(params[:email])
+    Rails.logger.debug "In AccountSettingsController, valid_email, user = #{user_with_email.inspect}" 
+    unless user_with_email.blank?
+      Rails.logger.debug "User with email already Exists"
+      render :json => {status: 200, code:400, message: "Email already been taken"}
+    else
+      render json:  {status: 200, message: "Good"}
+    end
+  end
+
+
   def change_email
     Rails.logger.debug "In AccountSettingsController, change_email, params = #{params.inspect}"
     user = User.find(params[:id])
@@ -62,7 +78,27 @@ class AccountSettingsController < ApplicationController
   end
 
   def change_zipcode
+    Rails.logger.debug "In AccountSettingsController, change_zipcode, params = #{params.inspect}"
+    user = User.find(params[:id])
+    Rails.logger.debug "In AccountSettingsController, change_zipcode, user = #{user.inspect}"
+    profile = user.profile
+    new_zipcode = params[:zipcode]
+    profile.dob = new_dob
+    profile.save!
+    # The Zipcode has to be a valid USA zipcode or else it fails
+    if profile.invalid? && profile.errors[:zipcode].any?
+      Rails.logger.debug " #{profile.invalid?} #{profile.errors[:zipcode]}"
+      render :json => {status:  "error", message: profile.errors[:zipcode].to_s}
+    else
+      if(profile.update_attribute(:zipcode, new_zipcode))
+        Rails.logger.debug  "In AccountSettingsController, change_zipcode, saved user with new zipcode = #{user.inspect}"
+        render json: user.to_json, status: 200
+      else
+        render  json: {status: "error", message:  profile.errors[:zipcode].to_json}
+      end
+    end
   end
+
   def change_dob
     Rails.logger.debug "In AccountSettingsController, change_dob, params = #{params.inspect}"
     user = User.find(params[:id])
@@ -74,7 +110,7 @@ class AccountSettingsController < ApplicationController
     profile.save!
     # The DOB has a validation for a minimum age of 18,  and if that fails
     if profile.invalid? && profile.errors[:dob].any?
-      Rails.logger.debug " #{profile.invalid?} #{profile.errors[:email]}"
+      Rails.logger.debug " #{profile.invalid?} #{profile.errors[:dob]}"
       render :json => {status:  "error", message: profile.errors[:dob].to_s}
     else
       if(profile.update_attribute(:dob, new_dob))
