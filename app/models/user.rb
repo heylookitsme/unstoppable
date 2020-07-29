@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_one :profile, :dependent => :destroy
+  has_one :phone, :dependent => :destroy
   attr_accessor :terms_of_service
   #validates_acceptance_of :terms_of_service, on: :create, :allow_nil => false, :if => :no_password_change
   #validate :check_terms, :if => :no_password_change
@@ -18,6 +19,8 @@ class User < ApplicationRecord
   attr_accessor :country_alpha2
 
   attr_accessor :unread_messages
+
+  attr_accessor :phone_number
 
   attribute :dob, :date
 
@@ -38,6 +41,7 @@ class User < ApplicationRecord
   validates :dob, presence: {:message => "Please enter Date of Birth", :hint => "abcdef" }, :if => :no_password_change
   validate :dob_minimum, :if => :no_password_change
   validate :check_username, :if => :no_password_change
+  #validate :phone, :if => :no_password_change
 
 
   def display_step_status

@@ -5,7 +5,7 @@ class AccountSettingsController < ApplicationController
   def change_username
     Rails.logger.debug "In AccountSettingsController, change_username, params = #{params.inspect}"
     user = User.find(params[:id])
-    Rails.logger.debug "In AccountSettingsController, change_username, user = #{user.inspect}"
+    Rails.logger.debug "In AccountSettingsController, change_username for user = #{user.inspect}"
     
     Rails.logger.debug  "In AccountSettingsController, change_username, username = #{params[:username].inspect}"
     user.username = params[:username]
@@ -28,10 +28,10 @@ class AccountSettingsController < ApplicationController
   def valid_username
     Rails.logger.debug "In AccountSettingsController, valid_username, params = #{params.inspect}"
     user = User.find(params[:id])
-    Rails.logger.debug "In AccountSettingsController, valid_username, user = #{user.inspect}"
+    Rails.logger.debug "In AccountSettingsController, valid_username for user = #{user.inspect}"
 
     user_with_username = User.find_by_username(params[:username])
-    Rails.logger.debug "In AccountSettingsController, valid_username, user = #{user_with_username.inspect}" 
+    Rails.logger.debug "In AccountSettingsController, valid_username  existing user = #{user_with_username.inspect}" 
     unless user_with_username.blank?
       Rails.logger.debug "User Exists"
       render :json => {status: 200, code:400, message: "Username already been taken"}
@@ -43,7 +43,7 @@ class AccountSettingsController < ApplicationController
   def valid_email
     Rails.logger.debug "In AccountSettingsController, valid_email, params = #{params.inspect}"
     user = User.find(params[:id])
-    Rails.logger.debug "In AccountSettingsController, valid_email, user = #{user.inspect}"
+    Rails.logger.debug "In AccountSettingsController, valid_email for  user = #{user.inspect}"
 
     user_with_email = User.find_by_username(params[:email])
     Rails.logger.debug "In AccountSettingsController, valid_email, user = #{user_with_email.inspect}" 
@@ -62,13 +62,30 @@ class AccountSettingsController < ApplicationController
   end
 
   def valid_phone
-    
+    Rails.logger.debug "In AccountSettingsController, valid_phone, params = #{params.inspect}"
+    user = User.find(params[:id])
+    Rails.logger.debug "In AccountSettingsController, valid_phone for user = #{user.inspect}"
+
+    user_with_phone = User.find_by_username(params[:phone])
+    Rails.logger.debug "In AccountSettingsController, valid_phone, exsting user = #{user_with_email.inspect}" 
+    unless user_with_phone.blank?
+      Rails.logger.debug "User with phone already Exists"
+      render :json => {status: 200, code:400, message: "Phone number already been taken"}
+    else
+      user.phone = user_with_phone
+      if user.invalid? && user.errors[:phone].any?
+        Rails.logger.debug " valid_phone: #{user.invalid?} #{user.errors[:phone]}"
+        render :json => {status: "error", code:400, message: user.errors[:phone].to_s}
+      else
+         render json:  {status: 200, message: "Good"}
+      end
+    end
   end
 
   def change_email
     Rails.logger.debug "In AccountSettingsController, change_email, params = #{params.inspect}"
     user = User.find(params[:id])
-    Rails.logger.debug "In AccountSettingsController, change_email, user = #{user.inspect}"
+    Rails.logger.debug "In AccountSettingsController, change_email for user = #{user.inspect}"
     
     Rails.logger.debug  "In AccountSettingsController, change_email, email = #{params[:email].inspect}"
     user.email = params[:email]
@@ -89,7 +106,7 @@ class AccountSettingsController < ApplicationController
   def change_zipcode
     Rails.logger.debug "In AccountSettingsController, change_zipcode, params = #{params.inspect}"
     user = User.find(params[:id])
-    Rails.logger.debug "In AccountSettingsController, change_zipcode, user = #{user.inspect}"
+    Rails.logger.debug "In AccountSettingsController, change_zipcode for user = #{user.inspect}"
     profile = user.profile
     new_zipcode = params[:zipcode]
     profile.zipcode = new_zipcode
@@ -111,7 +128,7 @@ class AccountSettingsController < ApplicationController
   def change_dob
     Rails.logger.debug "In AccountSettingsController, change_dob, params = #{params.inspect}"
     user = User.find(params[:id])
-    Rails.logger.debug "In AccountSettingsController, change_dob, user = #{user.inspect}"
+    Rails.logger.debug "In AccountSettingsController, change_dob for user = #{user.inspect}"
     #  "dob(1i)", "dob(2i)","dob(3i)"
     profile = user.profile
     new_dob = Date.new(params['dob(1i)'].to_i,params['dob(2i)'].to_i,params['dob(3i)'].to_i)
@@ -133,6 +150,25 @@ class AccountSettingsController < ApplicationController
   end
 
  def change_phone
+    Rails.logger.debug "In AccountSettingsController, change_phone, params = #{params.inspect}"
+    user = User.find(params[:id])
+    Rails.logger.debug "In AccountSettingsController, change_phone for user = #{user.inspect}"
+    
+    user.phone_number = params[:phone]
+    if user.invalid? && user.errors[:phone_number].any?
+      Rails.logger.debug " #{user.invalid?} #{user.errors[:phone_number]}"
+      render :json => {status:  "error", message: user.errors[:phone_number].to_s}
+    else
+      if user.phone.blank?
+        user.phone = Phone.new
+      end
+      if(user.phone.update_attribute(:phone_number, params[:phone]))
+        Rails.logger.debug  "In AccountSettingsController, change_phone, saved user with new phone = #{user.inspect}"
+        render json: user.to_json, status: 200
+      else
+        render  json: {status: "error", message:  user.errors[:phone_number].to_json}
+      end
+    end
  end
 
 end
