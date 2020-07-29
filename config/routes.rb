@@ -92,8 +92,10 @@ Rails.application.routes.draw do
   patch 'account_settings/change_email'
   patch 'account_settings/change_dob'
   patch 'account_settings/change_zipcode'
+  patch 'account_settings/change_phone'
   post 'account_settings/valid_username'
   post 'account_settings/valid_email'
+  post 'account_settings/valid_phone'
 
 
   

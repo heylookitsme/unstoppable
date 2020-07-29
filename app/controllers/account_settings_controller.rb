@@ -51,10 +51,19 @@ class AccountSettingsController < ApplicationController
       Rails.logger.debug "User with email already Exists"
       render :json => {status: 200, code:400, message: "Email already been taken"}
     else
-      render json:  {status: 200, message: "Good"}
+      user.email = user_with_email
+      if user.invalid? && user.errors[:email].any?
+        Rails.logger.debug " #{user.invalid?} #{user.errors[:email]}"
+        render :json => {status: "error", code:400, message: user.errors[:email].to_s}
+      else
+         render json:  {status: 200, message: "Good"}
+      end
     end
   end
 
+  def valid_phone
+    
+  end
 
   def change_email
     Rails.logger.debug "In AccountSettingsController, change_email, params = #{params.inspect}"
@@ -83,8 +92,7 @@ class AccountSettingsController < ApplicationController
     Rails.logger.debug "In AccountSettingsController, change_zipcode, user = #{user.inspect}"
     profile = user.profile
     new_zipcode = params[:zipcode]
-    profile.dob = new_dob
-    profile.save!
+    profile.zipcode = new_zipcode
     # The Zipcode has to be a valid USA zipcode or else it fails
     if profile.invalid? && profile.errors[:zipcode].any?
       Rails.logger.debug " #{profile.invalid?} #{profile.errors[:zipcode]}"
@@ -92,6 +100,7 @@ class AccountSettingsController < ApplicationController
     else
       if(profile.update_attribute(:zipcode, new_zipcode))
         Rails.logger.debug  "In AccountSettingsController, change_zipcode, saved user with new zipcode = #{user.inspect}"
+        user.zipcode = profile.zipcode
         render json: user.to_json, status: 200
       else
         render  json: {status: "error", message:  profile.errors[:zipcode].to_json}
@@ -107,7 +116,6 @@ class AccountSettingsController < ApplicationController
     profile = user.profile
     new_dob = Date.new(params['dob(1i)'].to_i,params['dob(2i)'].to_i,params['dob(3i)'].to_i)
     profile.dob = new_dob
-    profile.save!
     # The DOB has a validation for a minimum age of 18,  and if that fails
     if profile.invalid? && profile.errors[:dob].any?
       Rails.logger.debug " #{profile.invalid?} #{profile.errors[:dob]}"
@@ -123,4 +131,8 @@ class AccountSettingsController < ApplicationController
       end
     end
   end
+
+ def change_phone
+ end
+
 end
