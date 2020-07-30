@@ -30,11 +30,32 @@ class Users::SessionsController < Devise::SessionsController
     session[:user_id] = resource.id
     Rails.logger.debug "Session Controller, create user = #{resource.inspect}"
     # TODO move URL to config file. Also change logic of line below.
+    #respond_with resource, :location => after_sign_in_path_for(resource) do |format|
+    #  format.json {render :json => resource } # this code will get executed for json request
+    #end
+
+    Rails.logger.debug("request = #{request.format.inspect}")
+    if request.format.json? #&& request.referrer.starts_with?("http://localhost:3000/login")
+      redirect_to welcome_appjson_path(:format => :json)
+    else
+      unless current_user.blank?
+        respond_with resource, location: welcome_index_path
+      else
+        Rails.logger.debug "New session"
+        redirect_to new_user_session_path
+      end
+    end
+=begin   
     if request.referrer.starts_with?("http://localhost:3000/login")
       redirect_to welcome_appjson_path(:format => :json)
     else
-      respond_with resource, location: welcome_index_path
+      unless current_user.blank?
+        respond_with resource, location: welcome_index_path
+      else
+        Rails.logger.debug "SHOULD GO TO NEW USER SESSION"
+      end
     end
+=end
   end
 
   # DELETE /resource/sign_out
