@@ -1,5 +1,4 @@
 class WelcomeController < ApplicationController
-  before_action :authenticate_user! , :except => [:index]
 
   def index
     if current_user.blank?
@@ -25,4 +24,5 @@ class WelcomeController < ApplicationController
   def appjson
     Rails.logger.debug("In Welcome controller, appjson action. Current user = #{current_user.inspect}")
   end
+
 end
