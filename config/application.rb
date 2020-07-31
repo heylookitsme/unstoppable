@@ -21,7 +21,11 @@ module Unstoppable
 
     Rails.application.config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins  'http://localhost:3000', 'http://shardax-unstoppable-ui.netlify.app'
+        origins  'http://localhost:3000'
+        resource '*', headers: :any, methods: [:get, :post, :delete, :patch, :options], credentials: true
+      end
+      allow do
+        origins  'http://shardax-unstoppable-ui.netlify.app'
         resource '*', headers: :any, methods: [:get, :post, :delete, :patch, :options], credentials: true
       end
     end
