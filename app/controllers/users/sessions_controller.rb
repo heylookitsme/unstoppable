@@ -27,6 +27,7 @@ class Users::SessionsController < Devise::SessionsController
     sign_in(resource_name, resource)
     yield resource if block_given?
     User.current = resource
+    current_user = resource
     session[:user_id] = resource.id
     Rails.logger.debug "Session Controller, create user = #{resource.inspect}"
     # TODO move URL to config file. Also change logic of line below.
@@ -36,6 +37,7 @@ class Users::SessionsController < Devise::SessionsController
 
     Rails.logger.debug("request = #{request.format.inspect}")
     if request.format.json? #&& request.referrer.starts_with?("http://localhost:3000/login")
+      Rails.logger.debug "Session Controller,redirecting to welcome_appjson_path current_user = #{current_user.inspect}"
       redirect_to welcome_appjson_path(:format => :json)
     else
       unless current_user.blank?
