@@ -25,7 +25,7 @@ module Unstoppable
         resource '*', headers: :any, methods: [:get, :post, :delete, :patch, :options], credentials: true
       end
       allow do
-        origins  'http://shardax-unstoppable-ui.netlify.app'
+        origins  'https://shardax-unstoppable-ui.netlify.app'
         resource '*', headers: :any, methods: [:get, :post, :delete, :patch, :options], credentials: true
       end
     end
