@@ -40,7 +40,7 @@ class Users::SessionsController < Devise::SessionsController
     if request.format.json? #request.referrer.starts_with?("http://localhost:3000/login")
       Rails.logger.debug "Session Controller,redirecting to welcome_appjson_path current_user = #{current_user.inspect}"
       #redirect_to welcome_appjson_path(:format => :json)
-      render "users/appjson"
+      render "users/appjson", :id => current_user.id
       #respond_with resource, location: welcome_appjson_path(:format => :json)
     else
       unless current_user.blank?
