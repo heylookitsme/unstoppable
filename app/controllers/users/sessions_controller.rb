@@ -19,8 +19,9 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    Rails.logger.debug "Session Controller, create SIGN IN"
-    Rails.logger.debug "Session Controller, create request = #{request.referrer.inspect}"
+
+    Rails.logger.info "Session Controller, create SIGN IN"
+    Rails.logger.info "Session Controller, create request = #{request.referrer.inspect}"
    
     self.resource = warden.authenticate!(auth_options)
     #set_flash_message(:notice, :signed_in) if is_flashing_format?
@@ -38,7 +39,8 @@ class Users::SessionsController < Devise::SessionsController
     Rails.logger.debug("request = #{request.format.inspect}")
     if request.format.json? #request.referrer.starts_with?("http://localhost:3000/login")
       Rails.logger.debug "Session Controller,redirecting to welcome_appjson_path current_user = #{current_user.inspect}"
-      redirect_to welcome_appjson_path(:format => :json, :user => current_user)
+      #redirect_to welcome_appjson_path(:format => :json)
+      redirect_to appjson_user_path(:format => :json, :id => current_user.id)
       #respond_with resource, location: welcome_appjson_path(:format => :json)
     else
       unless current_user.blank?

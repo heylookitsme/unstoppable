@@ -21,6 +21,25 @@ class UsersController < ApplicationController
     Rails.logger.info("in edit user= #{@user.inspect}")
   end
 
+
+  def update
+    Rails.logger.debug "User Controller: Update #{params.inspect}"
+=begin
+    if @profile.update(profile_params)
+      flash[:notices] = ["Your profile was successfully updated"]
+      @view_profile = @profile
+      respond_to do |format|
+        #format.js { render partial: 'search-results'}
+        format.html {redirect_to profile_path}
+        format.json { render :json => @profile }
+      end
+    else
+      flash[:notices] = ["Your profile could not be updated"]
+      render 'edit'
+    end
+=end
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     #params.require(:user).permit(:username, :email, :admin, email_confirmed, confirm_token, reset_password_token, :password, :password_confirmation, :current_password)
@@ -115,24 +134,33 @@ class UsersController < ApplicationController
     
   end
 
+  # This method is currently being used by the Rails app. TODO: Needs to be removed as Accountsettings controller has been created.
   def save_account_settings
     @user = current_user
     @user.referred_by = @user.profile.referred_by
     @user.dob = @user.profile.dob
     @user.zipcode = @user.profile.zipcode
     profile = Profile.find(@user.profile.id)
-    profile.reason_for_match = "Jj"
-    Rails.logger.info "PROFILE = #{profile.inspect}"
     profile.zipcode = user_params[:zipcode]
     profile.save!
     Rails.logger.info "In save_account_settings params =#{user_params.inspect}"
     if @user.save
       Rails.logger.info "#user =#{@user.inspect}"
       flash[:notices] = ["Your Account settings were successfully updated"]
-      redirect_to user_path(@user)
+      respond_to do |format|
+        #format.js { render partial: 'search-results'}
+        format.html { redirect_to user_path(@user)}
+        format.json { render :json => @user }
+      end
     else
       flash[:notices] = ["Your account settings could not be updated"]
       render "edit_account_settings"
     end
-  end  
+  end
+
+  # Return JSON built by appjson.json.jbuilder to the Reactjs app
+  def appjson
+    Rails.logger.debug("In User controller, appjson action. Current userr = #{current_user.inspect}")
+  end
+
 end

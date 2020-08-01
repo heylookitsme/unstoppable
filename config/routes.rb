@@ -62,6 +62,7 @@ Rails.application.routes.draw do
       post :resend_confirmation
       get :edit_account_settings
       patch :save_account_settings
+      get :appjson
     end
   end
 
@@ -97,8 +98,6 @@ Rails.application.routes.draw do
   post 'account_settings/valid_email'
   post 'account_settings/valid_phone'
   patch 'account_settings/update_password'
-
-
   
   get 'welcome/appjson'
 
