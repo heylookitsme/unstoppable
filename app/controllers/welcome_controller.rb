@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
-  before_action :authenticate_user! , :except => [:index]
-
+  #before_action :authenticate_user! , :except => [:index]
+ 
   def index
     if current_user.blank?
       redirect_to new_user_session_path
@@ -24,7 +24,9 @@ class WelcomeController < ApplicationController
 
   def appjson
     Rails.logger.debug("In Welcome controller, appjson action. Current userr = #{current_user.inspect}")
-   
+    cuser = User.find(params[:user])
+    Rails.logger.debug("In Welcome controller, appjson action. Current userr = #{cuser.inspect}")
+    current_user = cuser
   end
 
   
