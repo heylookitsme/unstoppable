@@ -1,9 +1,9 @@
 class AttachmentController < ApplicationController
-  before_action :set_user
+  before_action :set_user, :except => [:photosavejson]
   skip_before_action :verify_authenticity_token
-  before_action :authenticate_user! 
+  #before_action :authenticate_user! 
 
-  #layout "sidebar_non_admin"
+  respond_to  :json, :html
   
 
   def photo
@@ -33,6 +33,22 @@ class AttachmentController < ApplicationController
           #format.js
         #end
       end
+    end
+  end
+
+  def photosavejson
+    Rails.logger.debug("attachment controller photosave params = #{params.inspect}")
+    @user  = User.find(params[:id])
+    @profile = @user.profile
+    unless params[:file].blank? 
+      @profile.avatar.attach(params[:file])
+      photo = url_for(@profile.avatar)
+      #if @profile.update(avatar: photo)
+        render :json => {"photo" => photo, "status" => 200, "message" => "Attachment Successful"}
+      #else
+       # render :json => {"status" => "error", "code" => 400, "message" => profile.errors[:avatar].to_s}
+      #end
+      
     end
   end
 
