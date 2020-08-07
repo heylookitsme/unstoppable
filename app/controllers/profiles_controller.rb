@@ -160,6 +160,7 @@ class ProfilesController < ApplicationController
       :dob, :zipcode,
       {:activity_ids => []},
       :other_favorite_activities,
+      :virtual_partner,
       :fitness_level, :cancer_location, 
       :prefered_exercise_location, :prefered_exercise_time, 
       :reason_for_match, :treatment_status, :treatment_description, :personality, 
