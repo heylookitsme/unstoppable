@@ -7,13 +7,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
+  skip_before_action :verify_authenticity_token
   #layout "sidebar"
   #layout false
   
-  prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect.
+  # TODO - currently commenting this out as it giving issues with Reactjs front end. TODO will uncomment late
+  #prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect.
 
   def sign_up_params
-    params.require(:user).permit(:email, :username, :password, :password_confirmation, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :remember_me, :referred_by, :terms_of_service)
+    params.require(:user).permit(:email, :username, :password, :password_confirmation, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :remember_me, :referred_by, :terms_of_service, :phone_number)
  end
  protected
 
@@ -21,11 +23,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   Rails.logger.debug "In after_sign_up_path_for resource#{resource.inspect}"
   #UserMailer.with(user: resource).welcome_email.deliver_later
   #UserMailer.registration_confirmation(resource).deliver
-  flash[:success] = "Please confirm your email address to continue"
+  #flash[:success] = "Please confirm your email address to continue"
   #redirect_to root_url
   # Removing email confirmation from second step and move to the end step
   # email_confirmation_user_path(resource, :user_id => resource.id)
-  profile_build_path(:about_me, :profile_id => resource.profile.id)
+  Rails.logger.debug "In after_sign_up_path_for request = #{request.referrer.inspect} request format = #{request.format.json?.inspect}"
+  if request.format.json?
+    # Return success to React server
+    #return  welcome_returnsignin_path
+    return welcome_appjson_path(:format => :json)
+  else
+    # On the Rails server, this takes you to the "About Me" page
+    profile_build_path(:about_me, :profile_id => resource.profile.id)
+  end
   #destroy_user_session_path
  end
 
