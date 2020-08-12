@@ -7,16 +7,56 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
+  after_action :test, only: [:create]
   skip_before_action :verify_authenticity_token
   #layout "sidebar"
   #layout false
   
   # TODO - currently commenting this out as it giving issues with Reactjs front end. TODO will uncomment late
   #prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect.
+  respond_to :json, :html
 
   def sign_up_params
     params.require(:user).permit(:email, :username, :password, :password_confirmation, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :remember_me, :referred_by, :terms_of_service, :phone_number)
  end
+
+ def create
+  Rails.logger.debug "In  Registration controller, create"
+  build_resource(sign_up_params)
+  resource.save
+  yield resource if block_given?
+  if resource.persisted?
+    if resource.active_for_authentication?
+      Rails.logger.debug "In  Registration controller,active_for_authentication, resource= #{resource.inspect}"
+      #set_flash_message! :notice, :signed_up
+      sign_up(resource_name, resource)
+      #respond_with resource, location: after_sign_up_path_for(resource)
+    else
+      #set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+      Rails.logger.debug "In  Registration controller, NOT ACTIVE resource= #{resource.inspect}"
+      expire_data_after_sign_in!
+      respond_with resource, location: after_inactive_sign_up_path_for(resource)
+    end
+  else
+    clean_up_passwords resource
+    set_minimum_password_length
+    respond_with resource
+  end
+  Rails.logger.debug "In  Registration controller, create request = #{request.referrer.inspect} request format = #{request.format.json?.inspect}"
+
+  if request.format.json?
+   # Return success to React server
+   #return  welcome_returnsignin_path
+   Rails.logger.debug "In  Registration controller,current_user = #{current_user.inspect}"
+   Rails.logger.debug "In  Registration controller,current_user = #{resource.inspect}"
+   render "users/appjson_newuser", :id => resource.id
+   #render appjson_newuser_user_path(:id => resource.id) and return
+ else
+   # On the Rails server, this takes you to the "About Me" page
+   profile_build_path(:about_me, :profile_id => resource.profile.id)
+ end
+end
+
  protected
 
  def after_sign_up_path_for(resource)
@@ -31,7 +71,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   if request.format.json?
     # Return success to React server
     #return  welcome_returnsignin_path
-    return welcome_appjson_path(:format => :json)
+    redirect_to appjson_newuser_user_path(:id => resource.id) and return
   else
     # On the Rails server, this takes you to the "About Me" page
     profile_build_path(:about_me, :profile_id => resource.profile.id)
@@ -42,13 +82,30 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # GET /resource/sign_up
   # def new
   #   super
-  # end
+  # 
+  
+  
 
   # POST /resource
-  # def create
-  #   super
-  # end
-  
+=begin
+   def create
+     super
+     Rails.logger.debug "In  Registration controller, create request = #{request.referrer.inspect} request format = #{request.format.json?.inspect}"
+     if request.format.json?
+      # Return success to React server
+      #return  welcome_returnsignin_path
+      Rails.logger.debug "In  Registration controller, create request = #{request.referrer.inspect} request format = #{request.format.json?.inspect}"
+      render appjson_newuser_user_path(:id => resource.id) and return
+    else
+      # On the Rails server, this takes you to the "About Me" page
+      profile_build_path(:about_me, :profile_id => resource.profile.id)
+    end
+   end
+=end
+def test
+  Rails.logger.debug "In  Registration controller, test"
+end
+
   private
     def check_captcha
       if !verify_recaptcha

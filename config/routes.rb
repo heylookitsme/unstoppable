@@ -44,6 +44,7 @@ Rails.application.routes.draw do
       get :edit_account_settings
       patch :save_account_settings
       get :appjson
+      get :appjson_newuser
     end
   end
 

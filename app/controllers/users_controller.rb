@@ -162,5 +162,10 @@ class UsersController < ApplicationController
   def appjson
     Rails.logger.debug("In User controller, appjson action. Current userr = #{current_user.inspect}")
   end
-
+  
+  def appjson_newuser
+    Rails.logger.debug("In User controller, appjson_newuser action. params = #{params.inspect}")
+    @user = User.find_by_id(params[:id])
+    Rails.logger.debug("In User controller, appjson_newuser action. @user = #{@user.inspect}")
+  end
 end
