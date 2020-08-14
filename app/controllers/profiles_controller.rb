@@ -15,12 +15,14 @@ class ProfilesController < ApplicationController
       return
     end
     unless params[:favorites] == "true"
-      @profiles = current_user.profile.browse_profiles_list.page(params[:page])
+      @profiles = current_user.profile.browse_profiles_list #.page(params[:page])
     else
       @profiles = helpers.get_current_user_favorite_profiles
     end
     @all_profiles_total = @profiles.size unless @profiles.blank?
     @profiles_total = @all_profiles_total
+
+    Rails.logger.debug("profiles users = #{@profiles.collect{|x| x.user.username}.inspect}")
    
     unless !params.has_key?(:search)  #|| (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
       unless params[:search].blank?
