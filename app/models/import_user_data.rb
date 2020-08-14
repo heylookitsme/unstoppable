@@ -72,14 +72,20 @@ class ImportUserData
 
         user = User.new
         user.email = user_email
-        user.username = user_hash["username"]
+        #user.username = user_hash["username"]
+        if  user_hash["username"].include?("@")
+          user.username = user_hash["username"].split('@')[0]
+        else
+          user.username = user_hash["username"]
+        end
+        
         
         profile_hash.each do |profile|
           #puts "In LOOP"
           #puts "#{profile["user"].inspect}"
           #puts "#{user_hash["pk"].inspect}"
           if profile["user"].to_i == user_hash["pk"].to_i
-=begin
+
             puts "MATCH!!!"
             puts profile
             puts "USER"
@@ -87,7 +93,7 @@ class ImportUserData
             puts "PROFILE"
             puts profile_hash["user"]
             puts profile_hash["user"].class
-=end
+
             
             #puts "user = #{user.inspect}"
             p = Profile.new
@@ -95,6 +101,7 @@ class ImportUserData
             p.dob = profile["date_of_birth"]
             if profile["email_confirmed"] == "TRUE"
               user.email_confirmed = true
+              p.step_status = "Confirmed Email" 
             else
               user.email_confirmed = false
             end  
@@ -105,8 +112,11 @@ class ImportUserData
             end  
             p.latitude = profile["latitute"]
             p.longitude = profile["longitude"]
-            p.cancer_location = cancer_locations[profile["cancer_location"].to_i]
-            p.other_cancer_location = profile["cancer_type"]
+            puts "cancerlocation = #{profile["cancer_location"].inspect}"
+            puts "cancer typle = #{profile["cancer_type"].inspect}"
+            #p.cancer_location = cancer_locations[profile["cancer_location"].to_i]
+            p.cancer_location = profile["cancer_type"]
+            p.other_cancer_location = profile["cancer_location"]
             p.details_about_self = profile["self_description"]
             p.treatment_status = treatment_status_description[profile["treatment_status"].to_i]
             p.prefered_exercise_time = prefered_exercise_time[profile["time_of_exercise"].to_i]
@@ -138,13 +148,26 @@ class ImportUserData
                 p.exercise_reasons << exercise_reason
               end 
             end
+            p.referred_by= "Web search"
+            p.reason_for_match = "xyz"
+            p.step_status = "Confirmed Email" 
+            if p.cancer_location.blank?
+              p.cancer_location = "Breast"
+            end
             #p.exercise_reasons = profile["goals"].tr('[]', '').split(',').map(&:to_i)
             #p.save!
-            p.user_id = user.id
-            user.profile = p
+            puts "profile before save = #{p.inspect}"         
             user.zipcode = profile["postal_code"]
             user.dob = profile["date_of_birth"]
-            user.password = "password"
+            user.password = "Test1234"
+            user.referred_by = p.referred_by
+            user.save!
+            p.user_id = user.id
+            user.profile = p
+            user.save!
+            
+            puts "profile after save = #{user.profile.inspect}"
+=begin
             begin
               if user.save!
                 puts "User with email #{user.email.inspect}"
@@ -152,9 +175,11 @@ class ImportUserData
                 puts "Error : #{user.errors}"
                 raise
               end
+              user.profile.save!
             rescue => ex
               puts ex.message
             end
+=end
           end
         end
         #user.profile.dob = user_hash["dob"]
