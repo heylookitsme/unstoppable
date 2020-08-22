@@ -54,6 +54,9 @@ Rails.application.routes.draw do
       delete 'destroy_multiple'
       delete 'trash_multiple'
     end
+    member do
+      get :conversationjson
+    end
   end
 
   resources :profiles do
