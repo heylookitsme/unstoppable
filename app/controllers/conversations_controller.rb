@@ -26,8 +26,6 @@ class ConversationsController < ApplicationController
         @conversation = current_user.mailbox.conversations.find(params[:id])
         @receipts = @conversation.receipts_for current_user
         @receipts.mark_as_read
-        #@receipts = mailbox.receipts_for(conversation).not_trash
-        #@receipts.mark_as_read
 
         @recipient_users = []
         # @recipients is the list of ids
@@ -113,6 +111,15 @@ class ConversationsController < ApplicationController
         respond_to do |format|
           format.html { redirect_to conversations_path }
           #format.json { head :no_content }
+        end
+    end
+
+    def conversationjson
+        Rails.logger.debug("In Conversation controller, conversationjson action. params = #{params.inspect}")
+        @conversation = current_user.mailbox.conversations.find(params[:id])
+        @participant = User.find(params[:user_id])
+        respond_to do |format|
+            format.json
         end
     end
 
