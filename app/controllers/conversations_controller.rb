@@ -2,6 +2,7 @@ class ConversationsController < ApplicationController
     skip_before_action :verify_authenticity_token
     #protect_from_forgery with: :null_session
     before_action :authenticate_user!
+    respond_to :json, :html
 
     def index
         Rails.logger.debug("params = #{params.inspect}")
@@ -36,6 +37,7 @@ class ConversationsController < ApplicationController
             @recipient_users << User.find(@recipients.to_i)
             Rails.logger.debug("In show  @recipient_users = #{@recipient_users.inspect}")
         end
+
         @from_tab = ""
         unless params["from_tab"].blank?
             @from_tab = params["from_tab"]
