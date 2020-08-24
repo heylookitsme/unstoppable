@@ -53,6 +53,7 @@ Rails.application.routes.draw do
     collection do
       delete 'destroy_multiple'
       delete 'trash_multiple'
+      get :conversationsjson
     end
     member do
       get :conversationjson

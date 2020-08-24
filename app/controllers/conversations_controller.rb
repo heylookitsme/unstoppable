@@ -123,6 +123,28 @@ class ConversationsController < ApplicationController
         end
     end
 
+    def conversationsjson
+        Rails.logger.debug("In Conversation controller, conversationjson action. params = #{params.inspect}")
+        if params[:user_id].blank?
+            render :json => { :errors => {error: "You need to specify user id"} }
+        end
+        @participant = User.find(params[:user_id])
+        conversations = current_user.mailbox.inbox #
+        Rails.logger.debug("Conversations Inbox = #{@conversations.inspect}")
+        @conversations = []
+        conversations.each do |c|
+            c.participants.each do |p|
+                if p.id == @participant.id
+                    @conversations << c
+                    break
+                end
+            end
+        end
+        respond_to do |format|
+            format.json
+        end
+    end
+
     private
 
     def multiple_conversation_delete(params)
