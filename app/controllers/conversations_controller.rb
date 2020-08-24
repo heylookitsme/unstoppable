@@ -1,7 +1,7 @@
 class ConversationsController < ApplicationController
     skip_before_action :verify_authenticity_token
     #protect_from_forgery with: :null_session
-    before_action :authenticate_user!
+    before_action :authenticate_user! , :except => [:conversationsjson]
     respond_to :json, :html
 
     def index
@@ -116,6 +116,7 @@ class ConversationsController < ApplicationController
 
     def conversationjson
         Rails.logger.debug("In Conversation controller, conversationjson action. params = #{params.inspect}")
+
         @conversation = current_user.mailbox.conversations.find(params[:id])
         @participant = User.find(params[:user_id])
         respond_to do |format|
@@ -128,8 +129,11 @@ class ConversationsController < ApplicationController
         if params[:user_id].blank?
             render :json => { :errors => {error: "You need to specify user id"} }
         end
+        @user = User.find(params[:user][:id])
+        Rails.logger.debug("In Conversation controller, conversationjson action. @user = #{@user.inspect}")
         @participant = User.find(params[:user_id])
-        conversations = current_user.mailbox.inbox #
+        Rails.logger.debug("In Conversation controller, conversationjson action. @participant = #{@participant.inspect}")
+        conversations = @user.mailbox.inbox #
         Rails.logger.debug("Conversations Inbox = #{@conversations.inspect}")
         @conversations = []
         conversations.each do |c|
