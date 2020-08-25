@@ -2,7 +2,7 @@
 json.conversations @conversations do |conversation|
   	json.extract! conversation, :id #, :subject, :created_at, :updated_at
 
-	receipts = conversation.receipts_for @user
+	receipts = conversation.receipts_for current_user
 	senders = []
 	receivers = []
 	messages_array = []
@@ -13,10 +13,10 @@ json.conversations @conversations do |conversation|
 
 	receipts.each do |receipt|
 		message = receipt.message
-		if receipt.message.sender_id == @user.id
-			messages_array << {to: @participant.username, from: @user.username, content: message.body}
+		if receipt.message.sender_id == current_user.id
+			messages_array << {to: @participant.username, from: current_user.username, content: message.body}
 		else
-			messages_array << {to: @user.username, from: @participant.username, content: message.body}
+			messages_array << {to: current_user.username, from: @participant.username, content: message.body}
 		end
 	end
 	messages = {messages: messages_array}
