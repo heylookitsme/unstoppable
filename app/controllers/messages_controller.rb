@@ -12,7 +12,11 @@ class MessagesController < ApplicationController
             @recipients = params["recipients"]
         end
         Rails.logger.debug "In Message Controller params = #{@recipeints.inspect}"
-        redirect_to conversation_path(receipt.conversation, recipients: params["recipients"])
+        #redirect_to conversation_path(receipt.conversation, recipients: params["recipients"])
+        respond_to do |format|
+            format.html { redirect_to conversation_path(receipt.conversation, recipients: params["recipients"]) }
+            format.json { head :ok }
+        end
         #redirect_to conversation_path(receipt.conversation)
     end
 
