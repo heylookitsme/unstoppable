@@ -49,7 +49,9 @@ Rails.application.routes.draw do
   end
 
   resources :conversations do
-    resource :messages
+    resource :messages do
+      post :createwithjson
+    end
     collection do
       delete 'destroy_multiple'
       delete 'trash_multiple'
