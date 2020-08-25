@@ -63,7 +63,12 @@ class ConversationsController < ApplicationController
         ## An email is sent to the recipient
         #UserMailer.inform_message_recipient(current_user, recipient).deliver
         ##  An email is sent to the recipient
-        redirect_to conversation_path(receipt.conversation)
+        #redirect_to conversation_path(receipt.conversation)
+
+        respond_to do |format|
+            format.html { redirect_to conversation_path(receipt.conversation) }
+            format.json { head :ok }
+        end
     end
 
     def sentbox
