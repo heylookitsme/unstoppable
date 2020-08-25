@@ -34,6 +34,9 @@ json.conversations @conversations do |conversation|
 	name = {name: participant.name}
 	json.merge!  name
 
+	participant_id = {participant_id: participant.id}
+	json.merge!  participant_id
+
 	if participant.profile.avatar.attached?
 		#avatar = {image: rails_blob_path(participant.profile.avatar)}
 		avatar = {image: ""}
