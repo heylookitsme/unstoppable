@@ -67,7 +67,7 @@ class ConversationsController < ApplicationController
 
         respond_to do |format|
             format.html { redirect_to conversation_path(receipt.conversation) }
-            format.json { redirect_to conversationjson_path(receipt.conversation)}
+            format.json { redirect_to conversationjson_conversation_path(receipt.conversation, user_id: params[:user_id])}
         end
     end
 
@@ -155,13 +155,16 @@ class ConversationsController < ApplicationController
     end
 
     def allconversationsjson
-        Rails.logger.debug("In Conversation controller, conversationjson action. current_user = #{current_user.inspect}")
-        Rails.logger.debug("In Conversation controller, conversationjson action. @participant = #{@participant.inspect}")
+        Rails.logger.debug("In Conversation controller, allconversationsjson action. current_user = #{current_user.inspect}")
         @conversations = current_user.mailbox.inbox #
         Rails.logger.debug("Conversations Inbox = #{@conversations.inspect}")
         if @conversations.blank?
             @conversations = current_user.mailbox.sentbox
         end
+        #@conversations.each do |c|
+        #    Rails.logger.debug("In Conversation controller, allconversationsjson action. conversation loop participants = #{c.participants.inspect}")
+        #end
+        Rails.logger.debug("In Conversation controller, allconversationsjson action. @participant = #{@participant.inspect}")
         respond_to do |format|
             format.json
         end
