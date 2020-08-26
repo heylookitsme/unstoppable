@@ -67,7 +67,7 @@ class ConversationsController < ApplicationController
 
         respond_to do |format|
             format.html { redirect_to conversation_path(receipt.conversation) }
-            format.json { head :ok }
+            format.json { redirect_to conversationjson_path(receipt.conversation)}
         end
     end
 
@@ -159,6 +159,9 @@ class ConversationsController < ApplicationController
         Rails.logger.debug("In Conversation controller, conversationjson action. @participant = #{@participant.inspect}")
         @conversations = current_user.mailbox.inbox #
         Rails.logger.debug("Conversations Inbox = #{@conversations.inspect}")
+        if @conversations.blank?
+            @conversations = current_user.mailbox.sentbox
+        end
         respond_to do |format|
             format.json
         end
