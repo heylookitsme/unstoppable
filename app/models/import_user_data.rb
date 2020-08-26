@@ -14,38 +14,44 @@ class ImportUserData
     cancer_locations = 
     ["Bladder","Brain","Breast","Bone","Cervical","Colorectal","Esophageal","Gall bladder","Gastric","Head and neck","Kidney","Lymphoma","Leukemia","Liver","Lung","Melanoma","Multiple myeloma","Ovarian","Pancreatic","Sarcoma","Thyroid","Other"]
     treatment_status_description = 
-    ['Newly diagnosed', 
+    ['',
+    'Newly diagnosed', 
     'In treatment (ex: in the process of having surgery, chemo, radiation)',
     'Finished primary treatments-maybe on maintenance therapy (ex: hormone therapy)',
     '1-5 years post treatment',
     '5 years post treatment',
     'Living with metastatic disease']
     prefered_exercise_time = 
-    ['Morning',
+    ['',
+    'Morning',
     'Mid-day',
     'Afternoon',
     'Evening']
     prefered_exercise_location = 
-    ['Home', 
+    ['',
+    'Home', 
     'Gym',
     'Outdoors',
     'No preference',
     'Other - Describe in About You question below']
     fitness_level_descriptions =
-      ['never been active',
+      ['',
+      'never been active',
       'used to be active but currently not active',
       'quite active',
       'a little active',
       'very active']
     personality = 
-    ['Calm', 'Extroverted', 'Open to new Experiences', 'Reserved, quiet']
+    ['','Extroverted', 'Calm', 'Open to new Experiences', 'Reserved, quiet']
     work_status_descriptions = 
-      ['Currently working full time',
+      ['',
+      'Currently working full time',
       'Currently working part time',
       'Currently not working'
       ]
       referred_by =
-      [ 'Facebook/social media',
+      [ '',
+        'Facebook/social media',
         'News media',
         'Word of mouth',
         'Web search',
@@ -124,6 +130,7 @@ class ImportUserData
             p.prefered_exercise_location = prefered_exercise_location[profile["location_of_exercise"].to_i]
             p.fitness_level = fitness_level_descriptions[profile["fitness_level"].to_i]
             p.personality = personality[profile["personality"].to_i]
+            p.reason_for_match = profile["reason_for_wanting_partner"]
             if profile["support_group"] == "TRUE"
               p.part_of_wellness_program = true
             else
@@ -149,7 +156,6 @@ class ImportUserData
               end 
             end
             p.referred_by= "Web search"
-            p.reason_for_match = "xyz"
             p.step_status = "Confirmed Email" 
             if p.cancer_location.blank?
               p.cancer_location = "Breast"
