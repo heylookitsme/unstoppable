@@ -34,9 +34,7 @@ class MessagesController < ApplicationController
             @recipients = params["recipients"]
         end
         Rails.logger.debug "In Message Controller paramss = #{@recipients.inspect}"
-        #redirect_to conversation_path(receipt.conversation, recipients: params["recipients"])
-        render json:  {status: 200, message: "Good"}
-        #redirect_to conversation_path(receipt.conversation)
+        redirect_to conversationjson_conversation_path(@conversation, user_id: params["recipients"], format: :json)
     end
 
     private
