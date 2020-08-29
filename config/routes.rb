@@ -74,6 +74,7 @@ Rails.application.routes.draw do
       get :thank_you
       post 'save_like'
       post 'save_unlike'
+      patch :update_steps_json
     end
     resources :build, controller: 'profiles/build'
   end

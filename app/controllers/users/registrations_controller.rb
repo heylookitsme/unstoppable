@@ -49,7 +49,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
    #return  welcome_returnsignin_path
    Rails.logger.debug "In  Registration controller,current_user = #{current_user.inspect}"
    Rails.logger.debug "In  Registration controller,current_user = #{resource.inspect}"
-   render "users/appjson_newuser", :id => resource.id
+   unless resource.id.blank?
+     redirect_to appjson_newuser_user_path(resource, id: resource.id, format: :json)
+   else
+    Rails.logger.debug "In  Registration controller,errors saveing resource = #{resource.errors.inspect}"
+    render  json: {status: "error", code:4000, messages: resource.errors.collect{|x| x.messages}}
+   end
    #render appjson_newuser_user_path(:id => resource.id) and return
  else
    # On the Rails server, this takes you to the "About Me" page

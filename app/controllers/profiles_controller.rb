@@ -2,10 +2,10 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!
   #layout "sidebar_non_admin"
 
-  before_action :set_profile, except: [:show] #, except: [:index, :search]
+  before_action :set_profile, except: [:show, :update_steps_json] #, except: [:index, :search]
   
   #protect_from_forgery with: :null_session
-  respond_to :json, :html, :js
+  respond_to :json, :html
 
 
   def index
@@ -40,7 +40,6 @@ class ProfilesController < ApplicationController
       end
     end
     respond_to do |format|
-      #format.js { render partial: 'search-results'}
       format.html
       format.json
     end
@@ -106,6 +105,19 @@ class ProfilesController < ApplicationController
     end
    
   end
+
+  # JSON response for updating steps
+  def update_steps_json
+    Rails.logger.debug("Wizard update params = #{params.inspect}")
+    Rails.logger.debug("Wizard update params = #{params["profile"]["id"].inspect}")
+    @profile = Profile.find(params[:profile][:id])
+    @profile.update(profile_params)
+    @profile.save
+    respond_to do |format|
+      format.json { head :ok }
+    end
+  end
+
   
   #############################
    # This action is only used by the Rails server App. TODO: Remove
