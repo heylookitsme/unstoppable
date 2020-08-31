@@ -45,25 +45,13 @@ class AccountSettingsController < ApplicationController
     Rails.logger.debug "In AccountSettingsController, valid_email, params = #{params.inspect}"
     user = User.find(params[:id])
     Rails.logger.debug "In AccountSettingsController, valid_email for  user = #{user.inspect}"
-
-    if (user.email == params[:email])
-      render json:  {status: 200, message: "Good"}
-    end
-
-    user_with_email = User.find_by_username(params[:email])
+    render json:  {status: 200, message: "Good"} and return if (user.email == params[:email])
+    user_with_email = User.find_by_email(params[:email])
     Rails.logger.debug "In AccountSettingsController, valid_email, user = #{user_with_email.inspect}" 
-    unless user_with_email.blank?
-      Rails.logger.debug "User with email already Exists"
-      render :json => {status: 200, code:400, message: "Email already been taken"}
-    else
-      user.email = user_with_email
-      if user.invalid? && user.errors[:email].any?
-        Rails.logger.debug " #{user.invalid?} #{user.errors[:email]}"
-        render :json => {status: "error", code:400, message: user.errors[:email].to_s}
-      else
-         render json:  {status: 200, message: "Good"}
-      end
-    end
+    render :json => {status: 200, code:400, message: "Email already been taken"} and return  unless user_with_email.blank?
+    user.email = params[:email]
+    render :json => {status: "error", code:400, message: user.errors[:email].to_s} and return if user.invalid? && user.errors[:email].any?
+    render json:  {status: 200, message: "Good"} and return 
   end
 
   def valid_phone
