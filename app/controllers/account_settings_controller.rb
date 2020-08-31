@@ -31,18 +31,14 @@ class AccountSettingsController < ApplicationController
     user = User.find(params[:id])
     Rails.logger.debug "In AccountSettingsController, valid_username for user = #{user.inspect}"
 
-    if (user.username == params[:username])
-      render json:  {status: 200, message: "Good"}
-    end
+    render json:  {status: 200, message: "Good"} and return if (user.username == params[:username])
 
     user_with_username = User.find_by_username(params[:username])
     Rails.logger.debug "In AccountSettingsController, valid_username  existing user = #{user_with_username.inspect}" 
-    unless user_with_username.blank?
-      Rails.logger.debug "User Exists"
-      render :json => {status: 200, code:400, message: "Username already been taken"}
-    else
-      render json:  {status: 200, message: "Good"}
-    end
+    
+    render :json => {status: 200, code:400, message: "Username already been taken"} and return unless user_with_username.blank?
+
+    render json:  {status: 200, message: "Good"} and return if user_with_username.blank?
   end
 
   def valid_email
