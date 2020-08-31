@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   protect_from_forgery with: :null_session
-  before_action :authenticate_user!, :except => [:confirm_email, :terms]
+  before_action :authenticate_user!, :except => [:confirm_email, :terms, :appjson_newuser]
   #layout "sidebar"
   respond_to :json, :html
 
@@ -163,9 +163,4 @@ class UsersController < ApplicationController
     Rails.logger.debug("In User controller, appjson action. Current userr = #{current_user.inspect}")
   end
   
-  def appjson_newuser
-    Rails.logger.debug("In User controller, appjson_newuser action. params = #{params.inspect}")
-    @user = User.find_by_id(params[:id])
-    Rails.logger.debug("In User controller, appjson_newuser action. @user = #{@user.inspect}")
-  end
 end

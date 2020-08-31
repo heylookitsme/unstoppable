@@ -24,6 +24,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   Rails.logger.debug "In  Registration controller, create"
   build_resource(sign_up_params)
   resource.save
+  Rails.logger.debug "In  Registration controller,RESOURCE = #{resource.inspect}"
   yield resource if block_given?
   if resource.persisted?
     if resource.active_for_authentication?
@@ -44,22 +45,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
   Rails.logger.debug "In  Registration controller, create request = #{request.referrer.inspect} request format = #{request.format.json?.inspect}"
 
-  if request.format.json?
-   # Return success to React server
-   #return  welcome_returnsignin_path
-   Rails.logger.debug "In  Registration controller,current_user = #{current_user.inspect}"
-   Rails.logger.debug "In  Registration controller,current_user = #{resource.inspect}"
-   unless resource.id.blank?
-     redirect_to appjson_newuser_user_path(resource, id: resource.id, format: :json)
-   else
-    Rails.logger.debug "In  Registration controller,errors saveing resource = #{resource.errors.inspect}"
-    render  json: {status: "error", code:4000, messages: resource.errors.collect{|x| x.messages}}
-   end
-   #render appjson_newuser_user_path(:id => resource.id) and return
- else
-   # On the Rails server, this takes you to the "About Me" page
-   profile_build_path(:about_me, :profile_id => resource.profile.id)
- end
+  
+    # Return success to React server
+    #return  welcome_returnsignin_path
+    Rails.logger.debug "In  Registration controller,current_user = #{current_user.inspect}"
+    Rails.logger.debug "In  Registration controller,current_user = #{resource.inspect}"
+    #redirect_to appjson_newuser_user_path(resource, id: resource.id, format: :json) and return if request.format.json? && !resource.id.blank?
+    redirect_to welcome_appjson_newuser_path(:id => resource.id) and return if request.format.json? && !resource.id.blank?
+    errors_list = resource.errors.full_messages
+    Rails.logger.debug "errors = #{errors_list.inspect}"
+    #redirect_to welcome_appjson_newuser_path(:error_list => "abc") and return if request.format.json? && resource.id.blank?
+    #Rails.logger.debug "In  Registration controller,errors saveing resource = #{resource.errors.inspect}"
+    ##errors_list = resource.errors.full_messages
+    Rails.logger.debug "errors = #{resource.errors.full_messages.inspect}"
+    #render  json: {status: "error", code:4000, messages: errors_list.to_json} and return if request.format.json? && resource.id.blank?
+    
+    # On the Rails server, this takes you to the "About Me" page, wizard path
+    profile_build_path(:about_me, :profile_id => resource.profile.id) if !request.format.json?
 end
 
  protected

@@ -44,7 +44,6 @@ Rails.application.routes.draw do
       get :edit_account_settings
       patch :save_account_settings
       get :appjson
-      get :appjson_newuser
     end
   end
 
@@ -90,6 +89,12 @@ Rails.application.routes.draw do
   patch 'account_settings/update_password'
   
   get 'welcome/appjson'
+
+  get 'welcome/errorsignup'
+
+  get 'welcome/appjson_newuser'
+
+  #get 'welcome/appjson_newuser(:/errors)', to: 'welcome/appjson_newuser'
 
   get 'welcome/returnsignin'
 
