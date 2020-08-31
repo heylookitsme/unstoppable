@@ -7,7 +7,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
-  after_action :test, only: [:create]
+  before_action :test_validation, only: [:create]
   skip_before_action :verify_authenticity_token
   #layout "sidebar"
   #layout false
@@ -109,8 +109,18 @@ end
     end
    end
 =end
-def test
-  Rails.logger.debug "In  Registration controller, test"
+def test_validation
+  Rails.logger.debug "In  Registration controller, test, params = #{params.inspect}"
+  user = User.find_by_email(params[:user][:email])
+  if !user.blank?
+    Rails.logger.debug "In  Registration controller, test,user with email  #{params[:user][:email].inspect} already exists"
+  end
+  render  json: {status: "error", code:4000, messages: "Email has already been taken"} and return if !user.blank?
+  user = User.find_by_username(params[:user][:username])
+  if !user.blank?
+    Rails.logger.debug "In  Registration controller, test,user with username #{params[:user][:username].inspect} already exists"
+  end
+  render  json: {status: "error", code:4000, messages: "[Username has already been taken]"} and return if !user.blank?
 end
 
   private
