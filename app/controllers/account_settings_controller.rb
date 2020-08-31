@@ -21,23 +21,16 @@ class AccountSettingsController < ApplicationController
         render  json: {status: "error", code:4000, message: user.errors[:username].to_json}
       end
     end
-=begin
-    
-=end    
   end
 
   def valid_username
     Rails.logger.debug "In AccountSettingsController, valid_username, params = #{params.inspect}"
     user = User.find(params[:id])
     Rails.logger.debug "In AccountSettingsController, valid_username for user = #{user.inspect}"
-
     render json:  {status: 200, message: "Good"} and return if (user.username == params[:username])
-
     user_with_username = User.find_by_username(params[:username])
-    Rails.logger.debug "In AccountSettingsController, valid_username  existing user = #{user_with_username.inspect}" 
-    
+    Rails.logger.debug "In AccountSettingsController, valid_username  existing user = #{user_with_username.inspect}"   
     render :json => {status: 200, code:400, message: "Username already been taken"} and return unless user_with_username.blank?
-
     render json:  {status: 200, message: "Good"} and return if user_with_username.blank?
   end
 
@@ -58,25 +51,14 @@ class AccountSettingsController < ApplicationController
     Rails.logger.debug "In AccountSettingsController, valid_phone, params = #{params.inspect}"
     user = User.find(params[:id])
     Rails.logger.debug "In AccountSettingsController, valid_phone for user = #{user.inspect}"
-
-    if (user.phone.phone_number == params[:phone])
-      render json:  {status: 200, message: "Good"}
-    end
-
+    render json:  {status: 200, message: "Good"} and return if (user.phone.phone_number == params[:phone])
     user_with_phone = User.find_by_username(params[:phone])
-    Rails.logger.debug "In AccountSettingsController, valid_phone, exsting user = #{user_with_email.inspect}" 
-    unless user_with_phone.blank?
-      Rails.logger.debug "User with phone already Exists"
-      render :json => {status: 200, code:400, message: "Phone number already been taken"}
-    else
-      user.phone = user_with_phone
-      if user.invalid? && user.errors[:phone].any?
-        Rails.logger.debug " valid_phone: #{user.invalid?} #{user.errors[:phone]}"
-        render :json => {status: "error", code:400, message: user.errors[:phone].to_s}
-      else
-         render json:  {status: 200, message: "Good"}
-      end
-    end
+    Rails.logger.debug "In AccountSettingsController, valid_phone, existing user = #{user_with_email.inspect}" 
+    render :json => {status: 200, code:400, message: "Phone number already been taken"} and return if user_with_phone.blank?
+    user.phone = params[:phone]
+    Rails.logger.debug " valid_phone: #{user.invalid?} #{user.errors[:phone]}"
+    render :json => {status: "error", code:400, message: user.errors[:phone].to_s} and return if user.invalid? && user.errors[:phone].any?
+    render json:  {status: 200, message: "Good"} and return 
   end
 
   def change_email
