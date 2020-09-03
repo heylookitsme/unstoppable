@@ -12,7 +12,7 @@ class ImportUserData
     puts profile_hash
     user_profile_hash = Hash.new
     cancer_locations = 
-    ["Bladder","Brain","Breast","Bone","Cervical","Colorectal","Esophageal","Gall bladder","Gastric","Head and neck","Kidney","Lymphoma","Leukemia","Liver","Lung","Melanoma","Multiple myeloma","Ovarian","Pancreatic","Sarcoma","Thyroid","Other"]
+    ['', "Bladder","Brain","Breast","Bone","Cervical","Colorectal","Esophageal","Gall bladder","Gastric","Head and neck","Kidney","Lymphoma","Leukemia","Liver","Lung","Melanoma","Multiple myeloma","Ovarian","Pancreatic","Sarcoma","Thyroid","Other"]
     treatment_status_description = 
     ['',
     'Newly diagnosed', 
@@ -84,6 +84,12 @@ class ImportUserData
         else
           user.username = user_hash["username"]
         end
+
+        ## TEMP
+          #if user.username != "marchseven"
+          #  next
+          #end
+        ##TEMP
         
         
         profile_hash.each do |profile|
@@ -120,9 +126,48 @@ class ImportUserData
             p.longitude = profile["longitude"]
             puts "cancerlocation = #{profile["cancer_location"].inspect}"
             puts "cancer typle = #{profile["cancer_type"].inspect}"
-            #p.cancer_location = cancer_locations[profile["cancer_location"].to_i]
-            p.cancer_location = profile["cancer_type"]
-            p.other_cancer_location = profile["cancer_location"]
+            p.cancer_location = cancer_locations[profile["cancer_location"].to_i]
+            #p.other_cancer_location = profile["cancer_location"]
+            cancer_type = profile["cancer_type"]
+            if  cancer_type.blank? || cancer_type == "NULL" ||  cancer_type == nil
+              cancer_type = ""
+            else
+              p.other_cancer_location = cancer_type
+            end
+            other_cancer_desc = ""
+            if profile["other_cancer"] == "TRUE"
+              other_cancer_desc = profile["other_cancer_desc"]
+            end
+            if  other_cancer_desc.blank? || other_cancer_desc == "NULL" ||  other_cancer_desc == nil
+              other_cancer_desc = ""
+            else
+              p.other_cancer_location = p.other_cancer_location + ", " + other_cancer_desc 
+            end
+
+=begin
+            if p.other_cancer_location == "NULL" || p.other_cancer_location == nil
+              p.other_cancer_location = ""
+            end
+            cancer_location_found = false
+            cancer_locations.each do |c|
+              unless p.cancer_location.blank?
+                if  cancer_locations[p.cancer_location.to_i].casecmp(c) == 0
+                  p.cancer_location = c
+                  cancer_location_found = true
+                  break
+                end
+              end
+            end
+            if !cancer_location_found
+              if p.other_cancer_location.blank?
+                p.other_cancer_location = p.cancer_location
+                p.cancer_location = ""
+              else
+                p.other_cancer_location =  p.cancer_location + ',' + p.other_cancer_location
+              end
+            end
+=end
+            #p.other_cancer_location = profile["cancer_location"]
             p.details_about_self = profile["self_description"]
             p.treatment_status = treatment_status_description[profile["treatment_status"].to_i]
             p.prefered_exercise_time = prefered_exercise_time[profile["time_of_exercise"].to_i]
@@ -158,7 +203,7 @@ class ImportUserData
             p.referred_by= "Web search"
             p.step_status = "Confirmed Email" 
             if p.cancer_location.blank?
-              p.cancer_location = "Breast"
+              p.cancer_location = " "
             end
             #p.exercise_reasons = profile["goals"].tr('[]', '').split(',').map(&:to_i)
             #p.save!
