@@ -1,7 +1,11 @@
 json.extract! profile, :id, :dob, :zipcode, :fitness_level, :cancer_location, :prefered_exercise_location, :prefered_exercise_time, :reason_for_match,
 	:treatment_status, :treatment_description, :personality, :work_status, :details_about_self, :other_cancer_location, :part_of_wellness_program, :which_wellness_program,
-  :city, :state, :country, :state_code, :distance, :time_zone, :virtual_partner,
+  :city, :state, :country, :state_code, :distance, :time_zone, :virtual_partner, :age, :latitude, :longitude ,:step_status, :referred_by,
 	:created_at, :updated_at
+
+user_id = {user_id: profile.user.id}	
+json.merge! user_id
+
 name = {name: profile.user.username}	
 json.merge! name
 
