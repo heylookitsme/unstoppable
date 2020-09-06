@@ -48,8 +48,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   
     # Return success to React server
     #return  welcome_returnsignin_path
-    Rails.logger.debug "In  Registration controller,current_user = #{current_user.inspect}"
-    Rails.logger.debug "In  Registration controller,current_user = #{resource.inspect}"
+    Rails.logger.debug "In  Registration controller, request format = #{request.format.inspect}"
+    Rails.logger.debug "In  Registration controller,resource = #{resource.inspect}"
     #redirect_to appjson_newuser_user_path(resource, id: resource.id, format: :json) and return if request.format.json? && !resource.id.blank?
     redirect_to welcome_appjson_newuser_path(:id => resource.id) and return if request.format.json? && !resource.id.blank?
     errors_list = resource.errors.full_messages
@@ -59,9 +59,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
     ##errors_list = resource.errors.full_messages
     Rails.logger.debug "errors = #{resource.errors.full_messages.inspect}"
     #render  json: {status: "error", code:4000, messages: errors_list.to_json} and return if request.format.json? && resource.id.blank?
-    
+    if errors_list.blank?
+      Rails.logger.debug "NO ERRORS"
+      Rails.logger.debug "profile = #{resource.profile.id}"
+      # On the Rails server, this takes you to the "About Me" page, wizard path
+      redirect_to profile_build_path(:about_me, :profile_id => resource.profile.id) and return
+    end
     # On the Rails server, this takes you to the "About Me" page, wizard path
-    profile_build_path(:about_me, :profile_id => resource.profile.id) if !request.format.json?
+    #profile_build_path(:about_me, :profile_id => resource.profile.id) if errors_list.blank?
 end
 
  protected
