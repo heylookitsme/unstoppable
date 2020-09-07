@@ -5,7 +5,7 @@ class ProfilesController < ApplicationController
   before_action :set_profile, except: [:show, :update_steps_json] #, except: [:index, :search]
   
   #protect_from_forgery with: :null_session
-  respond_to :json, :html
+  respond_to :json, :html, :js
 
 
   def index
@@ -22,7 +22,7 @@ class ProfilesController < ApplicationController
     @all_profiles_total = @profiles.size unless @profiles.blank?
     @profiles_total = @all_profiles_total
 
-    Rails.logger.debug("profiles users = #{@profiles.collect{|x| x.user.username}.inspect}")
+    Rails.logger.debug("profiles  = #{@profiles.inspect}")
    
     unless !params.has_key?(:search)  #|| (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
       unless params[:search].blank?
