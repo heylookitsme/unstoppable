@@ -122,7 +122,17 @@ class ConversationsController < ApplicationController
     def conversationjson
         Rails.logger.debug("In Conversation controller, conversationjson action. params = #{params.inspect}")
         @conversation = current_user.mailbox.conversations.find(params[:id])
-        @participant = User.find(params[:user_id])
+        unless params[:user_id].blank?
+            @participant = User.find(params[:user_id])
+        else
+            @conversation.participants.each do |participant|
+                if participant != current_user
+                    @participant = participant
+                end
+            end
+        end
+
+        #@participant = User.find(params[:user_id])
         respond_to do |format|
             format.json
         end
