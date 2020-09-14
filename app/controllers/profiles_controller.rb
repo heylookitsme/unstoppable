@@ -1,5 +1,5 @@
 class ProfilesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:update_steps_json]
   #layout "sidebar_non_admin"
 
   before_action :set_profile, except: [:show, :update_steps_json] #, except: [:index, :search]
