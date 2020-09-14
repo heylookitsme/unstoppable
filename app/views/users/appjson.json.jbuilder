@@ -18,6 +18,14 @@ if current_user.profile.avatar.attached?
 else
   json
 end
+
+# Confirmation token related fields
+confirm_token_json = {confirm_token: current_user.confirm_token}
+json.merge! confirm_token_json
+
+email_confirmed_json = {email_confirmed: current_user.email_confirmed}
+json.merge! email_confirmed_json
+
 # List of Profiles visible to this user
 profiles_list = current_user.profile.browse_profiles_list
 profiles_list_json = {profiles_list: profiles_list}

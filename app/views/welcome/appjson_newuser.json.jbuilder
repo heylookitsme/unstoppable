@@ -12,6 +12,14 @@ unless @user.id.blank?
   id = {current_user_id: @user.id}
   json.merge! id
 
+# Confirmation token related fields
+confirm_token_json = {confirm_token: @user.confirm_token}
+json.merge! confirm_token_json
+
+email_confirmed_json = {email_confirmed: @user.email_confirmed}
+json.merge! email_confirmed_json
+
+
   # All Exercise reasons
   all_exercise_reasons_json = []
   ExerciseReason.all.each do |e|

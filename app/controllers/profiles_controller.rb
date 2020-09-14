@@ -182,6 +182,7 @@ class ProfilesController < ApplicationController
       :details_about_self, :other_cancer_location,
       :part_of_wellness_program,
       :which_wellness_program,
+      :step_status,
       {:exercise_reason_ids => []},
       {:liked_profiles => []},
       :avatar,

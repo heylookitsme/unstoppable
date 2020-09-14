@@ -1,7 +1,8 @@
 class WelcomeController < ApplicationController
-  before_action :authenticate_user! , :except => [:index, :errorsignup, :appjson_newuser]
+  before_action :authenticate_user! , :except => [:index, :appjson_newuser]
  
   def index
+    Rails.logger.debug "In Welcome controller index, current_user = #{current_user.inspect}"
     if current_user.blank?
       redirect_to new_user_session_path
     else
@@ -24,7 +25,7 @@ class WelcomeController < ApplicationController
 
   def appjson_newuser
     Rails.logger.debug("In Welcome controller, appjson_newuser action. params = #{params.inspect}")
-    unless params[:id].blank?
+    if !params[:id].blank? || (!params[:id] == 0)
       @user = User.find(params[:id])
       Rails.logger.debug("In Welcome controller, appjson_newuser action. @user = #{@user.inspect}")
       @errors = nil
@@ -34,10 +35,5 @@ class WelcomeController < ApplicationController
     end
   end
 
-  def errorsignup
-    Rails.logger.debug("In Welcome controller, errorsignup action. params = #{params.inspect}")
-    #render  json: {status: "error", code:4000, messages: params[:messages]}
-  end
-  
 end
 

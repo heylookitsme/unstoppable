@@ -88,15 +88,7 @@ Rails.application.routes.draw do
   post 'account_settings/valid_phone'
   patch 'account_settings/update_password'
   
-  get 'welcome/appjson'
-
-  get 'welcome/errorsignup'
-
   get 'welcome/appjson_newuser'
-
-  #get 'welcome/appjson_newuser(:/errors)', to: 'welcome/appjson_newuser'
-
-  get 'welcome/returnsignin'
 
   root to: "welcome#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
