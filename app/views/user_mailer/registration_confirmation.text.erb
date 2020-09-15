@@ -1,8 +1,9 @@
 Hi <%= @user.username %>,
 
-Thanks for registering! To confirm your registration click the URL below.
+Thanks for registering! To confirm your registration enter the confirmation token in the App:
 
-<%= confirm_email_user_url(@user.confirm_token) %>
+<%= @user.confirm_token %>
+<!-- %= confirm_email_user_url(@user.confirm_token) % -->
 
 Welcome to 2Unstoppable
 We are so glad that you signed-up to be part of the 2Unstoppable community

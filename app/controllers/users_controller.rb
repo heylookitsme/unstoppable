@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   protect_from_forgery with: :null_session
-  before_action :authenticate_user!, :except => [:confirm_email, :terms, :appjson_newuser]
+  before_action :authenticate_user!, :except => [:confirm_email, :confirm_email_json, :terms, :appjson_newuser]
   #layout "sidebar"
   respond_to :json, :html
 
@@ -68,6 +68,20 @@ class UsersController < ApplicationController
       flash[:error] = "Sorry. User does not exist"
       redirect_to users_sign_out_path
     end
+  end
+
+  def confirm_email_json
+    #Rails.logger.info "In User controller, confirm_email"
+    Rails.logger.info "In  confirm_email = #{params.inspect}"
+    user = User.find_by_confirm_token(params[:id])
+    Rails.logger.info "In confirm_email user =#{user.inspect}"
+    render json:  {status: error, message: "User does not exist"} and return if user.blank?
+    # User exists
+    user.email_activate
+    user.profile.step_status = Profile::STEP_CONFIRMED_EMAIL
+    user.profile.save!(:validate => false)
+    UserMailer.inform_admins_new_registration(user).deliver
+    render json:  {status: 200, message: "OK"}
   end
 
   def email_confirmation

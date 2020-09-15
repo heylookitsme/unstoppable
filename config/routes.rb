@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     get 'edit_password', on: :member
     member do
       get :confirm_email
+      get :confirm_email_json
       get :email_confirmation
       get :email_confirmation_sent
       get :remind_confirmation

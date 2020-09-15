@@ -7,8 +7,10 @@
     <div class="container-fluid"  width="100%" style="text-align:center">
       <h1><span style="color:#ed698e">Welcome to 2Unstoppable</h1>
       <h2><span style="color:#ed698e">We are so glad that you signed-up to be part of the 2Unstoppable community.</span></h2>
-      <h2> One more step before you can start browsing and connecting with other members. Please click below! </h2>
-      <h2><%= link_to "Confirm Account",  confirm_email_user_url(@user.confirm_token), :class => "button" %></h2>
+      <h2> One more step before you can start browsing and connecting with other members. Please enter the confirmation token number in the App. </h2>
+      <h2>
+        <%= @user.confirm_token %>
+      </h2>
       <p style="font-size:150%;"> Your login information is:</p>
       <h2> <b> Username: <%= @user.username %> </b></h2>
       <!-- p style="font-size:150%;">Forgot your password? <span style="color:brown">Reset it here</span><span style="background-color:yellow">&nbsp;&nbsp;<%= link_to t(".forgot_your_password"), get_email_address_url(:stype => "P") %> </span>  </p -->
