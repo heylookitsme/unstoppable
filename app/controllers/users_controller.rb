@@ -54,8 +54,8 @@ class UsersController < ApplicationController
     Rails.logger.info "In confirm_email user =#{user.inspect}"
     if user
       user.email_activate
-      flash[:success] = "Welcome to the Sample App! Your email has been confirmed.
-      Please sign in to continue."
+      #flash[:success] = "Welcome to the Sample App! Your email has been confirmed.
+      #Please sign in to continue."
       # STEP_CONFIRMED_EMAIL = "Confirmed Email"
       user.profile.step_status = Profile::STEP_CONFIRMED_EMAIL
       user.profile.save!(:validate => false)
@@ -63,7 +63,9 @@ class UsersController < ApplicationController
       # redirect_to profile_build_path(:about_me, :profile_id => user.profile.id)
       # Send email to all the Admins, that a new User has confirmed
       UserMailer.inform_admins_new_registration(user).deliver
-      redirect_to new_session_path(user)
+      #redirect_to new_session_path(user)
+      remote_url = Settings.base_url + "/" + "welcome"
+      redirect_to remote_url
     else
       flash[:error] = "Sorry. User does not exist"
       redirect_to users_sign_out_path
@@ -81,7 +83,9 @@ class UsersController < ApplicationController
     user.profile.step_status = Profile::STEP_CONFIRMED_EMAIL
     user.profile.save!(:validate => false)
     UserMailer.inform_admins_new_registration(user).deliver
-    render json:  {status: 200, message: "OK"}
+    Rails.logger.debug "#{Settings.base_url.inspect}"
+    redirect_to Settings.base_url
+    #render json:  {status: 200, message: "OK"}
   end
 
   def email_confirmation
@@ -115,6 +119,15 @@ class UsersController < ApplicationController
     flash[:success] = "Please confirm your email address to continue"
     redirect_to email_confirmation_sent_user_path(@user, :user_id => @user.id)
     #reset_session
+  end
+
+  def resend_confirmation_json
+    Rails.logger.info "In User controller, resend_confirmation_json"
+    Rails.logger.info "In  resend_confirmation_json = #{params.inspect}"
+    @user = User.find_by_id(params[:id])
+    Rails.logger.info "In resend_confirmation_json user =#{@user.inspect}"
+    UserMailer.registration_confirmation(@user).deliver
+    redirect_to Settings.base_url
   end
 
   def edit_password
