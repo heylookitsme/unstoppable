@@ -64,7 +64,7 @@ class UsersController < ApplicationController
       # Send email to all the Admins, that a new User has confirmed
       UserMailer.inform_admins_new_registration(user).deliver
       #redirect_to new_session_path(user)
-      remote_url = Settings.base_url + "/" + "welcome"
+      remote_url = Settings.base_url +  "welcome"
       redirect_to remote_url
     else
       flash[:error] = "Sorry. User does not exist"
