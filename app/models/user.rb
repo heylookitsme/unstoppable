@@ -28,6 +28,8 @@ class User < ApplicationRecord
 
   after_create :init_profile
 
+  after_create :save_phone
+
   before_create :confirmation_token
 
   before_validation :set_country_alpha2
@@ -83,6 +85,12 @@ class User < ApplicationRecord
     self.profile.save!
   end
 
+  def save_phone
+    p = Phone.new
+    p.phone_number = self.phone_number
+    self.phone = p
+    self.phone.save!
+  end
 
   def login
     @login || self.username || self.email

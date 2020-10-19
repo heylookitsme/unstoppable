@@ -8,6 +8,9 @@ json.merge! name
 email = {email: current_user.email}
 json.merge! email
 
+phone = {phone_number: current_user.phone.phone_number}
+json.merge! phone
+
 id = {current_user_id: current_user.id}
 json.merge! id
 

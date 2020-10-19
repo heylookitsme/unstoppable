@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   def user_params
     #params.require(:user).permit(:username, :email, :admin, email_confirmed, confirm_token, reset_password_token, :password, :password_confirmation, :current_password)
     #params.require(:user).permit(:password, :password_confirmation, :current_password)
-    params.require(:user).permit(:password, :password_confirmation, :current_password, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :email, :username)
+    params.require(:user).permit(:password, :password_confirmation, :current_password, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :email, :username, :phone_number)
   end
 
   def confirm_email

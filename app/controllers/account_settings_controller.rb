@@ -136,7 +136,7 @@ class AccountSettingsController < ApplicationController
     user = User.find(params[:id])
     Rails.logger.debug "In AccountSettingsController, change_phone for user = #{user.inspect}"
     
-    user.phone_number = params[:phone]
+    user.phone_number = params[:phone_number]
     if user.invalid? && user.errors[:phone_number].any?
       Rails.logger.debug " #{user.invalid?} #{user.errors[:phone_number]}"
       render :json => {status:  "error", message: user.errors[:phone_number].to_s}
@@ -144,7 +144,7 @@ class AccountSettingsController < ApplicationController
       if user.phone.blank?
         user.phone = Phone.new
       end
-      if(user.phone.update_attribute(:phone_number, params[:phone]))
+      if(user.phone.update_attribute(:phone_number, params[:phone_number]))
         Rails.logger.debug  "In AccountSettingsController, change_phone, saved user with new phone = #{user.inspect}"
         render json: user.to_json, status: 200
       else
