@@ -9,40 +9,56 @@ json.conversations @conversations do |conversation|
 			break;
 		end
 	end
-	receipts = conversation.receipts_for current_user
-	senders = []
-	receivers = []
-	messages_array = []
-	first_message_body = receipts.first.message.body
-	if receipts.first.mailbox_type != "inbox"
-		receipts = conversation.receipts_for participant
-	end
+	unless participant.blank?
+		receipts = conversation.receipts_for current_user
+		senders = []
+		receivers = []
+		messages_array = []
+		first_message_body = receipts.first.message.body
+		if receipts.first.mailbox_type != "inbox"
+			receipts = conversation.receipts_for participant
+		end
 
-	receipts.each do |receipt|
-		message = receipt.message
-		if receipt.message.sender_id == current_user.id
-			messages_array << {to: participant.username, from: current_user.username, content: message.body}
+		receipts.each do |receipt|
+			message = receipt.message
+			if receipt.message.sender_id == current_user.id
+				messages_array << {to: participant.username, from: current_user.username, content: message.body}
+			else
+				messages_array << {to: current_user.username, from: participant.username, content: message.body}
+			end
+		end
+		messages = {messages: messages_array}
+		json.merge! messages
+
+		recent = {recent: { subject: conversation.subject, content:  receipts.last.message.body, timestamp: conversation.updated_at }}
+		json.merge!  recent
+		name = {name: participant.name}
+		json.merge!  name
+
+		participant_id = {participant_id: participant.id}
+		json.merge!  participant_id
+
+		if participant.profile.avatar.attached?
+			avatar = {photo: rails_blob_path(participant.profile.avatar)}
+			#avatar = {photo: ""}
+			json.merge! avatar
 		else
-			messages_array << {to: current_user.username, from: participant.username, content: message.body}
+			avatar = {photo: ""}
+			json.merge! avatar
 		end
 	end
-	messages = {messages: messages_array}
-	json.merge! messages
+end ## This is the end of the conversations loop
 
-	recent = {recent: { subject: conversation.subject, content:  receipts.last.message.body, timestamp: conversation.updated_at }}
-	json.merge!  recent
-	name = {name: participant.name}
-	json.merge!  name
-
-	participant_id = {participant_id: participant.id}
-	json.merge!  participant_id
-
-	if participant.profile.avatar.attached?
-		#avatar = {image: rails_blob_path(participant.profile.avatar)}
-		avatar = {image: ""}
-		json.merge! avatar
-	else
-	  avatar = {image: ""}
-		json.merge! avatar
+unless @participant.blank?
+	participantjson = {participant_name: @participant.username}
+	json.merge!  participantjson
+	if @participant.profile.avatar.attached?
+		participantimagejson = {participant_photo: rails_blob_path(@participant.profile.avatar)}
+		json.merge!  participantimagejson
 	end
+else
+	participantjson = {participant_name: ""}
+	json.merge!  participantjson
+	participantimagejson = {participant_photo: ""}
+	json.merge!  participantimagejson
 end

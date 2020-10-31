@@ -166,6 +166,10 @@ class ConversationsController < ApplicationController
 
     def allconversationsjson
         Rails.logger.debug("In Conversation controller, allconversationsjson action. current_user = #{current_user.inspect}")
+
+        @participant = User.find(params[:participant_id]) unless params[:participant_id].blank?
+        Rails.logger.debug("In Conversation controller, conversationjson action. @participant = #{@participant.inspect}")
+
         @conversations = current_user.mailbox.inbox #
         Rails.logger.debug("Conversations Inbox = #{@conversations.inspect}")
         if @conversations.blank?
