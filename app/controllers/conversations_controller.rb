@@ -172,9 +172,10 @@ class ConversationsController < ApplicationController
 
         @conversations = current_user.mailbox.inbox #
         Rails.logger.debug("Conversations Inbox = #{@conversations.inspect}")
-        if @conversations.blank?
-            @conversations = current_user.mailbox.sentbox
-        end
+        @sentbox_conversations = current_user.mailbox.sentbox
+        @conversations = (@conversations + @sentbox_conversations).uniq
+        Rails.logger.debug("Conversations Inbox empty so sentbox = #{@conversations.inspect}")
+
         #@conversations.each do |c|
         #    Rails.logger.debug("In Conversation controller, allconversationsjson action. conversation loop participants = #{c.participants.inspect}")
         #end
