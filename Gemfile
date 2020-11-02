@@ -7,7 +7,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2'
+gem 'rails', '~> 6.0'
 
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
@@ -52,7 +52,6 @@ gem "recaptcha", require: "recaptcha/rails"
 gem 'simple_form'
 gem 'carrierwave', '~> 1.0'
 gem "mini_magick"
-gem 'active_storage_drag_and_drop'
 gem 'bootsnap'
 gem 'sunspot_rails'
 gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development. Please find a section below explaining other options for running Solr in production
