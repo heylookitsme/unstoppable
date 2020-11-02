@@ -27,6 +27,6 @@ json.merge!  recent
 participantjson = {name: @participant.username}
 json.merge!  participantjson
 if @participant.profile.avatar.attached?
-	participantimagejson = {image: rails_blob_path(@participant.profile.avatar)}
+	participantimagejson = {photo: rails_blob_path(@participant.profile.avatar)}
 	json.merge!  participantimagejson
 end
