@@ -38,13 +38,13 @@ class Profile < ApplicationRecord
   include PgSearch::Model
 
   # Keyword1 OR Keyword2 OR Keyword3
-  pg_search_scope :search_any_word, :against => [:cancer_location, :other_cancer_location, :details_about_self, :city, :zipcode],
+  pg_search_scope :search_any_word, :against => [:cancer_location, :other_cancer_location, :details_about_self, :city, :zipcode, :state, :state_code],
     using: {
       :tsearch => {:prefix => true, :any_word => true}
     }
 
   # Keyword1 AND Keyword2 AND Keyword3
-  pg_search_scope :search_all_words, :against => [:cancer_location, :other_cancer_location,     :details_about_self, :city, :zipcode],
+  pg_search_scope :search_all_words, :against => [:cancer_location, :other_cancer_location,     :details_about_self, :city, :zipcode, :state, :state_code],
     using: {
       :tsearch => {:prefix => true}
     }
