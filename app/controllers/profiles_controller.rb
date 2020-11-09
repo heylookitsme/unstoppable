@@ -27,7 +27,12 @@ class ProfilesController < ApplicationController
     unless !params.has_key?(:search)  #|| (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
       unless params[:search].blank?
         # Search the keyword using Postgresql search scope
-        @profiles = @profiles.search_cancer_type(params[:search])
+        keyword_search_type =  params[:keyword_search_type] || "OR"
+        if params[:keyword_search_type] == "OR"
+          @profiles = @profiles.search_any_word(params[:search])
+        else
+          @profiles = @profiles.search_all_words(params[:search])
+        end
       end
       unless @profiles.blank?
         # Filter the search results based on Min,Max and Distance

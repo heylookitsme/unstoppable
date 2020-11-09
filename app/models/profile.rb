@@ -10,6 +10,7 @@ class Profile < ApplicationRecord
   validate :check_zipcode
   has_and_belongs_to_many :activities
   has_and_belongs_to_many :exercise_reasons
+  has_and_belongs_to_many :events
   has_many :likes 
   has_one_attached :avatar
   attribute :age
@@ -34,12 +35,20 @@ class Profile < ApplicationRecord
   MIN_AGE = 18
   MAX_AGE = 130
   #Method used for Profile search
-  include PgSearch
-  pg_search_scope :search_cancer_type, :against => [:cancer_location, :other_cancer_location, :details_about_self, :city, :zipcode],
+  include PgSearch::Model
+
+  # Keyword1 OR Keyword2 OR Keyword3
+  pg_search_scope :search_any_word, :against => [:cancer_location, :other_cancer_location, :details_about_self, :city, :zipcode],
+    using: {
+      :tsearch => {:prefix => true, :any_word => true}
+    }
+
+  # Keyword1 AND Keyword2 AND Keyword3
+  pg_search_scope :search_all_words, :against => [:cancer_location, :other_cancer_location,     :details_about_self, :city, :zipcode],
     using: {
       :tsearch => {:prefix => true}
     }
-  
+
 =begin
 # TEMPORARILY DISABLING SEARCHES
   searchable do
