@@ -53,3 +53,18 @@ Activity.all.each do |a|
 end
 activity_json = {all_activities: all_activities_json}
 json.merge! activity_json
+
+# Unique State_Codes
+unique_state_codes = profiles_list.collect{|p| p.state_code}.uniq
+unique_state_codes_json = {unique_state_codes: unique_state_codes}
+json.merge! unique_state_codes_json
+
+# Unique Zip Codes
+unique_zipcodes = profiles_list.collect{|p| p.zipcode}.uniq
+unique_zipcodes_json = {unique_zipcodes: unique_zipcodes}
+json.merge! unique_zipcodes_json
+
+# Unique Cities
+unique_cities = profiles_list.collect{|p| p.city}.uniq
+unique_cities_json = {unique_cities: unique_cities}
+json.merge! unique_cities_json
