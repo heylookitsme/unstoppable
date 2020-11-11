@@ -23,16 +23,27 @@ class ProfilesController < ApplicationController
     @profiles_total = @all_profiles_total
 
     Rails.logger.debug("profiles  = #{@profiles.inspect}")
-   
+    @profiles = @profiles.search_all_words(params[:keywordsSelect]) unless params[:keywordsSelect].blank?
     unless !params.has_key?(:search)  #|| (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
       unless params[:search].blank?
         # Search the keyword using Postgresql search scope
         keyword_search_type =  params[:keyword_search_type] || "OR"
+=begin         
         if params[:keyword_search_type] == "OR"
           @profiles = @profiles.search_any_word(params[:search])
         else
           @profiles = @profiles.search_all_words(params[:search])
         end
+=end
+        
+        if params[:keyword_search_type] == "OR" && !params[:search].blank?
+          @profiles = @profiles.search_any_word(params[:search])
+        else
+          @profiles = @profiles.search_all_words(params[:search])
+        end
+        
+        Rails.logger.debug(" Keyword select profiles  = #{@profiles.inspect}")
+
       end
       unless @profiles.blank?
         # Filter the search results based on Min,Max and Distance
