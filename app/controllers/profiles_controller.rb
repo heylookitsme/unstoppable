@@ -54,6 +54,37 @@ class ProfilesController < ApplicationController
       else
         @profile_total =  @profiles.blank? ? 0:@profiles.size
       end
+      # Sort opptions
+      unless @profile_total == 0
+        unless params[:distanceOrder].blank?
+          if params[:distanceOrder] == "asc"
+            @profiles = @profiles.sort {|a,b| a.distance <=> b.distance}
+          else
+            @profiles = @profiles.sort {|a,b| a.distance <=> b.distance}.reverse
+          end
+        end
+        unless params[:ageOrder].blank?
+          if params[:ageOrder] == "asc"
+            @profiles = @profiles.sort {|a,b| a.age <=> b.age}
+          else
+            @profiles = @profiles.sort {|a,b| a.age <=> b.age}.reverse
+          end
+        end
+        unless params[:newestOrder].blank?
+          if params[:ageOrder] == "asc"
+            @profiles = @profiles.sort {|a,b| a.created_at <=> b.created_at}
+          else
+            @profiles = @profiles.sort {|a,b| a.updated_at <=> b.updated_at}.reverse
+          end
+        end
+        unless params[:lastOnlineOrder].blank?
+          if params[:ageOrder] == "asc"
+            @profiles = @profiles.sort {|a,b| a.created_at <=> b.created_at}
+          else
+            @profiles = @profiles.sort {|a,b| a.updated_at <=> b.updated_at}.reverse
+          end
+        end
+      end
     end
     respond_to do |format|
       format.html
