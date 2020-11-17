@@ -70,16 +70,16 @@ class ProfilesController < ApplicationController
             @profiles = @profiles.sort {|a,b| a.age <=> b.age}.reverse
           end
         end
-        unless params[:newestOrder].blank?
-          if params[:ageOrder] == "asc"
+        unless params[:newestMemberOrder].blank?
+          if params[:newestMemberOrder] == "asc"
             @profiles = @profiles.sort {|a,b| a.created_at <=> b.created_at}
           else
-            @profiles = @profiles.sort {|a,b| a.updated_at <=> b.updated_at}.reverse
+            @profiles = @profiles.sort {|a,b| a.created_at <=> b.created_at}.reverse
           end
         end
         unless params[:lastOnlineOrder].blank?
-          if params[:ageOrder] == "asc"
-            @profiles = @profiles.sort {|a,b| a.created_at <=> b.created_at}
+          if params[:lastOnlineOrder] == "asc"
+            @profiles = @profiles.sort {|a,b| a.updated_at <=> b.updated_at}
           else
             @profiles = @profiles.sort {|a,b| a.updated_at <=> b.updated_at}.reverse
           end
