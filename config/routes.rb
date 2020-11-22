@@ -89,8 +89,13 @@ Rails.application.routes.draw do
   post 'account_settings/valid_email'
   post 'account_settings/valid_phone'
   patch 'account_settings/update_password'
+  patch 'account_settings/save_search_params'
   
   get 'welcome/appjson_newuser'
+
+  #resources :events
+
+  #mount ActionCable.server => '/cable'
 
   root to: "welcome#index"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

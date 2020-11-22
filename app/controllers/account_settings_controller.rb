@@ -170,4 +170,16 @@ end
   end
 end
 
+def save_search_params
+  Rails.logger.debug "In AccountSettingsController, save_search_params, params = #{params.inspect}"
+  user = User.find(params[:id])
+  Rails.logger.debug "In AccountSettingsController, save_search_params for user = #{user.inspect}" 
+  if(user.update_attribute(:search_params, params[:search_user_params]))
+    Rails.logger.debug  "In AccountSettingsController, save_search_params, saved user with new username = #{user.inspect}"
+    render json: user.to_json, status: 200
+  else
+    render  json: {status: "error", code:4000, message: user.errors[:username].to_json}
+  end
+end
+
 end

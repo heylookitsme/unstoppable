@@ -68,3 +68,7 @@ json.merge! unique_zipcodes_json
 unique_cities = profiles_list.collect{|p| p.city}.uniq
 unique_cities_json = {unique_cities: unique_cities}
 json.merge! unique_cities_json
+
+# Search Params
+search_params_json = {search_params: current_user.search_params}
+json.merge! search_params_json
