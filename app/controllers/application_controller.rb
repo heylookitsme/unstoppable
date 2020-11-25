@@ -5,9 +5,16 @@ class ApplicationController < ActionController::Base
   respond_to :html, :json
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :update_last_seen_at, if: -> {user_signed_in? && (current_user.last_seen_at.nil? ||current_user.last_seen_at < 5.minutes.ago)}
+
   helper_method :current_user, :get_current_user
 
   protected
+
+  def update_last_seen_at
+    Rails.logger.info "Update last seen at timestamp for user= #{current_user.inspect}"
+    current_user.update_attribute(:last_seen_at, Time.current);
+  end
 
   def configure_permitted_parameters
     Rails.logger.debug "In Application Controller configure_permitted_parameters params = #{params.inspect}"

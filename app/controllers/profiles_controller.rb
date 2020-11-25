@@ -14,10 +14,10 @@ class ProfilesController < ApplicationController
     if current_user.blank? or current_user.profile.blank?
       return
     end
-    unless params[:favorites] == "true"
-      @profiles = current_user.profile.browse_profiles_list #.page(params[:page])
-    else
-      @profiles = helpers.get_current_user_favorite_profiles
+
+    @profiles = Profile.confirmed
+    if params[:active] == "true"
+      @profiles = @profiles.last_seen
     end
     @all_profiles_total = @profiles.size unless @profiles.blank?
     @profiles_total = @all_profiles_total
@@ -79,9 +79,9 @@ class ProfilesController < ApplicationController
         end
         unless params[:lastOnlineOrder].blank?
           if params[:lastOnlineOrder] == "asc"
-            @profiles = @profiles.sort {|a,b| a.updated_at <=> b.updated_at}
+            @profiles = @profiles.updated_order_asc
           else
-            @profiles = @profiles.sort {|a,b| a.updated_at <=> b.updated_at}.reverse
+            @profiles = @profiles.updated_order_desc
           end
         end
       end

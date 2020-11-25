@@ -34,6 +34,17 @@ class Profile < ApplicationRecord
 
   MIN_AGE = 18
   MAX_AGE = 130
+
+  #Scopes
+  scope :except_self, -> (id) {where(["id != ?", id])}
+  scope :confirmed, -> { where(["step_status = ?", Profile::STEP_CONFIRMED_EMAIL])}
+  scope :last_seen, -> {joins(:user).where("users.last_seen_at < ?", 5.minutes.ago)}
+  scope :updated_order_desc, -> {order("updated_at DESC")}
+  scope :updated_order_asc, -> {order("updated_at ASC")}
+  scope :newest_member_order_desc, -> {order("created_at DESC")}
+  scope :newest_member_order_asc, -> {order("created_at ASC")}
+  scope :favorites, -> (id) { joins(:likes).where(['likes.profile_id = ?',id ])}
+
   #Method used for Profile search
   include PgSearch::Model
 
