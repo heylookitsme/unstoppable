@@ -66,6 +66,18 @@ class ProfilesController < ApplicationController
           @profiles = @profiles.updated_order_desc
         end
       end
+    end
+    unless @profiles.blank?
+      # Filter the search results based on Min,Max and Distance
+      @min_age = (min=params[:min_age].to_i) == 0?  Profile::MIN_AGE : min
+      @max_age = (max=params[:max_age].to_i) == 0?  Profile::MAX_AGE : max
+      @profiles = filter_search_results
+      @profile_total =  @profiles.blank? ? 0:@profiles.size
+    else
+      @profile_total =  @profiles.blank? ? 0:@profiles.size
+    end
+     # Sort options for fields that are not in the DB
+    unless @profiles.blank?
       unless params[:distanceOrder].blank?
         Rails.logger.debug "DISTANCE"
         if params[:distanceOrder] == "asc"
@@ -82,15 +94,6 @@ class ProfilesController < ApplicationController
           @profiles = @profiles.sort {|a,b| a.age <=> b.age}.reverse
         end
       end
-    end
-    unless @profiles.blank?
-      # Filter the search results based on Min,Max and Distance
-      @min_age = (min=params[:min_age].to_i) == 0?  Profile::MIN_AGE : min
-      @max_age = (max=params[:max_age].to_i) == 0?  Profile::MAX_AGE : max
-      @profiles = filter_search_results
-      @profile_total =  @profiles.blank? ? 0:@profiles.size
-    else
-      @profile_total =  @profiles.blank? ? 0:@profiles.size
     end
     respond_to do |format|
       format.html
