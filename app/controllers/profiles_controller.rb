@@ -15,9 +15,10 @@ class ProfilesController < ApplicationController
       return
     end
 
-    @profiles = Profile.confirmed
+    @profiles = Profile.except_self(current_user.profile.id).confirmed
+     # Get all the Active users
     if params[:active] == "true"
-      @profiles = @profiles.last_seen
+      @profiles = @profiles.where(user_id: User.last_seen.pluck(:id))
     end
     @all_profiles_total = @profiles.size unless @profiles.blank?
     @profiles_total = @all_profiles_total
@@ -45,46 +46,51 @@ class ProfilesController < ApplicationController
         Rails.logger.debug(" Keyword select profiles  = #{@profiles.inspect}")
 
       end
-      unless @profiles.blank?
-        # Filter the search results based on Min,Max and Distance
-        @min_age = (min=params[:min_age].to_i) == 0?  Profile::MIN_AGE : min
-        @max_age = (max=params[:max_age].to_i) == 0?  Profile::MAX_AGE : max
-        @profiles = filter_search_results
-        @profile_total =  @profiles.blank? ? 0:@profiles.size
-      else
-        @profile_total =  @profiles.blank? ? 0:@profiles.size
-      end
-      # Sort opptions
-      unless @profile_total == 0
-        unless params[:distanceOrder].blank?
-          if params[:distanceOrder] == "asc"
-            @profiles = @profiles.sort {|a,b| a.distance <=> b.distance}
-          else
-            @profiles = @profiles.sort {|a,b| a.distance <=> b.distance}.reverse
-          end
-        end
-        unless params[:ageOrder].blank?
-          if params[:ageOrder] == "asc"
-            @profiles = @profiles.sort {|a,b| a.age <=> b.age}
-          else
-            @profiles = @profiles.sort {|a,b| a.age <=> b.age}.reverse
-          end
-        end
-        unless params[:newestMemberOrder].blank?
-          if params[:newestMemberOrder] == "asc"
-            @profiles = @profiles.sort {|a,b| a.created_at <=> b.created_at}
-          else
-            @profiles = @profiles.sort {|a,b| a.created_at <=> b.created_at}.reverse
-          end
-        end
-        unless params[:lastOnlineOrder].blank?
-          if params[:lastOnlineOrder] == "asc"
-            @profiles = @profiles.updated_order_asc
-          else
-            @profiles = @profiles.updated_order_desc
-          end
+    end
+    
+    # Sort options
+    unless @profiles.blank?
+      unless params[:newestMemberOrder].blank?
+        Rails.logger.debug "newestMemberOrder"
+        if params[:newestMemberOrder] == "asc"
+          @profiles = @profiles.newest_member_order_asc
+        else
+          @profiles = @profiles.newest_member_order_desc
         end
       end
+      unless params[:lastOnlineOrder].blank?
+        Rails.logger.debug "lastOnlineOrder"
+        if params[:lastOnlineOrder] == "asc"
+          @profiles = @profiles.updated_order_asc
+        else
+          @profiles = @profiles.updated_order_desc
+        end
+      end
+      unless params[:distanceOrder].blank?
+        Rails.logger.debug "DISTANCE"
+        if params[:distanceOrder] == "asc"
+          @profiles = @profiles.sort {|a,b| a.distance <=> b.distance}
+        else
+          @profiles = @profiles.sort {|a,b| a.distance <=> b.distance}.reverse
+        end
+      end
+      unless params[:ageOrder].blank?
+        Rails.logger.debug "AGE"
+        if params[:ageOrder] == "asc"
+          @profiles = @profiles.sort {|a,b| a.age <=> b.age}
+        else
+          @profiles = @profiles.sort {|a,b| a.age <=> b.age}.reverse
+        end
+      end
+    end
+    unless @profiles.blank?
+      # Filter the search results based on Min,Max and Distance
+      @min_age = (min=params[:min_age].to_i) == 0?  Profile::MIN_AGE : min
+      @max_age = (max=params[:max_age].to_i) == 0?  Profile::MAX_AGE : max
+      @profiles = filter_search_results
+      @profile_total =  @profiles.blank? ? 0:@profiles.size
+    else
+      @profile_total =  @profiles.blank? ? 0:@profiles.size
     end
     respond_to do |format|
       format.html
@@ -199,6 +205,7 @@ class ProfilesController < ApplicationController
 
   def filter_search_results
     @profiles = @profiles.select{|x| x.age.to_i >= @min_age && x.age.to_i <= @max_age}
+    #Rails.logger.debug(" filter_search_results profiles  = #{@profiles.inspect}")
     unless params["distance"].blank?
       @distance = params["distance"].to_i
       culat = current_user.profile.latitude

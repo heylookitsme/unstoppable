@@ -45,7 +45,7 @@ class User < ApplicationRecord
   validate :dob_minimum, :if => :no_password_change
   validate :check_username, :if => :no_password_change
   #validate :phone, :if => :no_password_change
-
+  scope :last_seen, -> {where("last_seen_at < ?", 5.minutes.ago)}
 
   def display_step_status
     self.profile.blank? ? "" : self.profile.step_status

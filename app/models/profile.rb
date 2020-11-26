@@ -38,7 +38,6 @@ class Profile < ApplicationRecord
   #Scopes
   scope :except_self, -> (id) {where(["id != ?", id])}
   scope :confirmed, -> { where(["step_status = ?", Profile::STEP_CONFIRMED_EMAIL])}
-  scope :last_seen, -> {joins(:user).where("users.last_seen_at < ?", 5.minutes.ago)}
   scope :updated_order_desc, -> {order("updated_at DESC")}
   scope :updated_order_asc, -> {order("updated_at ASC")}
   scope :newest_member_order_desc, -> {order("created_at DESC")}
