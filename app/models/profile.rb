@@ -33,7 +33,7 @@ class Profile < ApplicationRecord
   STEPS_ORDER = [STEP_BASIC_INFO, STEP_ABOUT_ME, STEP_CANCER_HISTORY, STEP_EMAIL_CONFIRMATION_SENT, STEP_CONFIRMED_EMAIL]
 
   MIN_AGE = 18
-  MAX_AGE = 130
+  MAX_AGE = 120
 
   #Scopes
   scope :except_self, -> (id) {where(["id != ?", id])}
@@ -169,12 +169,11 @@ class Profile < ApplicationRecord
 =end  
 
   def age
-    x = 0
+    computed_age = 0
     unless self.dob.nil?
-      x = ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
+      computed_age = ((Time.zone.now - self.dob.to_time) / 1.year.seconds).floor
     end
-    x.to_s
-    #self.age = age
+    computed_age
   end
 
   def self.cancer_locations_list
