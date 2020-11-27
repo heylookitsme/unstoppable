@@ -50,34 +50,6 @@ class ProfilesController < ApplicationController
     
     # Sort options
     unless @profiles.blank?
-      unless params[:newestMemberOrder].blank?
-        Rails.logger.debug "newestMemberOrder"
-        if params[:newestMemberOrder] == "asc"
-          @profiles = @profiles.newest_member_order_asc
-        else
-          @profiles = @profiles.newest_member_order_desc
-        end
-      end
-      unless params[:lastOnlineOrder].blank?
-        Rails.logger.debug "lastOnlineOrder"
-        if params[:lastOnlineOrder] == "asc"
-          @profiles = @profiles.updated_order_asc
-        else
-          @profiles = @profiles.updated_order_desc
-        end
-      end
-    end
-    unless @profiles.blank?
-      # Filter the search results based on Min,Max and Distance
-      @min_age = (min=params[:min_age].to_i) == 0?  Profile::MIN_AGE : min
-      @max_age = (max=params[:max_age].to_i) == 0?  Profile::MAX_AGE : max
-      @profiles = filter_search_results
-      @profile_total =  @profiles.blank? ? 0:@profiles.size
-    else
-      @profile_total =  @profiles.blank? ? 0:@profiles.size
-    end
-     # Sort options for fields that are not in the DB
-    unless @profiles.blank?
       unless params[:distanceOrder].blank?
         Rails.logger.debug "DISTANCE"
         if params[:distanceOrder] == "asc"
@@ -94,6 +66,35 @@ class ProfilesController < ApplicationController
           @profiles = @profiles.sort {|a,b| a.age <=> b.age}.reverse
         end
       end
+      unless params[:newestMemberOrder].blank?
+        Rails.logger.debug "newestMemberOrder"
+        if params[:newestMemberOrder] == "asc"
+          @profiles = @profiles.sort {|a,b| a.created_at <=> b.created_at}
+        else
+          @profiles = @profiles.sort {|a,b| a.created_at <=> b.created_at}.reverse
+        end
+      end
+      unless params[:lastOnlineOrder].blank?
+        Rails.logger.debug "lastOnlineOrder"
+        if params[:lastOnlineOrder] == "asc"
+          @profiles = @profiles.sort {|a,b| a.updated_at <=> b.updated_at}
+        else
+          @profiles = @profiles.sort {|a,b| a.updated_at <=> b.updated_at}.reverse
+        end
+      end
+    end
+    unless @profiles.blank?
+      # Filter the search results based on Min,Max and Distance
+      @min_age = (min=params[:min_age].to_i) == 0?  Profile::MIN_AGE : min
+      @max_age = (max=params[:max_age].to_i) == 0?  Profile::MAX_AGE : max
+      @profiles = filter_search_results
+      @profile_total =  @profiles.blank? ? 0:@profiles.size
+    else
+      @profile_total =  @profiles.blank? ? 0:@profiles.size
+    end
+     # Sort options for fields that are not in the DB
+    unless @profiles.blank?
+      
     end
     respond_to do |format|
       format.html
