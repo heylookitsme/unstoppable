@@ -14,9 +14,9 @@ class ProfilesController < ApplicationController
     if current_user.blank? or current_user.profile.blank?
       return
     end
-
+    #Get all confirmed profiles, excluding self
     @profiles = Profile.except_self(current_user.profile.id).confirmed
-     # Get all the Active users
+    # Get all the Active users
     if params[:active] == "true"
       @profiles = @profiles.where(user_id: User.last_seen.pluck(:id))
     end
@@ -46,6 +46,16 @@ class ProfilesController < ApplicationController
         Rails.logger.debug(" Keyword select profiles  = #{@profiles.inspect}")
 
       end
+    end
+
+    unless @profiles.blank?
+      # Filter the search results based on Min,Max and Distance
+      @min_age = (min=params[:min_age].to_i) == 0?  Profile::MIN_AGE : min
+      @max_age = (max=params[:max_age].to_i) == 0?  Profile::MAX_AGE : max
+      @profiles = filter_search_results
+      @profile_total =  @profiles.blank? ? 0:@profiles.size
+    else
+      @profile_total =  @profiles.blank? ? 0:@profiles.size
     end
     
     # Sort options
@@ -83,19 +93,7 @@ class ProfilesController < ApplicationController
         end
       end
     end
-    unless @profiles.blank?
-      # Filter the search results based on Min,Max and Distance
-      @min_age = (min=params[:min_age].to_i) == 0?  Profile::MIN_AGE : min
-      @max_age = (max=params[:max_age].to_i) == 0?  Profile::MAX_AGE : max
-      @profiles = filter_search_results
-      @profile_total =  @profiles.blank? ? 0:@profiles.size
-    else
-      @profile_total =  @profiles.blank? ? 0:@profiles.size
-    end
-     # Sort options for fields that are not in the DB
-    unless @profiles.blank?
-      
-    end
+    
     respond_to do |format|
       format.html
       format.json
