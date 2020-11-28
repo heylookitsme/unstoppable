@@ -3,17 +3,26 @@ json.extract! profile, :id, :dob, :zipcode, :fitness_level, :cancer_location, :p
   :city, :state, :country, :state_code, :distance, :time_zone, :virtual_partner, :age, :latitude, :longitude ,:step_status, :referred_by,
 	:created_at, :updated_at
 
-user_id = {user_id: profile.user.id}	
+user_id = {user_id: profile.user.id} unless profile.user.blank?
 json.merge! user_id
 
-name = {name: profile.user.username}	
+name = {name: profile.user.username} unless profile.user.blank?
 json.merge! name
 
-email = {email: profile.user.email}	
+email = {email: profile.user.email} unless profile.user.blank?
 json.merge! email
 
 age = {age: profile.age}
 json.merge! age
+
+active_user = false
+if profile.user.last_seen_at > 5.minutes.ago
+  active_user = true
+end
+active_json = {active: active_user}
+json.merge! active_json
+last_seen_json = {last_seen_at: profile.user.last_seen_at}
+json.merge! last_seen_json
 
 activities = profile.activities.blank? ? []: profile.activities.collect{|x| x.id}
 activities_json =  {activity_ids: activities}
