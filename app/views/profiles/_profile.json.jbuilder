@@ -16,7 +16,7 @@ age = {age: profile.age}
 json.merge! age
 
 active_user = false
-if profile.user.last_seen_at > 5.minutes.ago
+if profile.user.last_seen_at && profile.user.last_seen_at > 5.minutes.ago
   active_user = true
 end
 active_json = {active: active_user}
