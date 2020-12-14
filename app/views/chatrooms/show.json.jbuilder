@@ -1,0 +1,1 @@
+json.chatroom @chatroom, partial: 'chatrooms/chatroom', as: :chatroom

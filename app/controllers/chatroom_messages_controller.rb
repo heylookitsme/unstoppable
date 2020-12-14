@@ -1,0 +1,2 @@
+class ChatroomMessagesController < ApplicationController
+end

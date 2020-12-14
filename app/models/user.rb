@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_one :profile, :dependent => :destroy
   has_one :phone, :dependent => :destroy
+  has_many :chatroom_messages
   attr_accessor :terms_of_service
   #validates_acceptance_of :terms_of_service, on: :create, :allow_nil => false, :if => :no_password_change
   #validate :check_terms, :if => :no_password_change
