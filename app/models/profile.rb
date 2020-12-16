@@ -10,7 +10,7 @@ class Profile < ApplicationRecord
   validate :check_zipcode
   has_and_belongs_to_many :activities
   has_and_belongs_to_many :exercise_reasons
-  has_and_belongs_to_many :events
+  #has_and_belongs_to_many :events
   has_many :likes 
   has_one_attached :avatar
   attribute :age
