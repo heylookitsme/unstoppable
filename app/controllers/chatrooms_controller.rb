@@ -1,5 +1,6 @@
 class ChatroomsController < ApplicationController
-
+  respond_to :json, :html
+  
   def index
     @chatrooms = Chatroom.all
     #respond_with(@chatrooms)

@@ -10,19 +10,31 @@ class ChatroomMessagesChannel < ApplicationCable::Channel
   end
 
   def receive(data)
+
+    # Get the current Chatroom
     Rails.logger.debug "ChatroomMessagesChannel:receive data = #{data.inspect}"
-    @chatroom = Chatroom.find(data['chatroomId'])
+    @chatroom = Chatroom.find(data['chatroomId'].to_i)
     Rails.logger.debug "ChatroomMessagesChannel:receive @chatroom = #{@chatroom.inspect}"
+
+    # Get the user 
     user = User.find(data['userId'].to_i)
     Rails.logger.debug "ChatroomMessagesChannel:receive user = #{user.inspect}"
-    message = @chatroom.chatroom_messages.create(content: data['content'], user: user)
-    Rails.logger.debug "ChatroomMessagesChannel:receive message = #{message.inspect}"
+
+    # Get content of Message and save data
+    content = data['content']
+    message = @chatroom.chatroom_messages.create(content: data['content'], user: user) unless content.blank?
+    Rails.logger.debug "ChatroomMessagesChannel:receive message = #{message.inspect}" unless content.blank?
+    
+    # Set last_read_at
+    chatroom_membership = @chatroom.chatroom_memberships.first
+    chatroom_membership.last_read_at = Time.now
+    chatroom_membership.save
+    data['last_read_at'] = chatroom_membership.last_read_at
+    
+    # Broadcast message data
     ChatroomMessagesChannel.broadcast_to(@chatroom, data)
-    #sleep(30)
-    #ChatroomMessagesChannel.broadcast_to(@chatroom, data )
-    #sleep(30)
-    #ChatroomMessagesChannel.broadcast_to(@chatroom, {name: "Yabbs"} )
-    #sleep(30)
+
+    
   end
 
   def unsubscribed

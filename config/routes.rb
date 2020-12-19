@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :chatroom_messages
-  resources :chatrooms
+  
+  resources :chat_memberships
   get 'welcome/index'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
@@ -22,8 +22,12 @@ Rails.application.routes.draw do
 
   post '/send_username', to: 'management#send_username', as: :send_username
   
+  
+  resources :chatrooms do
+    resources :chatroom_messages
+  end
 
-   devise_scope :user  do
+  devise_scope :user  do
     #get 'sign_in', to: 'devise/sessions#new'
     get 'users/sign_out' => 'devise/sessions#destroy'
   end

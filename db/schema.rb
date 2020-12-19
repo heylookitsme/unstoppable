@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_09_110222) do
+ActiveRecord::Schema.define(version: 2020_12_17_191926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,16 @@ ActiveRecord::Schema.define(version: 2020_12_09_110222) do
   create_table "activities_profiles", id: :serial, force: :cascade do |t|
     t.integer "profile_id"
     t.integer "activity_id"
+  end
+
+  create_table "chatroom_memberships", force: :cascade do |t|
+    t.datetime "last_read_at"
+    t.bigint "user_id", null: false
+    t.bigint "chatroom_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["chatroom_id"], name: "index_chatroom_memberships_on_chatroom_id"
+    t.index ["user_id"], name: "index_chatroom_memberships_on_user_id"
   end
 
   create_table "chatroom_messages", force: :cascade do |t|
@@ -222,6 +232,8 @@ ActiveRecord::Schema.define(version: 2020_12_09_110222) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "chatroom_memberships", "chatrooms"
+  add_foreign_key "chatroom_memberships", "users"
   add_foreign_key "chatroom_messages", "chatrooms"
   add_foreign_key "chatroom_messages", "users"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
