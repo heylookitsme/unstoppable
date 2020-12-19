@@ -31,8 +31,10 @@ class ChatroomMessagesChannel < ApplicationCable::Channel
     chatroom_membership.save
     data['last_read_at'] = chatroom_membership.last_read_at
     
+    #{"content":"ssssaaaa","user":"dash5","created_at":"2020-12-19T09:58:53.595Z"}
+
     # Broadcast message data
-    ChatroomMessagesChannel.broadcast_to(@chatroom, data)
+    ChatroomMessagesChannel.broadcast_to(@chatroom, {content: message.content, user: message.user.username, created_at: message.created_at})
 
     
   end

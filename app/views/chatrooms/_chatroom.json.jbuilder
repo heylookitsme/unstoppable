@@ -1,6 +1,16 @@
 json.extract! chatroom, :id, :name, :description
 
-messages = chatroom.chatroom_messages.blank? ? []: chatroom.chatroom_messages.collect{|x| x.content}
+#messages = chatroom.chatroom_messages.blank? ? []: chatroom.chatroom_messages.collect{|x| x.content}
+#messages_json =  {messages: messages}
+#json.merge!  messages_json
+
+messages = []
+unless chatroom.chatroom_messages.blank?
+  chatroom.chatroom_messages.each do |c|
+    m = {content: c.content, user: c.user.username, created_at: c.created_at}
+    messages <<  m
+  end
+end
 messages_json =  {messages: messages}
 json.merge!  messages_json
 
