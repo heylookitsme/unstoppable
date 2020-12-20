@@ -7,7 +7,7 @@ json.extract! chatroom, :id, :name, :description
 messages = []
 unless chatroom.chatroom_messages.blank?
   chatroom.chatroom_messages.each do |c|
-    m = {content: c.content, user: c.user.username, created_at: c.created_at}
+    m = {content: c.content, username: c.user.username, created_at: c.created_at}
     messages <<  m
   end
 end

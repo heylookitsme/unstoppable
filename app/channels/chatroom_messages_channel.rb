@@ -3,7 +3,7 @@ class ChatroomMessagesChannel < ApplicationCable::Channel
     # stream_from "some_channel"
     stop_all_streams
     #@chatroom = Chatroom.find(params[:id])
-    @chatroom = Chatroom.find(1)
+    @chatroom = Chatroom.find(params[:id])
     Rails.logger.debug "In subscribed"
     #stream_from @chatroom
     stream_for @chatroom
@@ -32,11 +32,16 @@ class ChatroomMessagesChannel < ApplicationCable::Channel
     data['last_read_at'] = chatroom_membership.last_read_at
     
     #{"content":"ssssaaaa","user":"dash5","created_at":"2020-12-19T09:58:53.595Z"}
-
+    #broadcast_data ={content: message.content, user: message.user.username, created_at: message.created_at}
+    #if user.profile.avatar.attached?
+     # imagejson = {photo: rails_blob_path(user.profile.avatar)}
+     # broadcast_data.merge(imagejson)
+    #end
     # Broadcast message data
-    ChatroomMessagesChannel.broadcast_to(@chatroom, {content: message.content, user: message.user.username, created_at: message.created_at})
+    ChatroomMessagesChannel.broadcast_to(@chatroom, {content: message.content, username: message.user.username, created_at: message.created_at})
 
-    
+    #	participantimagejson = {photo: rails_blob_path(@participant.profile.avatar)}
+
   end
 
   def unsubscribed
