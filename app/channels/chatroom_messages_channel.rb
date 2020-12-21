@@ -38,7 +38,7 @@ class ChatroomMessagesChannel < ApplicationCable::Channel
      # broadcast_data.merge(imagejson)
     #end
     # Broadcast message data
-    ChatroomMessagesChannel.broadcast_to(@chatroom, {content: message.content, username: message.user.username, created_at: message.created_at})
+    ChatroomMessagesChannel.broadcast_to(@chatroom, {chatroomId: @chatroom.id, content: message.content, username: message.user.username, created_at: message.created_at})
 
     #	participantimagejson = {photo: rails_blob_path(@participant.profile.avatar)}
 
