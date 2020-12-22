@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   
-  resources :chat_memberships
+  
   get 'welcome/index'
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
@@ -25,6 +25,10 @@ Rails.application.routes.draw do
   
   resources :chatrooms do
     resources :chatroom_messages
+    resources :chat_memberships
+    member do
+      get :chatroom_details
+    end
   end
 
   devise_scope :user  do
