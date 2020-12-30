@@ -26,9 +26,18 @@ class ChatroomMessagesChannel < ApplicationCable::Channel
     Rails.logger.debug "ChatroomMessagesChannel:receive message = #{message.inspect}" unless content.blank?
     
     # Set last_read_at
-    chatroom_membership = @chatroom.chatroom_memberships.first
-    chatroom_membership.last_read_at = Time.now
-    chatroom_membership.save
+    unless @chatroom.chatroom_memberships.blank?
+      chatroom_membership = @chatroom.chatroom_memberships.first
+      # TODO: Analyze next line 
+      chatroom_membership.last_read_at = Time.now
+      chatroom_membership.save!
+    else
+      chatroom_membership = ChatroomMembership.new
+      chatroom_membership.user = user
+      chatroom_membersip.chatroom = @chatroom.new
+      # TODO: Analyze next line 
+      chatroom_membership.last_read_at = Time.now
+    end
     data['last_read_at'] = chatroom_membership.last_read_at
     
     #{"content":"ssssaaaa","user":"dash5","created_at":"2020-12-19T09:58:53.595Z"}
