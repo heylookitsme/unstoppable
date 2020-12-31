@@ -14,6 +14,10 @@ end
 messages_json =  {messages: messages}
 json.merge!  messages_json
 
-last_read_at = chatroom.chatroom_memberships.first.last_read_at
+unless chatroom.chatroom_memberships.blank?
+  last_read_at = chatroom.chatroom_memberships.first.last_read_at
+else
+  last_read_at = nil
+end
 last_read_at_json =  {last_read_at: last_read_at}
 json.merge!  last_read_at_json
