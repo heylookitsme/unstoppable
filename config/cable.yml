@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
-  channel_prefix: unstoppable_production
+  url: redis://redistogo:aa5a35d2366b8d57bc2f27c9f4b3a506@scat.redistogo.com:10946/
+  #channel_prefix: unstoppable_production
