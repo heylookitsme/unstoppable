@@ -34,7 +34,7 @@ class ChatroomMessagesChannel < ApplicationCable::Channel
     else
       chatroom_membership = ChatroomMembership.new
       chatroom_membership.user = user
-      chatroom_membersip.chatroom = @chatroom.new
+      chatroom_membership.chatroom = @chatroom
       # TODO: Analyze next line 
       chatroom_membership.last_read_at = Time.now
     end
