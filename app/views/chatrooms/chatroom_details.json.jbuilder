@@ -13,7 +13,9 @@ unless  current_user.chatroom_memberships.blank?
                 count = count + 1
             end
         end
-        chatroom_membership_details = {id: chatroom_membership.chatroom.id, name: chatroom_membership.chatroom.name, number_of_unreads: count}
+        chatroom_membership_details = {id: chatroom_membership.chatroom.id,
+                                         name: chatroom_membership.chatroom.name, 
+                                         number_of_unreads: count}
         chatrooms_with_number_of_unreads << chatroom_membership_details
     end
 end

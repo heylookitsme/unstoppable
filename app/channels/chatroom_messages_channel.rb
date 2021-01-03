@@ -25,9 +25,11 @@ class ChatroomMessagesChannel < ApplicationCable::Channel
     message = @chatroom.chatroom_messages.create(content: data['content'], user: user) unless content.blank?
     Rails.logger.debug "ChatroomMessagesChannel:receive message = #{message.inspect}" unless content.blank?
     
-    # Set last_read_at
-    unless @chatroom.chatroom_memberships.blank?
-      chatroom_membership = @chatroom.chatroom_memberships.first
+    # Create Chatroom_membership if it does not exist and set last_read_at
+  
+    chatroom_membership = ChatroomMembership.find_by_user_id_and_chatroom_id(user.id, @chatroom.id)
+    #chatroom_membership = @chatroom.chatroom_memberships.first
+    unless chatroom_membership.nil?
       # TODO: Analyze next line 
       chatroom_membership.last_read_at = Time.now
       chatroom_membership.save!
@@ -37,9 +39,12 @@ class ChatroomMessagesChannel < ApplicationCable::Channel
       chatroom_membership.chatroom = @chatroom
       # TODO: Analyze next line 
       chatroom_membership.last_read_at = Time.now
+      user.chatroom_memberships << chatroom_membership
+      user.save
     end
     data['last_read_at'] = chatroom_membership.last_read_at
     
+   
     #{"content":"ssssaaaa","user":"dash5","created_at":"2020-12-19T09:58:53.595Z"}
     #broadcast_data ={content: message.content, user: message.user.username, created_at: message.created_at}
     #if user.profile.avatar.attached?
