@@ -35,8 +35,6 @@ json.merge! email_confirmed_json
 
 # List of Profiles visible to this user
 profiles_list = current_user.profile.browse_profiles_list
-profiles_list_json = {profiles_list: profiles_list}
-json.merge! profiles_list_json
 
 # All Exercise reasons
 all_exercise_reasons_json = []

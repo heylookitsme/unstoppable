@@ -57,7 +57,7 @@ class ProfilesController < ApplicationController
     else
       @profile_total =  @profiles.blank? ? 0:@profiles.size
     end
-    
+   
     # Sort options
     unless @profiles.blank?
       unless params[:distanceOrder].blank?
@@ -93,6 +93,12 @@ class ProfilesController < ApplicationController
         end
       end
     end
+
+    # Compute number of profiles
+    @profiles_size = @profiles.size
+    # Pagination with Autoscroll in Reactjs Front end
+    @profiles = @profiles.slice((12*params[:page].to_i) - 12, 12)
+ 
     
     respond_to do |format|
       format.html
@@ -227,6 +233,7 @@ class ProfilesController < ApplicationController
 
   def profile_params
     params.require(:profile).permit(
+      :page,
       :dob, :zipcode,
       {:activity_ids => []},
       :other_favorite_activities,
