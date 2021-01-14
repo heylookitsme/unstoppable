@@ -19,7 +19,7 @@ id = {current_user_id: current_user.id}
 json.merge! id
 
 # Avatar
-if current_user.profile.avatar.attached?
+if !current_user.profile.blank? && !current_user.profile.avatar.blank? && current_user.profile.avatar.attached?
   avatar = {photo: rails_blob_path(current_user.profile.avatar)}
   json.merge! avatar
 else
