@@ -96,6 +96,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.delivery_method = :smtp
+=begin  
   config.action_mailer.smtp_settings = {
     address:              'smtp.sendgrid.net',
     port:                 587,
@@ -105,6 +106,16 @@ Rails.application.configure do
     #authentication:       'plain',
     authentication:       'login',
     enable_starttls_auto: true }
+=end
+
+ActionMailer::Base.smtp_settings = {
+  domain: 'gmail.com',
+  address:        "smtp.sendgrid.net",
+  port:            587,
+  authentication: :plain,
+  user_name:      'uns1',
+  password:       ENV['SENDGRID_API_KEY']
+}
 
   config.action_mailer.default_url_options = { host: 'http://uns1.herokuapp.com' }
 end
