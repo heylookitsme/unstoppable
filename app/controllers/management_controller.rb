@@ -1,5 +1,6 @@
 class ManagementController < ApplicationController
-    
+    respond_to :json, :html
+
     def get_email_address
         flash.delete(:non_existent_user_error)
         Rails.logger.info("In GET_EMAIL_ADDRESS")
@@ -7,6 +8,7 @@ class ManagementController < ApplicationController
     end
     
     def send_username
+        Rails.logger.debug "In  Management controller, send_username request = #{request.referrer.inspect} request format = #{request.format.json?.inspect}"
         #Rails.logger.info("Insend_username params = #{params.inspect}")
         @user = User.find_by_email(params[:user][:email])
         #Rails.logger.info("Insend_username @user = #{@user.inspect}")
@@ -23,11 +25,16 @@ class ManagementController < ApplicationController
         #Rails.logger.debug("send_userbane @user = #{@user.inspect} params = #{params.inspect}")
         if(params[:stype] == "P")
            @user.send_reset_password_instructions
-           render "forward_password"
+           #render "forward_password"
         else
-            UserMailer.forgot_username(@user).deliver
-            flash[:success] = "An email has been sent to your account with your username."
-            render "forward_username"
+            if request.format.json? 
+                Rails.logger.debug "JSON request, send_username"
+                UserMailer.forgot_username(@user).deliver
+            else
+                UserMailer.forgot_username(@user).deliver
+                flash[:success] = "An email has been sent to your account with your username."
+                render "forward_username"
+            end
         end
     end
 
