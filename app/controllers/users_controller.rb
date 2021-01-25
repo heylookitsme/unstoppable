@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   protect_from_forgery with: :null_session
-  before_action :authenticate_user!, :except => [:confirm_email, :confirm_email_json, :terms, :appjson_newuser]
+  before_action :authenticate_user!, :except => [:confirm_email, :confirm_email_json, :terms, :appjson_newuser, :update_password_json]
   #layout "sidebar"
   respond_to :json, :html
 
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   def user_params
     #params.require(:user).permit(:username, :email, :admin, email_confirmed, confirm_token, reset_password_token, :password, :password_confirmation, :current_password)
     #params.require(:user).permit(:password, :password_confirmation, :current_password)
-    params.require(:user).permit(:password, :password_confirmation, :current_password, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :email, :username, :phone_number)
+    params.require(:user).permit(:password, :password_confirmation, :current_password, :zipcode, "dob(1i)", "dob(2i)","dob(3i)", :email, :username, :phone_number, :reset_token)
   end
 
   def confirm_email
@@ -143,6 +143,16 @@ class UsersController < ApplicationController
       redirect_to root_path
     else
       render "edit_password"
+    end
+  end
+
+  def update_password_json
+    @user = User.find_by_reset_token(user_params[:reset_token].to_i)
+    Rails.logger.debug "update_password_json @user = #{@user.inspect}"
+    @user.password = user_params[:password]
+    @user.password_confirmation = user_params[:password_confirmation]
+    if (@user.save)
+      render json:  {status: 200, message: "OK"} and return 
     end
   end
 

@@ -24,14 +24,21 @@ class ManagementController < ApplicationController
         end
         #Rails.logger.debug("send_userbane @user = #{@user.inspect} params = #{params.inspect}")
         if(params[:stype] == "P")
-           @user.send_reset_password_instructions
-           #render "forward_password"
+            if request.format.json? 
+                #raw, enc = Devise.token_generator.custom_generate(self.class, :reset_password_token)
+                #@user.reset_token = SecureRandom.random_number(10000).to_s
+                @user.update_attribute(:reset_token, SecureRandom.random_number(10000).to_s )
+                UserMailer.forgot_password_json(@user, Settings.base_url + "forgotPassword/").deliver
+            else
+                @user.send_reset_password_instructions
+                render "forward_password"
+            end
         else
             if request.format.json? 
                 Rails.logger.debug "JSON request, send_username"
-                UserMailer.forgot_username(@user).deliver
+                UserMailer.forgot_username(@user, Settings.base_url).deliver
             else
-                UserMailer.forgot_username(@user).deliver
+                UserMailer.forgot_username(@user, Settings.server_url).deliver
                 flash[:success] = "An email has been sent to your account with your username."
                 render "forward_username"
             end

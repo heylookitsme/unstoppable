@@ -171,6 +171,7 @@ class ProfilesController < ApplicationController
   def update_steps_json
     Rails.logger.debug("Wizard update params = #{params.inspect}")
     Rails.logger.debug("Wizard update params = #{params["profile"]["id"].inspect}")
+    return if  params["profile"].blank? || params["profile"]["id"].blank?
     @profile = Profile.find(params[:profile][:id])
     @profile.update(profile_params)
     @profile.save

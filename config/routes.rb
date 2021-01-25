@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :index] do
     resource :profile, only: [:show, :edit, :update]
     patch 'update_password', on: :collection
+    patch 'update_password_json', on: :collection
     get 'edit_password', on: :member
     member do
       get :confirm_email

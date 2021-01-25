@@ -14,10 +14,18 @@ class UserMailer < ApplicationMailer
     mail(:to => "#{user.username} <#{user.email}>", :subject => "Your 2Unstoppable Profile Has Been Approved")
   end
 
-  def forgot_username(user)
+  def forgot_username(user, home_url)
+    Rails.logger.debug("In User_mailer, forgot_username #{home_url.inspect}")
     @user = user
-    @home = Settings.base_url
+    @home = home_url
     mail(:to => "#{user.username} <#{user.email}>", :subject => "Username Reminder")
+  end
+
+  def forgot_password_json(user, home_url)
+    Rails.logger.debug("In User_mailer, forgot_password #{home_url.inspect}")
+    @user = user
+    @home = home_url + user.reset_token
+    mail(:to => "#{user.username} <#{user.email}>", :subject => "Forgot Password")
   end
 
   def inform_admins_new_registration(user)
