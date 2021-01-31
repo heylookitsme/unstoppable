@@ -4,36 +4,36 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 #
+##default: &default
+##  adapter: postgresql
+##  pool: 5
+##  timeout: 5000
+
 #default: &default
-#  adapter: postgresql
+#  adapter: sqlite3
 #  pool: 5
 #  timeout: 5000
 
-default: &default
-  adapter: sqlite3
-  pool: 5
-  timeout: 5000
-
-development:
-  <<: *default
-  database: db/development.sqlite3
-
 #development:
-#  adapter: postgresql
-#  port: 5433
-#  encoding: unicode
-#  database: raghunathchintala
-#  pool: 5
-#  username: raghunathchintala
-#  password: tars123
+#  <<: *default
+#  database: db/development.sqlite3
 
-production:
-  <<: *default
-  adapter: postgresql
-  encoding: unicode
-  database: uns_prod
-  username: uns_prod
-  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
+##development:
+##  adapter: postgresql
+##  port: 5432
+##  encoding: unicode
+##  database: saradachintala
+##  pool: 5
+##  username: sampleuser
+##  password: tars123
+
+##production:
+##  <<: *default
+ ## adapter: postgresql
+ ## encoding: unicode
+ ## database: uns_prod
+##  username: uns_prod
+##  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
 
 #default: &default
 #  adapter:  postgresql
@@ -43,9 +43,9 @@ production:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-test:
-  <<: *default
-  database: db/test.sqlite3
+##test:
+##  <<: *default
+##  database: db/test.sqlite3
 
 #test:
 #  <<: *default
@@ -54,3 +54,10 @@ test:
 #production:
 #  <<: *default
 #  database: unstoppable_production 
+
+# For Production and Staging
+production:
+ url: <%= ENV[‘DATABASE_URL’] %>
+
+staging:
+ url: <%= ENV[‘DATABASE_URL’] %> 
