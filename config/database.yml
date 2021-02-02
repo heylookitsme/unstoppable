@@ -56,8 +56,8 @@ default: &default
 #  database: unstoppable_production 
 
 # For Production and Staging
-#production:
- #url: <%= ENV[‘DATABASE_URL’] %>
+production:
+ url: <%= ENV[‘DATABASE_URL’] %>
 
-#staging:
- #url: <%= ENV[‘DATABASE_URL’] %> 
+staging:
+ url: <%= ENV[‘DATABASE_URL’] %> 
