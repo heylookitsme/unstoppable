@@ -4,10 +4,10 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 #
-##default: &default
-##  adapter: postgresql
-##  pool: 5
-##  timeout: 5000
+default: &default
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
 
 #default: &default
 #  adapter: sqlite3
@@ -56,8 +56,8 @@
 #  database: unstoppable_production 
 
 # For Production and Staging
-production:
+#production:
  #url: <%= ENV[‘DATABASE_URL’] %>
 
-staging:
+#staging:
  #url: <%= ENV[‘DATABASE_URL’] %> 
