@@ -117,5 +117,5 @@ ActionMailer::Base.smtp_settings = {
   password:       ENV['SENDGRID_API_KEY']
 }
 
-  config.action_mailer.default_url_options = { host: 'http://uns1.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'http://uns-stagimg.herokuapp.com' }
 end
