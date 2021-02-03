@@ -149,10 +149,15 @@ class UsersController < ApplicationController
   def update_password_json
     @user = User.find_by_reset_token(user_params[:reset_token].to_i)
     Rails.logger.debug "update_password_json @user = #{@user.inspect}"
+    render  json: {status: "error", code:4000, message: @user.errors[:password].to_json} if @user.blank?
+    
     @user.password = user_params[:password]
     @user.password_confirmation = user_params[:password_confirmation]
+    @user.reset_token = nil
     if (@user.save)
       render json:  {status: 200, message: "OK"} and return 
+    else
+      render  json: {status: "error", code:4000, message: @user.errors[:password].to_json}
     end
   end
 
