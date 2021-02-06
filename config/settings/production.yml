@@ -1,3 +1,3 @@
 base_url: "https://shardax-unstoppable-ui.netlify.app/"
-server_url: "https://uns-production.herokuapp.com"
+server_url: "http://uns-production.herokuapp.com"
 #server_url: "https://uns1.herokuapp.com"
