@@ -28,19 +28,39 @@ Rails.application.configure do
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
-  # Store uploaded files on the local file system in a temporary directory
-  config.active_storage.service = :test
+  # Store uploaded files on the local file system (see config/storage.yml for options)
+  config.active_storage.service = :google
+
+ # Mount Action Cable outside main process or domain
+  # config.action_cable.mount_path = nil
+   config.action_cable.url = 'wss://uns1.herokuapp.com/cable'
+   #config.web_socket_server_url = "ws://uns1.herokuapp.com/cable" 
+   #config.action_cable.allowed_request_origins = [ 'https://shardax-unstoppable-ui.netlify.app', /http:\/\/example.*/ ]
+   config.action_cable.allowed_request_origins = [ 'https://shardax-unstoppable-ui.netlify.app', 'http://localhost:3000']
+
 
   config.action_mailer.perform_caching = false
 
-  # Tell Action Mailer not to deliver emails to the real world.
-  # The :test delivery method accumulates sent emails in the
-  # ActionMailer::Base.deliveries array.
-  config.action_mailer.delivery_method = :test
+  # Do not dump schema after migrations.
+  config.active_record.dump_schema_after_migration = false
 
+  config.action_mailer.delivery_method = :smtp
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+
+
+  ActionMailer::Base.smtp_settings = {
+  domain: 'gmail.com',
+  address:        "smtp.sendgrid.net",
+  port:            587,
+  authentication: :plain,
+  user_name:      'apikey',
+  password:       ENV['SENDGRID_API_KEY']
+}
+
+  config.action_mailer.default_url_options = { host: 'http://uns-test.herokuapp.com' }
 end
