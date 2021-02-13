@@ -27,7 +27,7 @@ ExerciseReason.find_or_create_by!(name: 'Sense of Accomplishment')
 ExerciseReason.find_or_create_by!(name: 'Other  - Describe in About You question below')
 
 
-user = User.create(username:"admin", email:"Ilana@2unstoppable.org", password: 'Dash1234', admin: true, dob: "01-01-1985", zipcode: "20854", terms_of_service: "1", referred_by: 'Web search')
+user = User.create(username:"tars", email:"rukmini_r@yahoo.com", password: 'Dash1234', admin: true, dob: "01-01-1985", zipcode: "20854", terms_of_service: "1", referred_by: 'Web search')
 user.save!
 user.profile.cancer_location="Lung"
 user.profile.details_about_self="I may have some thyroid nodules"
@@ -43,6 +43,7 @@ u=User.create(username:"dash", email:"sarada_chintala@hotmail.com", password: 'D
 u.created_at = Time.now
 u.updated_at = Time.now
 u.admin = true
+u.email_confirmed=true
 u.save!
 p = User.find_by_username("dash").profile
 p.cancer_location="Breast"
