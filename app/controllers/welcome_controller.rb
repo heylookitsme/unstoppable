@@ -4,6 +4,8 @@ class WelcomeController < ApplicationController
   def index
     Rails.logger.debug "In Welcome controller index, current_user = #{current_user.inspect}"
     Rails.logger.debug "In Welcome controller index, User.curremt = #{User.current.inspect}"
+    Rails.logger.debug "In Welcome controller index, session[:user_id] = #{session[:user_id] .inspect}"
+   
     if current_user.blank?
       redirect_to new_user_session_path
     else
