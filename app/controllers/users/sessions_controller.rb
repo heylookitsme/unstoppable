@@ -46,7 +46,7 @@ class Users::SessionsController < Devise::SessionsController
       unless current_user.blank?
         Rails.logger.debug "Session Controller,redirecting to welcome/index current_user = #{current_user.inspect}"
       #redirect_to welcome_appjson_path(:format => :json)
-        respond_with resource, location: welcome_index_path
+        respond_with resource, location: welcome_index_path(:current_user => current_user)
       else
         Rails.logger.debug "New session"
         redirect_to new_user_session_path
