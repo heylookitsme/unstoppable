@@ -44,6 +44,8 @@ class Users::SessionsController < Devise::SessionsController
       #respond_with resource, location: welcome_appjson_path(:format => :json)
     else
       unless current_user.blank?
+        Rails.logger.debug "Session Controller,redirecting to welcome/index current_user = #{current_user.inspect}"
+      #redirect_to welcome_appjson_path(:format => :json)
         respond_with resource, location: welcome_index_path
       else
         Rails.logger.debug "New session"
