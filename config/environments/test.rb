@@ -29,7 +29,7 @@ Rails.application.configure do
   config.action_controller.allow_forgery_protection = false
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
-  config.active_storage.service = :google
+  config.active_storage.service = :google_dev
 
  # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
