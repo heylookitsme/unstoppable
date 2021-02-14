@@ -43,13 +43,23 @@ class Users::SessionsController < Devise::SessionsController
       render "users/appjson", :id => current_user.id
       #respond_with resource, location: welcome_appjson_path(:format => :json)
     else
-      unless current_user.blank?
-        Rails.logger.debug "Session Controller,redirecting to welcome/index current_user = #{current_user.inspect}"
-      #redirect_to welcome_appjson_path(:format => :json)
-        respond_with resource, location: welcome_index_path
-      else
-        Rails.logger.debug "New session"
+      if current_user.blank?
         redirect_to new_user_session_path
+      else
+        if current_user.profile.step_status == Profile::STEP_CONFIRMED_EMAIL
+          redirect_to profiles_path
+        else
+          case current_user.profile.step_status
+            when Profile::STEP_EMAIL_CONFIRMATION_SENT
+              redirect_to remind_confirmation_user_path(current_user)
+            when Profile::STEP_CANCER_HISTORY
+              redirect_to attachment_photo_path(:profile_id => current_user.profile.id)
+            when Profile::STEP_ABOUT_ME
+              redirect_to profile_build_path(:cancer_history, :profile_id => current_user.profile.id)
+            when Profile::STEP_BASIC_INFO
+              redirect_to profile_build_path(:about_me, :profile_id => current_user.profile.id)
+          end
+        end
       end
     end
 =begin   
