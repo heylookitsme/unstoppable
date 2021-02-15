@@ -11,6 +11,11 @@ google:
   project: 2Unstoppable
   credentials: <%= ENV['GOOGLE_APPLICATION_CREDENTIALS'] %>
   bucket: uns123
+google_test:
+  service: GCS
+  project: 2Unstoppable
+  credentials: <%= ENV['GOOGLE_APPLICATION_CREDENTIALS'] %>
+  bucket: uns123  
 google_dev:
   service: GCS
   project: 2Unstoppable
