@@ -18,7 +18,7 @@ class AttachmentController < ApplicationController
       return
     end
     
-    if !params[:profile][:avatar].blank?
+    if !params[:profile].blank? && !params[:profile][:avatar].blank?
       @profile.avatar.attach(params[:profile][:avatar])
       if @profile.update(profile_params)
         flash[:notices] = ["Your profile avatar was successfully updated"]
