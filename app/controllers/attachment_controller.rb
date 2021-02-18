@@ -14,25 +14,28 @@ class AttachmentController < ApplicationController
     #@user = current_user
     #@profile = current_user.profile
     Rails.logger.debug("attachment controller photosave params = #{params.inspect}")
+    if @profile.blank?
+      return
+    end
     
-    unless params[:profile].blank? || params[:profile][:avatar].blank?
+    if !params[:profile][:avatar].blank?
       @profile.avatar.attach(params[:profile][:avatar])
       if @profile.update(profile_params)
         flash[:notices] = ["Your profile avatar was successfully updated"]
       else
         flash[:notices] = ["Your profile avatar could not be updated"]
       end
-      unless @profile.step_status == Profile::STEP_CONFIRMED_EMAIL
-        # Removing email confirmation from second step and move to the end step
-        # render :template => 'profiles/thank_you.html.erb'
-        redirect_to email_confirmation_user_path(@user)
-      else
-        #respond_to do |format|
-          #redirect_to attachment_photo_path(:profile_id => @profile.id)
-          redirect_to profile_path(@profile)
-          #format.js
-        #end
-      end
+    end
+    unless @profile.step_status == Profile::STEP_CONFIRMED_EMAIL
+      # Removing email confirmation from second step and move to the end step
+      # render :template => 'profiles/thank_you.html.erb'
+      redirect_to email_confirmation_user_path(@user)
+    else
+      #respond_to do |format|
+        #redirect_to attachment_photo_path(:profile_id => @profile.id)
+        redirect_to profile_path(@profile)
+        #format.js
+      #end
     end
   end
 
