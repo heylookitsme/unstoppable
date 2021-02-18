@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   protect_from_forgery with: :null_session
-  before_action :authenticate_user!, :except => [:confirm_email, :confirm_email_json, :terms, :appjson_newuser, :update_password_json, :email_confirmation]
+  before_action :authenticate_user!, :except => [:confirm_email, :confirm_email_json, :terms, :appjson_newuser, :update_password_json, :email_confirmation, :remind_confirmation]
   #layout "sidebar"
   respond_to :json, :html
 
