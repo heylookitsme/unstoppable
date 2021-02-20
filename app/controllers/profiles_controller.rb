@@ -23,7 +23,7 @@ class ProfilesController < ApplicationController
     @all_profiles_total = @profiles.size unless @profiles.blank?
     @profiles_total = @all_profiles_total
 
-    Rails.logger.debug("profiles  = #{@profiles.inspect}")
+    Rails.logger.debug("all profiles = #{@profiles.inspect}")
     @profiles = @profiles.search_all_words(params[:keywordsSelect]) unless params[:keywordsSelect].blank?
     unless !params.has_key?(:search)  #|| (params[:min_age].blank? && params[:max_age].blank? && params[:distance].blank?)
       unless params[:search].blank?
@@ -94,12 +94,14 @@ class ProfilesController < ApplicationController
       end
     end
 
+    Rails.logger.debug("profiles to display = #{@profiles.inspect}")
     # Compute number of profiles
     @profiles_size = @profiles.size
     # Pagination with Autoscroll in Reactjs Front end
     @profiles = @profiles.slice((12*params[:page].to_i) - 12, 12)
  
-    
+    Rails.logger.debug("profiles after page slicing = #{@profiles.inspect}")
+
     respond_to do |format|
       format.html
       format.json
