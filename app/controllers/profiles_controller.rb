@@ -98,7 +98,7 @@ class ProfilesController < ApplicationController
     # Compute number of profiles
     @profiles_size = @profiles.size
     # Pagination with Autoscroll in Reactjs Front end
-    @profiles = @profiles.slice((12*params[:page].to_i) - 12, 12)
+    @profiles = @profiles.slice((12*params[:page].to_i) - 12, 12) unless params[:page].blank?
  
     Rails.logger.debug("profiles after page slicing = #{@profiles.inspect}")
 
