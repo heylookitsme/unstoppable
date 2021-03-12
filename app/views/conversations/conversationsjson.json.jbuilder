@@ -14,9 +14,9 @@ json.conversations @conversations do |conversation|
 	receipts.each do |receipt|
 		message = receipt.message
 		if receipt.message.sender_id == current_user.id
-			messages_array << {to: @participant.username, from: current_user.username, content: message.body}
+			messages_array << {to: @participant.username, from: current_user.username, content: message.body, updated_at: message.updated_at}
 		else
-			messages_array << {to: current_user.username, from: @participant.username, content: message.body}
+			messages_array << {to: current_user.username, from: @participant.username, content: message.body, updated_at: message.updated_at}
 		end
 	end
 	messages = {messages: messages_array}
