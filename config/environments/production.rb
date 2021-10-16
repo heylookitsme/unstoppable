@@ -41,12 +41,12 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :google
 
-  # Mount Action Cable outside main process or domain
+ # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
    config.action_cable.url = 'wss://uns1.herokuapp.com/cable'
    #config.web_socket_server_url = "ws://uns1.herokuapp.com/cable" 
    #config.action_cable.allowed_request_origins = [ 'https://shardax-unstoppable-ui.netlify.app', /http:\/\/example.*/ ]
-   config.action_cable.allowed_request_origins = [ 'https://shardax-unstoppable-ui.netlify.app', 'http://localhost:3000']
+    config.action_cable.allowed_request_origins = [ 'https://shardax-unstoppable-ui.netlify.app', 'http://localhost:3000']
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
@@ -85,6 +85,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
+  #config.allowed_cors_origins = ["http://localhost:3000", "https://shardax-unstoppable-ui.netlify.app"]
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
@@ -96,26 +97,15 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.delivery_method = :smtp
-=begin  
-  config.action_mailer.smtp_settings = {
-    address:              'smtp.sendgrid.net',
-    port:                 587,
-    domain:               'gmail.com',
-    user_name:            'shardax', #,'shardax2000@gmail.com', #ENV["GMAIL_USERNAME"],
-    password:             '$dash1234', #ENV["GMAIL_PASSWORD"],
-    #authentication:       'plain',
-    authentication:       'login',
-    enable_starttls_auto: true }
-=end
 
-ActionMailer::Base.smtp_settings = {
-  domain: 'gmail.com',
-  address:        "smtp.sendgrid.net",
-  port:            587,
-  authentication: :plain,
-  user_name:      'apikey',
-  password:       ENV['SENDGRID_API_KEY']
-}
+  ActionMailer::Base.smtp_settings = {
+    domain: 'uns1.herokuapp.com',
+    address:        "smtp.sendgrid.net",
+    port:            587,
+    authentication: :plain,
+    user_name:      'uns1apikey',
+    password:       ENV['SENDGRID_API_KEY']
+  }
 
-  config.action_mailer.default_url_options = { host: 'http://uns1.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'https://uns1.herokuapp.com' }
 end
